@@ -330,12 +330,12 @@ img{display:block;max-width:100%}
   }
 
   .desktop-logo{
-    width:320px;
-    height:72px;
+    width:240px;
+    height:64px;
     max-height:none;
     object-fit:contain;
     object-position:left center;
-    transform:scale(3.35);
+    transform:scale(1.85);
     transform-origin:left center;
     position:relative;
     z-index:5;
@@ -343,11 +343,15 @@ img{display:block;max-width:100%}
   }
 
   .desktop-hero-copy{
-    padding-left:7.2%;
+    padding-left:12.5%;
     padding-right:2.6%;
   }
 
-  .desktop-hero h1,
+  .desktop-hero h1,{
+    front-size:clamp(23px,2.15vw,3
+  4px);
+    margin-left:0;
+     }
   .desktop-search-label,
   .desktop-search{
     margin-left:0;
