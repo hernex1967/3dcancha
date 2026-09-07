@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3DCancha</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: #050505;
+      color: #ffffff;
+      font-family: Arial, Helvetica, sans-serif;
+      min-height: 100vh;
+    }
+
+    .pagina {
+      width: 100%;
+      max-width: 430px;
+      margin: 0 auto;
+      padding: 28px 20px 50px;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 55px;
+    }
+
+    .marca {
+      font-size: 26px;
+      font-weight: 900;
+      letter-spacing: -1px;
+    }
+
+    .mi-platea {
+      border: 1px solid #9dbb3b;
+      color: #9dbb3b;
+      background: transparent;
+      border-radius: 7px;
+      padding: 10px 14px;
+      font-weight: 800;
+    }
+
+    h1 {
+      font-size: 38px;
+      line-height: 0.98;
+      font-weight: 900;
+      margin-bottom: 54px;
+    }
+
+    .verde {
+      color: #9dbb3b;
+    }
+
+    .buscar-titulo {
+      font-size: 14px;
+      font-weight: 900;
+      letter-spacing: 1.5px;
+      margin-bottom: 16px;
+    }
+
+    .buscador {
+      width: 100%;
+      height: 52px;
+      background: #111;
+      border: 1px solid #333;
+      border-radius: 8px;
+      color: white;
+      padding: 0 16px;
+      font-size: 15px;
+      margin-bottom: 48px;
+    }
+
+    .servicio {
+      border-top: 1px solid #292929;
+      padding: 25px 0;
+    }
+
+    .servicio h2 {
+      font-size: 21px;
+      margin-bottom: 8px;
+    }
+
+    .servicio p {
+      color: #aaa;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .info {
+      display: inline-block;
+      margin-top: 13px;
+      color: #9dbb3b;
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .noticias {
+      margin-top: 40px;
+      border-top: 1px solid #292929;
+      padding-top: 28px;
+    }
+
+    .noticias h3 {
+      color: #9dbb3b;
+      margin-bottom: 20px;
+      font-size: 15px;
+      letter-spacing: 1px;
+    }
+
+    .nota {
+      background: #101010;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 14px;
+    }
+
+    .nota strong {
+      display: block;
+      margin-bottom: 7px;
+    }
+
+    .nota span {
+      color: #888;
+      font-size: 13px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="pagina">
+
+    <header>
+      <div class="marca">3DCancha</div>
+      <button class="mi-platea">MI PLATEA</button>
+    </header>
+
+    <h1>
+      TU CANCHA.<br>
+      <span class="verde">EN VIVO</span><br>
+      Y SIEMPRE.
+    </h1>
+
+    <div class="buscar-titulo">BUSCÁ TU PARTIDO</div>
+
+    <input
+      class="buscador"
+      type="search"
+      placeholder="Equipo, categoría o fecha"
+    >
+
+    <section class="servicio">
+      <h2>VER EN VIVO</h2>
+      <p>Encontrá el partido que querés ver y accedé a la transmisión.</p>
+      <span class="info">INFO</span>
+    </section>
+
+    <section class="servicio">
+      <h2>BAJAR PARTIDOS</h2>
+      <p>Guardá tus partidos y volvé a vivirlos cuando quieras.</p>
+      <span class="info">INFO</span>
+    </section>
+
+    <section class="servicio">
+      <h2>RESUMEN Y ESTADÍSTICA PERSONALIZADO</h2>
+      <p>Seguimiento individual, mejores jugadas y estadísticas del jugador.</p>
+      <span class="info">INFO</span>
+    </section>
+
+    <section class="noticias">
+      <h3>3DCANCHA</h3>
+
+      <article class="nota">
+        <strong>Historias de nuestra cancha</strong>
+        <span>Noticias, entrevistas y protagonistas del fútbol.</span>
+      </article>
+
+      <article class="nota">
+        <strong>Actualidad de los torneos</strong>
+        <span>Resultados, posiciones y todo lo que pasa cada fecha.</span>
+      </article>
+    </section>
+
+  </main>
+
+</body>
+</html>
