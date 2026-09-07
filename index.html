@@ -320,7 +320,39 @@ img{display:block;max-width:100%}
   /* Footer conserva el logo inferior actual */
   .desktop-footer{height:4vh;min-height:30px;padding:2px 4.1%}
 }
+/* AJUSTE PC SEGÚN PANTALLA APROBADA
+   Solo: logo superior + alineación del bloque título/buscador.
+   No modifica móvil, tarjetas ni logo inferior. */
+@media (min-width:768px){
+  .desktop-header{
+    position:relative;
+    overflow:visible;
+  }
 
+  .desktop-logo{
+    width:320px;
+    height:72px;
+    max-height:none;
+    object-fit:contain;
+    object-position:left center;
+    transform:scale(3.35);
+    transform-origin:left center;
+    position:relative;
+    z-index:5;
+    pointer-events:none;
+  }
+
+  .desktop-hero-copy{
+    padding-left:7.2%;
+    padding-right:2.6%;
+  }
+
+  .desktop-hero h1,
+  .desktop-search-label,
+  .desktop-search{
+    margin-left:0;
+  }
+}
 </style>
 </head>
 <body>
