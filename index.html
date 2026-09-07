@@ -279,6 +279,48 @@ img{display:block;max-width:100%}
   .desktop-copy{margin-top:2px}
 }
 
+
+/* AJUSTE FINO PC — solo proporciones, sin modificar móvil */
+@media (min-width:768px){
+  /* Logo superior más protagonista; footer queda intacto */
+  .desktop-header{height:10vh;min-height:64px;padding:4px 4.1%}
+  .desktop-logo{width:320px;max-height:92px;object-fit:contain;object-position:left center}
+
+  /* Frase principal más contenida */
+  .desktop-hero{height:25vh}
+  .desktop-hero-image{height:25vh}
+  .desktop-hero-copy{padding:1.2vh 2.6% 1.2vh 5%}
+  .desktop-hero h1{
+    font-size:clamp(25px,2.55vw,37px);
+    line-height:.96;
+    margin:0 0 1.5vh;
+  }
+  .desktop-search{height:36px}
+  .desktop-search-label{margin-bottom:5px}
+
+  /* Tarjetas con más altura visual y menos aspecto de tira */
+  .desktop-services{
+    height:34vh;
+    padding:1vh 5.4% 1vh;
+    gap:22px;
+  }
+  .desktop-card-top{height:42%;padding:1.1vh 16px .5vh}
+  .desktop-card-photo{min-height:0;flex:1}
+  .desktop-card-bottom{height:28px}
+
+  .desktop-lower{
+    height:27vh;
+    padding:.6vh 5.4% 1vh;
+    gap:22px;
+  }
+  .desktop-lower-head{height:29px}
+  .desktop-news-photo{height:46%}
+  .desktop-news-copy{padding:6px 12px 7px}
+
+  /* Footer conserva el logo inferior actual */
+  .desktop-footer{height:4vh;min-height:30px;padding:2px 4.1%}
+}
+
 </style>
 </head>
 <body>
