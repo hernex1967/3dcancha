@@ -1,1043 +1,1747 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <title>Ficha del Partido | 3DCancha</title>
-
-  <!-- TIPOGRAFÍAS -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Michroma&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-  <style>
-    :root {
-      --fondo: #050505;
-      --fondo-card: rgba(18, 18, 18, 0.92);
-      --fondo-card-hover: rgba(26, 26, 26, 0.98);
-
-      --verde: #a5b832;
-      --verde-suave: #becd52;
-
-      --blanco: #ffffff;
-      --gris: #a7a7a7;
-      --gris-oscuro: #272727;
-      --rojo: #e53935;
-
-      --radio: 18px;
-      --ancho-max: 1180px;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      min-height: 100vh;
-      background:
-        radial-gradient(
-          circle at top center,
-          rgba(165, 184, 50, 0.07),
-          transparent 32%
-        ),
-        var(--fondo);
-
-      color: var(--blanco);
-      font-family: "Montserrat", Arial, sans-serif;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    button,
-    select {
-      font-family: inherit;
-    }
-
-    .contenedor {
-      width: min(calc(100% - 40px), var(--ancho-max));
-      margin: 0 auto;
-    }
-
-    /* =========================
-       HEADER
-    ========================= */
-
-    .header {
-      padding: 28px 0 18px;
-    }
-
-    .header-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-    }
-
-    .logo img {
-      width: 220px;
-      max-width: 100%;
-      display: block;
-    }
-
-    .mi-platea {
-      border: 1px solid var(--verde);
-      background: transparent;
-      color: var(--verde);
-      padding: 12px 20px;
-      border-radius: 10px;
-
-      font-family: "Michroma", sans-serif;
-      font-size: 11px;
-      letter-spacing: 0.5px;
-
-      cursor: pointer;
-      transition: 0.2s ease;
-    }
-
-    .mi-platea:hover {
-      background: var(--verde);
-      color: #000;
-    }
-
-    /* =========================
-       ENCABEZADO
-    ========================= */
-
-    .intro {
-      text-align: center;
-      padding: 28px 0 32px;
-    }
-
-    .intro h1 {
-      font-family: "Michroma", sans-serif;
-      font-size: clamp(25px, 4vw, 42px);
-      line-height: 1.25;
-      font-weight: 400;
-
-      margin-bottom: 12px;
-    }
-
-    .intro p {
-      color: var(--gris);
-      font-size: 15px;
-      line-height: 1.6;
-    }
-
-    /* =========================
-       BUSCADOR
-    ========================= */
-
-    .busqueda {
-      max-width: 840px;
-      margin: 0 auto 32px;
-    }
-
-    .busqueda-titulo {
-      font-family: "Michroma", sans-serif;
-      font-size: 13px;
-      color: var(--verde);
-      margin-bottom: 12px;
-      text-align: center;
-    }
-
-    .selector-wrap {
-      position: relative;
-    }
-
-    .selector-partido {
-      width: 100%;
-      height: 58px;
-
-      appearance: none;
-
-      background:
-        linear-gradient(
-          90deg,
-          rgba(165, 184, 50, 0.08),
-          rgba(255,255,255,0.02)
-        ),
-        #101010;
-
-      color: white;
-
-      border: 1px solid #353535;
-      border-radius: 14px;
-
-      padding: 0 52px 0 18px;
-
-      font-size: 15px;
-      outline: none;
-      cursor: pointer;
-    }
-
-    .selector-partido:focus {
-      border-color: var(--verde);
-      box-shadow: 0 0 0 2px rgba(165,184,50,0.09);
-    }
-
-    .selector-wrap::after {
-      content: "⌄";
-
-      position: absolute;
-      right: 20px;
-      top: 50%;
-      transform: translateY(-58%);
-
-      color: var(--verde);
-      font-size: 26px;
-
-      pointer-events: none;
-    }
-
-    /* =========================
-       PARTIDO SELECCIONADO
-    ========================= */
-
-    .partido-card {
-      max-width: 900px;
-      margin: 0 auto 42px;
-
-      border: 1px solid rgba(165,184,50,0.55);
-      border-radius: var(--radio);
-
-      background:
-        linear-gradient(
-          145deg,
-          rgba(165,184,50,0.08),
-          transparent 42%
-        ),
-        #101010;
-
-      padding: 26px;
-
-      box-shadow:
-        0 20px 50px rgba(0,0,0,0.34);
-    }
-
-    .partido-superior {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 16px;
-
-      margin-bottom: 24px;
-    }
-
-    .estado {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-
-      color: var(--rojo);
-
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 1px;
-    }
-
-    .estado::before {
-      content: "";
-      width: 8px;
-      height: 8px;
-
-      background: var(--rojo);
-      border-radius: 50%;
-
-      box-shadow: 0 0 12px rgba(229,57,53,.85);
-    }
-
-    .fecha {
-      color: var(--gris);
-      font-size: 13px;
-    }
-
-    .equipos {
-      display: grid;
-      grid-template-columns: 1fr auto 1fr;
-      align-items: center;
-      gap: 20px;
-    }
-
-    .equipo {
-      text-align: center;
-    }
-
-    .equipo h2 {
-      font-family: "Michroma", sans-serif;
-      font-size: clamp(16px, 3vw, 25px);
-      font-weight: 400;
-      line-height: 1.4;
-    }
-
-    .vs {
-      color: var(--verde);
-      font-family: "Michroma", sans-serif;
-      font-size: 13px;
-    }
-
-    .datos-partido {
-      margin-top: 24px;
-      padding-top: 20px;
-
-      border-top: 1px solid #2a2a2a;
-
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-
-      gap: 12px 28px;
-
-      color: var(--gris);
-      font-size: 13px;
-    }
-
-    .dato strong {
-      color: white;
-      font-weight: 600;
-    }
-
-    /* =========================
-       PRODUCTOS
-    ========================= */
-
-    .productos {
-      padding-bottom: 60px;
-    }
-
-    .productos-titulo {
-      text-align: center;
-
-      font-family: "Michroma", sans-serif;
-      font-size: clamp(18px, 3vw, 28px);
-      font-weight: 400;
-
-      margin-bottom: 28px;
-    }
-
-    .productos-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 22px;
-    }
-
-    .producto {
-      min-height: 330px;
-
-      background: var(--fondo-card);
-      border: 1px solid #292929;
-      border-radius: var(--radio);
-
-      padding: 28px 24px;
-
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-
-      text-align: center;
-
-      transition:
-        transform 0.2s ease,
-        border-color 0.2s ease,
-        background 0.2s ease;
-    }
-
-    .producto:hover {
-      transform: translateY(-4px);
-      border-color: var(--verde);
-      background: var(--fondo-card-hover);
-    }
-
-    .icono {
-      width: 66px;
-      height: 66px;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      margin-bottom: 22px;
-
-      border: 1px solid rgba(165,184,50,0.65);
-      border-radius: 50%;
-
-      color: var(--verde);
-
-      font-size: 29px;
-    }
-
-    .producto h3 {
-      font-family: "Michroma", sans-serif;
-      font-size: 14px;
-      line-height: 1.6;
-      font-weight: 400;
-
-      min-height: 68px;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .producto p {
-      color: var(--gris);
-      line-height: 1.6;
-      font-size: 13px;
-
-      margin: 16px 0 22px;
-    }
-
-    .producto .accion {
-      width: 100%;
-      margin-top: auto;
-
-      display: flex;
-      flex-direction: column;
-      gap: 9px;
-    }
-
-    .btn-principal {
-      width: 100%;
-      min-height: 48px;
-
-      border: none;
-      border-radius: 10px;
-
-      background: var(--verde);
-      color: #080808;
-
-      font-family: "Michroma", sans-serif;
-      font-size: 11px;
-      font-weight: 700;
-
-      cursor: pointer;
-
-      transition: 0.2s ease;
-    }
-
-    .btn-principal:hover {
-      background: var(--verde-suave);
-      transform: translateY(-1px);
-    }
-
-    .btn-info {
-      border: none;
-      background: transparent;
-
-      color: var(--verde);
-
-      font-size: 12px;
-      cursor: pointer;
-    }
-
-    /* =========================
-       FOOTER
-    ========================= */
-
-    footer {
-      border-top: 1px solid #1e1e1e;
-      padding: 24px 0 32px;
-
-      color: #777;
-      font-size: 11px;
-    }
-
-    .footer-superior {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 14px;
-
-      margin-bottom: 12px;
-    }
-
-    .footer-superior img {
-      width: 58px;
-      display: block;
-    }
-
-    .contacto {
-      color: var(--verde);
-      font-weight: 600;
-    }
-
-    .footer-inferior {
-      text-align: center;
-      line-height: 1.7;
-    }
-
-    .footer-inferior a:hover {
-      color: var(--verde);
-    }
-
-    /* =========================
-       MOBILE
-    ========================= */
-
-    @media (max-width: 800px) {
-
-      .contenedor {
-        width: min(calc(100% - 28px), var(--ancho-max));
-      }
-
-      .header {
-        padding-top: 24px;
-      }
-
-      .header-inner {
-        flex-direction: column;
-        gap: 18px;
-      }
-
-      .logo img {
-        width: 190px;
-      }
-
-      .mi-platea {
-        padding: 10px 17px;
-      }
-
-      .intro {
-        padding-top: 22px;
-      }
-
-      .intro h1 {
-        font-size: 24px;
-      }
-
-      .intro p {
-        font-size: 13px;
-      }
-
-      .busqueda {
-        margin-bottom: 24px;
-      }
-
-      .busqueda-titulo {
-        font-size: 11px;
-      }
-
-      .selector-partido {
-        font-size: 13px;
-        height: 55px;
-      }
-
-      .partido-card {
-        padding: 20px 16px;
-        margin-bottom: 34px;
-      }
-
-      .partido-superior {
-        flex-direction: column;
-        gap: 8px;
-      }
-
-      .equipos {
-        grid-template-columns: 1fr;
-        gap: 12px;
-      }
-
-      .vs {
-        margin: -2px 0;
-      }
-
-      .equipo h2 {
-        font-size: 18px;
-      }
-
-      .datos-partido {
-        flex-direction: column;
-        align-items: center;
-        gap: 8px;
-      }
-
-      .productos-titulo {
-        font-size: 18px;
-        margin-bottom: 22px;
-      }
-
-      .productos-grid {
-        grid-template-columns: 1fr;
-        gap: 16px;
-      }
-
-      .producto {
-        min-height: auto;
-        padding: 24px 20px;
-      }
-
-      .producto h3 {
-        min-height: auto;
-        font-size: 13px;
-      }
-
-      .producto p {
-        margin: 12px 0 20px;
-      }
-    }
-
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#030404">
+
+<title>3DCancha — Ficha del Partido</title>
+
+<style>
+:root{
+  --bg:#030404;
+  --panel:#0b0e0f;
+  --panel2:#101415;
+  --green:#9fbe18;
+  --green-hi:#b5d51a;
+  --text:#f8f9f9;
+  --muted:#a8afb0;
+  --line:#2c3234;
+  --red:#ef5350;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+
+html,body{
+  margin:0;
+  background:#030404;
+  color:var(--text);
+  font-family:Arial,Helvetica,sans-serif;
+}
+
+body{min-height:100vh}
+button,select{font:inherit}
+button{cursor:pointer}
+img{display:block;max-width:100%}
+
+
+/* ======================================================
+   MOBILE
+====================================================== */
+
+.mobile-site{
+  display:block;
+  min-height:100vh;
+  background:
+    radial-gradient(700px 300px at 50% 5%,
+    rgba(159,190,24,.10),transparent 55%),
+    #030404;
+}
+
+.mobile-wrap{
+  width:min(100%,460px);
+  margin:auto;
+  min-height:100vh;
+}
+
+
+/* HEADER */
+
+.mobile-header{
+  height:91px;
+  padding:12px 14px 5px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  border-bottom:1px solid rgba(255,255,255,.04);
+}
+
+.mobile-logo{
+  width:166px;
+  height:78px;
+  object-fit:contain;
+  object-position:left center;
+}
+
+.mobile-spacer{flex:1}
+
+.mobile-platea{
+  height:39px;
+  padding:0 13px;
+  border:1.4px solid var(--green);
+  color:#fff;
+  background:#070909;
+  border-radius:20px;
+  font-weight:800;
+  font-size:12px;
+  letter-spacing:.04em;
+}
+
+.mobile-menu{
+  width:35px;
+  height:38px;
+  border:0;
+  background:transparent;
+  color:#fff;
+  font-size:25px;
+}
+
+
+/* VOLVER */
+
+.mobile-back{
+  padding:16px 14px 4px;
+}
+
+.mobile-back a{
+  color:var(--green);
+  text-decoration:none;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.04em;
+}
+
+
+/* TITULO */
+
+.mobile-title{
+  padding:15px 16px 17px;
+  text-align:center;
+}
+
+.mobile-title h1{
+  margin:0 0 6px;
+  font-family:"Arial Black",Arial,sans-serif;
+  font-style:italic;
+  font-size:27px;
+  line-height:1.04;
+  letter-spacing:-1px;
+  text-transform:uppercase;
+}
+
+.mobile-title h1 span{
+  color:var(--green);
+}
+
+.mobile-title p{
+  margin:0;
+  color:var(--muted);
+  font-size:12px;
+}
+
+
+/* SELECTOR */
+
+.mobile-selector{
+  padding:0 13px 13px;
+}
+
+.mobile-selector-label{
+  font-size:11px;
+  font-weight:900;
+  margin-bottom:7px;
+  letter-spacing:.05em;
+}
+
+.mobile-select-wrap{
+  position:relative;
+}
+
+.mobile-select{
+  width:100%;
+  height:48px;
+  appearance:none;
+  border:1px solid #343c3e;
+  border-radius:11px;
+  background:#0d1112;
+  color:#fff;
+  outline:none;
+  padding:0 42px 0 13px;
+  font-size:12px;
+  font-weight:700;
+}
+
+.mobile-select-wrap:after{
+  content:"›";
+  position:absolute;
+  right:16px;
+  top:50%;
+  transform:translateY(-50%) rotate(90deg);
+  color:var(--green);
+  font-size:24px;
+  pointer-events:none;
+}
+
+
+/* PARTIDO */
+
+.mobile-match{
+  margin:0 13px 17px;
+  border:1px solid #343c3e;
+  border-radius:14px;
+  background:
+    linear-gradient(145deg,
+    rgba(159,190,24,.08),
+    transparent 38%),
+    #0b0e0f;
+  overflow:hidden;
+}
+
+.mobile-match-top{
+  padding:12px 14px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border-bottom:1px solid #252c2e;
+}
+
+.mobile-status{
+  color:var(--red);
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.05em;
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+
+.mobile-status:before{
+  content:"";
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:var(--red);
+}
+
+.mobile-date{
+  color:#c2c7c8;
+  font-size:10px;
+  font-weight:700;
+}
+
+.mobile-teams{
+  padding:18px 10px 14px;
+  display:grid;
+  grid-template-columns:1fr 34px 1fr;
+  align-items:center;
+  gap:5px;
+  text-align:center;
+}
+
+.mobile-team{
+  font-family:"Arial Black",Arial,sans-serif;
+  font-style:italic;
+  font-size:15px;
+  line-height:1.05;
+  text-transform:uppercase;
+}
+
+.mobile-vs{
+  color:var(--green);
+  font-family:"Arial Black",Arial,sans-serif;
+  font-size:11px;
+}
+
+.mobile-meta{
+  padding:10px 12px;
+  border-top:1px solid #252c2e;
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:7px 14px;
+  color:#929a9b;
+  font-size:10px;
+}
+
+.mobile-meta b{color:#fff}
+
+
+/* PREVIEW */
+
+.mobile-preview{
+  margin:0 13px 21px;
+  border-radius:14px;
+  overflow:hidden;
+  border:1px solid #293133;
+  position:relative;
+  height:155px;
+  background:#090b0c;
+}
+
+.mobile-preview img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.mobile-preview:after{
+  content:"PREVIEW DEL PARTIDO";
+  position:absolute;
+  left:12px;
+  bottom:11px;
+  padding:6px 9px;
+  border-radius:6px;
+  background:rgba(0,0,0,.76);
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:.06em;
+}
+
+
+/* OPCIONES */
+
+.mobile-options-title{
+  padding:0 13px 8px;
+  font-family:"Arial Black",Arial,sans-serif;
+  font-style:italic;
+  font-size:18px;
+  text-transform:uppercase;
+}
+
+.mobile-services{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+  padding:0 12px 22px;
+}
+
+.mobile-service{
+  min-height:190px;
+  padding:14px 7px 11px;
+  background:linear-gradient(150deg,#111617,#090c0d);
+  border:1px solid #2b3335;
+  border-radius:14px;
+  text-align:center;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+.mobile-service img{
+  width:38px;
+  height:38px;
+  object-fit:contain;
+  margin:0 auto 9px;
+}
+
+.mobile-service h3{
+  margin:6px 0 7px;
+  font-size:11px;
+  line-height:1.18;
+  font-weight:900;
+  text-transform:uppercase;
+}
+
+.mobile-service:nth-child(2) h3{
+  font-size:10px;
+}
+
+.mobile-service:nth-child(3) h3{
+  font-size:9.4px;
+}
+
+.mobile-service p{
+  margin:0 0 10px;
+  color:#aeb5b6;
+  font-size:9px;
+  line-height:1.3;
+}
+
+.mobile-action{
+  margin-top:auto;
+  width:100%;
+}
+
+.mobile-buy{
+  width:100%;
+  min-height:33px;
+  border:0;
+  border-radius:17px;
+  background:var(--green);
+  color:#071004;
+  font-size:9px;
+  font-weight:900;
+}
+
+.mobile-info{
+  margin-top:6px;
+  border:0;
+  background:transparent;
+  color:#fff;
+  font-size:9px;
+  font-weight:900;
+}
+
+
+/* FOOTER MOBILE */
+
+.mobile-footer{
+  border-top:1px solid #202728;
+  padding:17px 14px 22px;
+  text-align:center;
+  color:#707879;
+  font-size:9px;
+  line-height:1.55;
+}
+
+.mobile-footer-top{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:8px;
+  margin-bottom:6px;
+}
+
+.mobile-footer-logo{
+  width:52px;
+  height:27px;
+  object-fit:contain;
+}
+
+.mobile-contact{
+  color:var(--green);
+  font-size:10px;
+  font-weight:900;
+  text-decoration:none;
+}
+
+
+/* ======================================================
+   DESKTOP
+====================================================== */
+
+.desktop-site{
+  display:none;
+  min-height:100vh;
+  background:#000;
+}
+
+.desktop-shell{
+  width:min(100%,1440px);
+  min-height:100vh;
+  margin:0 auto;
+  background:#030404;
+}
+
+
+/* HEADER */
+
+.desktop-header{
+  height:10vh;
+  min-height:64px;
+  padding:4px 4.1%;
+  display:flex;
+  align-items:center;
+  border-bottom:1px solid rgba(255,255,255,.045);
+  position:relative;
+  overflow:visible;
+}
+
+.desktop-logo{
+  width:320px;
+  height:72px;
+  object-fit:contain;
+  object-position:left center;
+  transform:scale(3.35);
+  transform-origin:left center;
+  position:relative;
+  z-index:5;
+  pointer-events:none;
+}
+
+.desktop-header-spacer{
+  flex:1;
+}
+
+.desktop-platea{
+  height:34px;
+  padding:0 18px;
+  border:1.5px solid var(--green);
+  background:#080a0a;
+  color:#fff;
+  border-radius:24px;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.05em;
+  display:flex;
+  align-items:center;
+  gap:9px;
+}
+
+.desktop-platea .person{
+  width:15px;
+  height:15px;
+  border:2px solid var(--green);
+  border-radius:50%;
+  position:relative;
+}
+
+.desktop-platea .person:after{
+  content:"";
+  position:absolute;
+  width:18px;
+  height:8px;
+  border:2px solid var(--green);
+  border-top:0;
+  border-radius:0 0 12px 12px;
+  left:50%;
+  transform:translateX(-50%);
+  top:12px;
+}
+
+
+/* CONTENIDO */
+
+.desktop-content{
+  padding:2.2vh 5.4% 2vh;
+}
+
+.desktop-back{
+  display:inline-block;
+  margin-bottom:1.5vh;
+  color:var(--green);
+  text-decoration:none;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.06em;
+}
+
+.desktop-heading{
+  display:flex;
+  justify-content:space-between;
+  align-items:end;
+  gap:24px;
+  margin-bottom:1.3vh;
+}
+
+.desktop-title h1{
+  margin:0;
+  font-family:"Arial Black",Arial,sans-serif;
+  font-style:italic;
+  font-size:clamp(24px,2.55vw,37px);
+  line-height:.98;
+  text-transform:uppercase;
+}
+
+.desktop-title h1 span{
+  color:var(--green);
+}
+
+.desktop-title p{
+  margin:6px 0 0;
+  color:var(--muted);
+  font-size:10px;
+}
+
+.desktop-selector-block{
+  width:42%;
+}
+
+.desktop-selector-label{
+  display:block;
+  margin-bottom:5px;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.05em;
+}
+
+.desktop-select{
+  width:100%;
+  height:36px;
+  padding:0 38px 0 12px;
+  appearance:none;
+  border:1px solid #343c3e;
+  border-radius:7px;
+  background:#0e1213;
+  color:#fff;
+  outline:none;
+  font-size:10px;
+  font-weight:700;
+}
+
+
+/* PARTIDO Y PREVIEW */
+
+.desktop-match-grid{
+  display:grid;
+  grid-template-columns:56% 44%;
+  gap:18px;
+  height:25vh;
+  min-height:185px;
+  margin-bottom:1.2vh;
+}
+
+.desktop-match{
+  height:100%;
+  border:1px solid #30383a;
+  border-radius:10px;
+  background:
+    linear-gradient(145deg,
+    rgba(159,190,24,.07),
+    transparent 42%),
+    #0b0e0f;
+  overflow:hidden;
+}
+
+.desktop-match-top{
+  height:37px;
+  padding:0 16px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border-bottom:1px solid #252c2e;
+}
+
+.desktop-status{
+  color:var(--red);
+  font-size:9px;
+  font-weight:900;
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+
+.desktop-status:before{
+  content:"";
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:var(--red);
+}
+
+.desktop-date{
+  color:#abb2b3;
+  font-size:9px;
+}
+
+.desktop-teams{
+  height:calc(100% - 72px);
+  display:grid;
+  grid-template-columns:1fr 42px 1fr;
+  align-items:center;
+  gap:10px;
+  text-align:center;
+  padding:4px 20px;
+}
+
+.desktop-team{
+  font-family:"Arial Black",Arial,sans-serif;
+  font-style:italic;
+  font-size:clamp(17px,1.45vw,22px);
+  line-height:1;
+  text-transform:uppercase;
+}
+
+.desktop-vs{
+  color:var(--green);
+  font-family:"Arial Black",Arial,sans-serif;
+  font-size:12px;
+}
+
+.desktop-meta{
+  height:35px;
+  border-top:1px solid #252c2e;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:24px;
+  color:#929a9b;
+  font-size:9px;
+}
+
+.desktop-meta b{
+  color:#fff;
+}
+
+.desktop-preview{
+  height:100%;
+  position:relative;
+  overflow:hidden;
+  border:1px solid #30383a;
+  border-radius:10px;
+  background:#090b0c;
+}
+
+.desktop-preview img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.desktop-preview:after{
+  content:"PREVIEW DEL PARTIDO";
+  position:absolute;
+  left:13px;
+  bottom:11px;
+  padding:5px 8px;
+  border-radius:5px;
+  background:rgba(0,0,0,.78);
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:.06em;
+}
+
+
+/* 3 OPCIONES PRIMARIAS */
+
+.desktop-options-title{
+  margin:0 0 .7vh;
+  font-family:"Arial Black",Arial,sans-serif;
+  font-style:italic;
+  font-size:clamp(16px,1.55vw,21px);
+  text-transform:uppercase;
+}
+
+.desktop-services{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  height:31vh;
+  gap:22px;
+}
+
+.desktop-card{
+  height:100%;
+  border:1px solid #2b3233;
+  border-radius:9px;
+  background:#0b0e0f;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+}
+
+.desktop-card-top{
+  height:45%;
+  padding:1.1vh 16px .5vh;
+  display:grid;
+  grid-template-columns:43px 1fr;
+  column-gap:11px;
+  align-content:start;
+}
+
+.desktop-card-icon{
+  width:39px;
+  height:39px;
+  object-fit:contain;
+  grid-row:1 / span 2;
+}
+
+.desktop-card h3{
+  margin:1px 0 5px;
+  font-family:"Arial Black",Arial,sans-serif;
+  font-style:italic;
+  font-size:clamp(14px,1.3vw,19px);
+  line-height:1.02;
+  text-transform:uppercase;
+}
+
+.desktop-card h3 .green{
+  color:var(--green);
+}
+
+.desktop-card p{
+  grid-column:2;
+  margin:0;
+  color:#b5bbbc;
+  font-size:10px;
+  line-height:1.3;
+}
+
+.desktop-card-photo{
+  min-height:0;
+  flex:1;
+  overflow:hidden;
+  border-top:1px solid #202728;
+  background:#090b0c;
+}
+
+.desktop-card-photo img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.desktop-card-bottom{
+  height:34px;
+  padding:0 12px;
+  display:flex;
+  align-items:center;
+  gap:7px;
+  border-top:1px solid #202728;
+}
+
+.desktop-buy{
+  margin-left:auto;
+  min-width:105px;
+  height:24px;
+  padding:0 13px;
+  border:0;
+  border-radius:13px;
+  background:var(--green);
+  color:#071004;
+  font-size:8px;
+  font-weight:900;
+}
+
+.desktop-info-i{
+  width:15px;
+  height:15px;
+  border:1px solid #596263;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#b4babb;
+  font-size:9px;
+  font-weight:900;
+}
+
+.desktop-info{
+  border:0;
+  background:transparent;
+  color:#fff;
+  font-size:8px;
+  font-weight:900;
+}
+
+
+/* FOOTER DESKTOP */
+
+.desktop-footer{
+  min-height:55px;
+  margin-top:1.2vh;
+  border-top:1px solid #262d2e;
+  padding:4px 4.1%;
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:20px;
+  align-items:center;
+}
+
+.desktop-footer-left{
+  display:flex;
+  align-items:center;
+  gap:18px;
+}
+
+.desktop-footer-logo{
+  width:112px;
+  height:32px;
+  object-fit:contain;
+  object-position:left center;
+}
+
+.desktop-contact{
+  color:var(--green);
+  text-decoration:none;
+  font-size:8px;
+  font-weight:900;
+}
+
+.desktop-footer-right{
+  text-align:right;
+  color:#7d8687;
+  font-size:7px;
+  line-height:1.3;
+}
+
+.desktop-footer-right a{
+  color:#a2aaab;
+  text-decoration:none;
+  margin-left:13px;
+}
+
+
+/* TOAST */
+
+.toast{
+  position:fixed;
+  z-index:100;
+  left:50%;
+  bottom:24px;
+  transform:translate(-50%,12px);
+  background:#111718;
+  border:1px solid #344043;
+  padding:10px 14px;
+  border-radius:12px;
+  font-size:12px;
+  opacity:0;
+  transition:.2s;
+  pointer-events:none;
+}
+
+.toast.show{
+  opacity:1;
+  transform:translate(-50%,0);
+}
+
+
+@media (min-width:768px){
+
+  .mobile-site{display:none}
+  .desktop-site{display:block}
+
+}
+
+@media (max-width:370px){
+
+  .mobile-logo{width:150px}
+
+  .mobile-platea{
+    padding:0 10px;
+    font-size:10px;
+  }
+
+  .mobile-service h3{font-size:9.8px}
+  .mobile-service:nth-child(2) h3{font-size:8.9px}
+  .mobile-service:nth-child(3) h3{font-size:8.3px}
+
+}
+
+</style>
 </head>
+
 
 <body>
 
-  <!-- HEADER -->
-  <header class="header">
 
-    <div class="contenedor header-inner">
+<!-- ====================== MOBILE ====================== -->
 
-      <a class="logo" href="index.html">
-        <!--
-          IMPORTANTE:
-          Si tu logo en GitHub tiene otro nombre,
-          cambiá solamente esta ruta.
-        -->
-        <img src="assets/logo-3dcancha.png" alt="3DCancha">
-      </a>
+<div class="mobile-site">
 
-      <button class="mi-platea">
-        MI PLATEA
-      </button>
+<div class="mobile-wrap">
 
-    </div>
+<header class="mobile-header">
 
-  </header>
+<img
+  class="mobile-logo"
+  src="3dcancha logo transparente aut.png"
+  alt="3DCancha"
+>
 
+<div class="mobile-spacer"></div>
 
-  <main class="contenedor">
+<button
+  class="mobile-platea"
+  onclick="toast('MI PLATEA')"
+>
+MI PLATEA
+</button>
 
-    <!-- INTRO -->
-    <section class="intro">
+<button
+  class="mobile-menu"
+  onclick="toast('Menú')"
+>
+☰
+</button>
 
-      <h1>FICHA DEL PARTIDO</h1>
+</header>
 
-      <p>
-        Elegí tu partido y seleccioná cómo querés vivirlo.
-      </p>
 
-    </section>
+<div class="mobile-back">
+<a href="index.html">‹ VOLVER A RESULTADOS</a>
+</div>
 
 
-    <!-- BUSCADOR -->
-    <section class="busqueda">
+<section class="mobile-title">
 
-      <div class="busqueda-titulo">
-        BUSCÁ TU PARTIDO
-      </div>
+<h1>
+FICHA DEL <span>PARTIDO</span>
+</h1>
 
-      <div class="selector-wrap">
+<p>Elegí cómo querés vivir este partido.</p>
 
-        <select
-          id="selectorPartido"
-          class="selector-partido"
-        >
+</section>
 
-          <option value="partido1">
-            Categoría 2013 · Local vs Visitante · Sábado 12:00
-          </option>
 
-          <option value="partido2">
-            Categoría 2012 · Local vs Visitante · Sábado 13:00
-          </option>
+<section class="mobile-selector">
 
-          <option value="partido3">
-            Categoría 2011 · Local vs Visitante · Sábado 14:00
-          </option>
+<div class="mobile-selector-label">
+PARTIDO SELECCIONADO
+</div>
 
-        </select>
+<div class="mobile-select-wrap">
 
-      </div>
+<select
+  id="mobileSelector"
+  class="mobile-select"
+>
 
-    </section>
+<option value="p1">
+Categoría 2013 · Local vs Visitante · Sábado 12:00
+</option>
 
+<option value="p2">
+Categoría 2012 · Equipo Azul vs Equipo Blanco · Sábado 13:00
+</option>
 
-    <!-- PARTIDO FIJADO -->
-    <section
-      class="partido-card"
-      id="partidoSeleccionado"
-    >
+<option value="p3">
+Categoría 2011 · Equipo Verde vs Equipo Negro · Sábado 14:00
+</option>
 
-      <div class="partido-superior">
+</select>
 
-        <div
-          class="estado"
-          id="estadoPartido"
-        >
-          DISPONIBLE
-        </div>
+</div>
 
-        <div
-          class="fecha"
-          id="fechaPartido"
-        >
-          Sábado · 12:00 hs
-        </div>
+</section>
 
-      </div>
 
+<section class="mobile-match">
 
-      <div class="equipos">
+<div class="mobile-match-top">
 
-        <div class="equipo">
-          <h2 id="equipoLocal">
-            EQUIPO LOCAL
-          </h2>
-        </div>
+<div class="mobile-status" id="mEstado">
+DISPONIBLE
+</div>
 
-        <div class="vs">
-          VS
-        </div>
+<div class="mobile-date" id="mFecha">
+Sábado · 12:00 hs
+</div>
 
-        <div class="equipo">
-          <h2 id="equipoVisitante">
-            EQUIPO VISITANTE
-          </h2>
-        </div>
+</div>
 
-      </div>
 
+<div class="mobile-teams">
 
-      <div class="datos-partido">
+<div class="mobile-team" id="mLocal">
+EQUIPO LOCAL
+</div>
 
-        <div class="dato">
-          Categoría:
-          <strong id="categoria">
-            2013
-          </strong>
-        </div>
+<div class="mobile-vs">VS</div>
 
-        <div class="dato">
-          Cancha:
-          <strong id="cancha">
-            Cancha 1
-          </strong>
-        </div>
+<div class="mobile-team" id="mVisitante">
+EQUIPO VISITANTE
+</div>
 
-      </div>
+</div>
 
-    </section>
 
+<div class="mobile-meta">
 
-    <!-- PRODUCTOS -->
-    <section class="productos">
+<div>
+Categoría:
+<b id="mCategoria">2013</b>
+</div>
 
-      <h2 class="productos-titulo">
-        ELEGÍ CÓMO QUERÉS VIVIRLO
-      </h2>
+<div>
+Cancha:
+<b id="mCancha">Cancha 1</b>
+</div>
 
+</div>
 
-      <div class="productos-grid">
+</section>
 
 
-        <!-- VER EN VIVO -->
-        <article class="producto">
+<div class="mobile-preview">
 
-          <div class="icono">
-            ▶
-          </div>
+<img
+  src="01_cancha_hero.png"
+  alt="Preview del partido"
+>
 
-          <h3>
-            VER EN VIVO
-          </h3>
+</div>
 
-          <p>
-            Mirá el partido en directo desde cualquier lugar.
-          </p>
 
-          <div class="accion">
+<div class="mobile-options-title">
+ELEGÍ CÓMO QUERÉS VIVIRLO
+</div>
 
-            <button
-              class="btn-principal"
-              onclick="comprar('vivo')"
-            >
-              VER EN VIVO
-            </button>
 
-            <button class="btn-info">
-              INFO
-            </button>
+<section class="mobile-services">
 
-          </div>
 
-        </article>
+<!-- 1 VER EN VIVO -->
 
+<article class="mobile-service">
 
-        <!-- BAJAR -->
-        <article class="producto">
+<img
+  src="icono_ver_en_vivo.png"
+  alt=""
+>
 
-          <div class="icono">
-            ↓
-          </div>
+<h3>
+VER<br>EN VIVO
+</h3>
 
-          <h3>
-            BAJAR PARTIDO<br>
-            Y ESTADÍSTICAS
-          </h3>
+<p>
+Mirá el partido desde cualquier lugar.
+</p>
 
-          <p>
-            Guardá el partido completo junto con sus estadísticas.
-          </p>
+<div class="mobile-action">
 
-          <div class="accion">
+<button
+  class="mobile-buy"
+  onclick="comprar('vivo')"
+>
+VER EN VIVO
+</button>
 
-            <button
-              class="btn-principal"
-              onclick="comprar('descarga')"
-            >
-              SELECCIONAR
-            </button>
+<button
+  class="mobile-info"
+  onclick="toast('Información Ver en vivo')"
+>
+INFO ›
+</button>
 
-            <button class="btn-info">
-              INFO
-            </button>
+</div>
 
-          </div>
+</article>
 
-        </article>
 
+<!-- 2 BAJAR PARTIDO -->
 
-        <!-- PERSONALIZADO -->
-        <article class="producto">
+<article class="mobile-service">
 
-          <div class="icono">
-            ★
-          </div>
+<img
+  src="icono_bajar.png"
+  alt=""
+>
 
-          <h3>
-            RESUMEN Y ESTADÍSTICA<br>
-            PERSONALIZADO
-          </h3>
+<h3>
+BAJAR PARTIDO<br>
+Y ESTADÍSTICAS
+</h3>
 
-          <p>
-            Elegí equipo y número de camiseta. Entrega dentro de 72 hs.
-          </p>
+<p>
+Partido completo junto con sus estadísticas.
+</p>
 
-          <div class="accion">
+<div class="mobile-action">
 
-            <button
-              class="btn-principal"
-              onclick="comprar('personalizado')"
-            >
-              SELECCIONAR
-            </button>
+<button
+  class="mobile-buy"
+  onclick="comprar('partido')"
+>
+SELECCIONAR
+</button>
 
-            <button class="btn-info">
-              INFO
-            </button>
+<button
+  class="mobile-info"
+  onclick="toast('Información Partido y estadísticas')"
+>
+INFO ›
+</button>
 
-          </div>
+</div>
 
-        </article>
+</article>
 
 
-      </div>
+<!-- 3 RESUMEN PERSONALIZADO -->
 
-    </section>
+<article class="mobile-service">
 
-  </main>
+<img
+  src="icono_estadisticas.png"
+  alt=""
+>
 
+<h3>
+RESUMEN Y<br>
+ESTADÍSTICA<br>
+PERSONALIZADO
+</h3>
 
-  <!-- FOOTER -->
-  <footer>
+<p>
+Los mejores momentos de un jugador.
+</p>
 
-    <div class="contenedor">
+<div class="mobile-action">
 
-      <div class="footer-superior">
+<button
+  class="mobile-buy"
+  onclick="comprar('resumen')"
+>
+SELECCIONAR
+</button>
 
-        <img
-          src="assets/logo-3dcancha.png"
-          alt="3DCancha"
-        >
+<button
+  class="mobile-info"
+  onclick="toast('Información Resumen personalizado')"
+>
+INFO ›
+</button>
 
-        <a
-          href="#"
-          class="contacto"
-        >
-          Contacto
-        </a>
+</div>
 
-      </div>
+</article>
 
 
-      <div class="footer-inferior">
+</section>
 
-        <a href="#">
-          Términos y condiciones
-        </a>
 
-        ·
+<footer class="mobile-footer">
 
-        <a href="#">
-          Política de privacidad
-        </a>
+<div class="mobile-footer-top">
 
-        · © 2026 3DCancha
+<img
+  class="mobile-footer-logo"
+  src="3dcancha logo transparente aut.png"
+  alt="3DCancha"
+>
 
-      </div>
+<a class="mobile-contact" href="#">
+Contacto
+</a>
 
-    </div>
+</div>
 
-  </footer>
+Términos y condiciones · Política de privacidad · © 2026 3DCancha
 
+</footer>
 
-  <script>
 
-    /*
-    ============================================
-    PARTIDOS DE PRUEBA
-    Después los reemplazaremos por datos reales
-    ============================================
-    */
+</div>
+</div>
 
-    const partidos = {
 
-      partido1: {
-        local: "EQUIPO LOCAL",
-        visitante: "EQUIPO VISITANTE",
-        categoria: "2013",
-        fecha: "Sábado · 12:00 hs",
-        cancha: "Cancha 1",
-        estado: "DISPONIBLE"
-      },
 
-      partido2: {
-        local: "EQUIPO AZUL",
-        visitante: "EQUIPO BLANCO",
-        categoria: "2012",
-        fecha: "Sábado · 13:00 hs",
-        cancha: "Cancha 1",
-        estado: "DISPONIBLE"
-      },
+<!-- ====================== DESKTOP ====================== -->
 
-      partido3: {
-        local: "EQUIPO VERDE",
-        visitante: "EQUIPO NEGRO",
-        categoria: "2011",
-        fecha: "Sábado · 14:00 hs",
-        cancha: "Cancha 2",
-        estado: "DISPONIBLE"
-      }
+<div class="desktop-site">
 
-    };
+<div class="desktop-shell">
 
 
-    /*
-    ============================================
-    CAMBIO DE PARTIDO
-    ============================================
-    */
+<header class="desktop-header">
 
-    const selector = document.getElementById(
-      "selectorPartido"
-    );
+<img
+  class="desktop-logo"
+  src="3dcancha logo transparente aut.png"
+  alt="3DCancha"
+>
 
+<div class="desktop-header-spacer"></div>
 
-    function mostrarPartido(id) {
+<button
+  class="desktop-platea"
+  onclick="toast('MI PLATEA')"
+>
 
-      const partido = partidos[id];
+<span class="person"></span>
 
-      if (!partido) return;
+MI PLATEA
 
+</button>
 
-      document.getElementById(
-        "equipoLocal"
-      ).textContent = partido.local;
+</header>
 
 
-      document.getElementById(
-        "equipoVisitante"
-      ).textContent = partido.visitante;
+<main class="desktop-content">
 
 
-      document.getElementById(
-        "categoria"
-      ).textContent = partido.categoria;
+<a
+  class="desktop-back"
+  href="index.html"
+>
+‹ VOLVER A RESULTADOS
+</a>
 
 
-      document.getElementById(
-        "fechaPartido"
-      ).textContent = partido.fecha;
+<div class="desktop-heading">
 
 
-      document.getElementById(
-        "cancha"
-      ).textContent = partido.cancha;
+<div class="desktop-title">
 
+<h1>
+FICHA DEL <span>PARTIDO</span>
+</h1>
 
-      document.getElementById(
-        "estadoPartido"
-      ).textContent = partido.estado;
+<p>
+Elegí cómo querés vivir este partido.
+</p>
 
-    }
+</div>
 
 
-    selector.addEventListener(
-      "change",
-      function () {
+<div class="desktop-selector-block">
 
-        mostrarPartido(
-          this.value
-        );
+<label class="desktop-selector-label">
+PARTIDO SELECCIONADO
+</label>
 
-      }
-    );
+<select
+  id="desktopSelector"
+  class="desktop-select"
+>
 
+<option value="p1">
+Categoría 2013 · Local vs Visitante · Sábado 12:00
+</option>
 
-    mostrarPartido(
-      selector.value
-    );
+<option value="p2">
+Categoría 2012 · Equipo Azul vs Equipo Blanco · Sábado 13:00
+</option>
 
+<option value="p3">
+Categoría 2011 · Equipo Verde vs Equipo Negro · Sábado 14:00
+</option>
 
-    /*
-    ============================================
-    COMPRA
+</select>
 
-    Por ahora lleva a seleccion-productos.html.
+</div>
 
-    Más adelante conectaremos:
-    - Mercado Pago
-    - acceso invitado
-    - regalos
-    - reproductor
-    - descarga
-    - resumen personalizado
-    ============================================
-    */
+</div>
 
-    function comprar(producto) {
 
-      const partido =
-        selector.value;
 
+<section class="desktop-match-grid">
 
-      const destino =
-        "seleccion-productos.html" +
-        "?partido=" +
-        encodeURIComponent(partido) +
-        "&producto=" +
-        encodeURIComponent(producto);
 
+<div class="desktop-match">
 
-      window.location.href =
-        destino;
 
-    }
+<div class="desktop-match-top">
 
-  </script>
+<div class="desktop-status" id="dEstado">
+DISPONIBLE
+</div>
+
+<div class="desktop-date" id="dFecha">
+Sábado · 12:00 hs
+</div>
+
+</div>
+
+
+<div class="desktop-teams">
+
+<div class="desktop-team" id="dLocal">
+EQUIPO LOCAL
+</div>
+
+<div class="desktop-vs">
+VS
+</div>
+
+<div class="desktop-team" id="dVisitante">
+EQUIPO VISITANTE
+</div>
+
+</div>
+
+
+<div class="desktop-meta">
+
+<div>
+Categoría:
+<b id="dCategoria">2013</b>
+</div>
+
+<div>
+Cancha:
+<b id="dCancha">Cancha 1</b>
+</div>
+
+</div>
+
+</div>
+
+
+<div class="desktop-preview">
+
+<img
+  src="01_cancha_hero.png"
+  alt="Preview del partido"
+>
+
+</div>
+
+
+</section>
+
+
+
+<h2 class="desktop-options-title">
+ELEGÍ CÓMO QUERÉS VIVIRLO
+</h2>
+
+
+
+<section class="desktop-services">
+
+
+<!-- 1 VER EN VIVO -->
+
+<article class="desktop-card">
+
+<div class="desktop-card-top">
+
+<img
+  class="desktop-card-icon"
+  src="icono_ver_en_vivo.png"
+  alt=""
+>
+
+<h3>
+<span class="green">VER</span><br>
+EN VIVO
+</h3>
+
+<p>
+Disfrutá el partido en vivo desde cualquier dispositivo.
+</p>
+
+</div>
+
+
+<div class="desktop-card-photo">
+
+<img
+  src="02_ver_en_vivo.png"
+  alt="Ver en vivo"
+>
+
+</div>
+
+
+<div class="desktop-card-bottom">
+
+<span class="desktop-info-i">i</span>
+
+<button
+  class="desktop-info"
+  onclick="toast('Información Ver en vivo')"
+>
+INFO
+</button>
+
+<button
+  class="desktop-buy"
+  onclick="comprar('vivo')"
+>
+VER EN VIVO
+</button>
+
+</div>
+
+</article>
+
+
+
+<!-- 2 BAJAR PARTIDO -->
+
+<article class="desktop-card">
+
+<div class="desktop-card-top">
+
+<img
+  class="desktop-card-icon"
+  src="icono_bajar.png"
+  alt=""
+>
+
+<h3>
+<span class="green">BAJAR</span>
+PARTIDO<br>
+Y ESTADÍSTICAS
+</h3>
+
+<p>
+Comprá y guardá el partido completo junto con sus estadísticas.
+</p>
+
+</div>
+
+
+<div class="desktop-card-photo">
+
+<img
+  src="03_bajar_partido.png"
+  alt="Bajar partido y estadísticas"
+>
+
+</div>
+
+
+<div class="desktop-card-bottom">
+
+<span class="desktop-info-i">i</span>
+
+<button
+  class="desktop-info"
+  onclick="toast('Información Partido y estadísticas')"
+>
+INFO
+</button>
+
+<button
+  class="desktop-buy"
+  onclick="comprar('partido')"
+>
+SELECCIONAR
+</button>
+
+</div>
+
+</article>
+
+
+
+<!-- 3 RESUMEN -->
+
+<article class="desktop-card">
+
+<div class="desktop-card-top">
+
+<img
+  class="desktop-card-icon"
+  src="icono_estadisticas.png"
+  alt=""
+>
+
+<h3>
+RESUMEN Y<br>
+ESTADÍSTICA<br>
+<span class="green">PERSONALIZADO</span>
+</h3>
+
+<p>
+Los mejores momentos, resumen y estadística de un jugador.
+</p>
+
+</div>
+
+
+<div class="desktop-card-photo">
+
+<img
+  src="04_estadisticas.png"
+  alt="Resumen y estadística personalizada"
+>
+
+</div>
+
+
+<div class="desktop-card-bottom">
+
+<span class="desktop-info-i">i</span>
+
+<button
+  class="desktop-info"
+  onclick="toast('Información Resumen personalizado')"
+>
+INFO
+</button>
+
+<button
+  class="desktop-buy"
+  onclick="comprar('resumen')"
+>
+SELECCIONAR
+</button>
+
+</div>
+
+</article>
+
+
+</section>
+
+
+</main>
+
+
+
+<footer class="desktop-footer">
+
+
+<div class="desktop-footer-left">
+
+<img
+  class="desktop-footer-logo"
+  src="3dcancha logo transparente aut.png"
+  alt="3DCancha"
+>
+
+<a
+  class="desktop-contact"
+  href="#"
+>
+Contacto
+</a>
+
+</div>
+
+
+<div class="desktop-footer-right">
+
+<div>
+
+<a href="#">
+Términos y condiciones
+</a>
+
+<a href="#">
+Política de privacidad
+</a>
+
+</div>
+
+<div>
+© 2026 3DCancha. Todos los derechos reservados.
+</div>
+
+</div>
+
+
+</footer>
+
+
+</div>
+</div>
+
+
+
+<div id="toast" class="toast"></div>
+
+
+
+<script>
+
+
+const partidos={
+
+p1:{
+  local:"EQUIPO LOCAL",
+  visitante:"EQUIPO VISITANTE",
+  categoria:"2013",
+  fecha:"Sábado · 12:00 hs",
+  cancha:"Cancha 1",
+  estado:"DISPONIBLE"
+},
+
+p2:{
+  local:"EQUIPO AZUL",
+  visitante:"EQUIPO BLANCO",
+  categoria:"2012",
+  fecha:"Sábado · 13:00 hs",
+  cancha:"Cancha 1",
+  estado:"DISPONIBLE"
+},
+
+p3:{
+  local:"EQUIPO VERDE",
+  visitante:"EQUIPO NEGRO",
+  categoria:"2011",
+  fecha:"Sábado · 14:00 hs",
+  cancha:"Cancha 2",
+  estado:"DISPONIBLE"
+}
+
+};
+
+
+
+function actualizar(id){
+
+const p=partidos[id];
+
+if(!p)return;
+
+
+document.getElementById("mLocal").textContent=p.local;
+document.getElementById("mVisitante").textContent=p.visitante;
+document.getElementById("mCategoria").textContent=p.categoria;
+document.getElementById("mFecha").textContent=p.fecha;
+document.getElementById("mCancha").textContent=p.cancha;
+document.getElementById("mEstado").textContent=p.estado;
+
+document.getElementById("dLocal").textContent=p.local;
+document.getElementById("dVisitante").textContent=p.visitante;
+document.getElementById("dCategoria").textContent=p.categoria;
+document.getElementById("dFecha").textContent=p.fecha;
+document.getElementById("dCancha").textContent=p.cancha;
+document.getElementById("dEstado").textContent=p.estado;
+
+}
+
+
+
+const mobileSelector=
+document.getElementById("mobileSelector");
+
+const desktopSelector=
+document.getElementById("desktopSelector");
+
+
+mobileSelector.addEventListener(
+"change",
+function(){
+
+desktopSelector.value=this.value;
+actualizar(this.value);
+
+}
+);
+
+
+desktopSelector.addEventListener(
+"change",
+function(){
+
+mobileSelector.value=this.value;
+actualizar(this.value);
+
+}
+);
+
+
+actualizar("p1");
+
+
+
+function comprar(producto){
+
+const partido=
+desktopSelector.value ||
+mobileSelector.value;
+
+const url=
+"seleccion-productos.html"+
+"?partido="+
+encodeURIComponent(partido)+
+"&producto="+
+encodeURIComponent(producto);
+
+window.location.href=url;
+
+}
+
+
+
+function toast(texto){
+
+const t=
+document.getElementById("toast");
+
+t.textContent=texto;
+
+t.classList.add("show");
+
+clearTimeout(window.toastTimer);
+
+window.toastTimer=
+setTimeout(
+()=>t.classList.remove("show"),
+1400
+);
+
+}
+
+</script>
+
 
 </body>
 </html>
