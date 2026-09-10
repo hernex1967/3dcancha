@@ -951,7 +951,48 @@ img{
   }
 
 }
+/* ======================================================
+   AJUSTES FINOS PC
+====================================================== */
 
+@media (min-width:768px){
+
+  /* Logo: mismo criterio de Inicio, más chico y con aire arriba */
+  .desktop-logo{
+    width:300px;
+    height:68px;
+    transform:scale(2.55);
+    transform-origin:left center;
+    top:7px;
+  }
+
+  /* Ficha: más angosta y un poco más abajo */
+  .desktop-match{
+    width:52%;
+    top:57%;
+  }
+
+  /* Más aire entre DISPONIBLE y los equipos */
+  .desktop-status{
+    margin-bottom:16px;
+  }
+
+  .desktop-teams{
+    padding-top:6px;
+  }
+
+  /* Contacto más visible */
+  .desktop-contact{
+    font-size:11px;
+  }
+
+  /* Mantener "RESUMEN Y ESTADÍSTICA" en una sola línea */
+  .desktop-card:nth-child(3) h3{
+    font-size:clamp(13px,1.15vw,17px);
+    line-height:1.02;
+  }
+
+}
 </style>
 </head>
 
@@ -1514,8 +1555,7 @@ SELECCIONAR
 
 
 <h3>
-RESUMEN Y<br>
-ESTADÍSTICA<br>
+RESUMEN Y ESTADÍSTICA<br>
 <span class="green">PERSONALIZADO</span>
 </h3>
 
