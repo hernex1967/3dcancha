@@ -908,6 +908,70 @@ img{display:block;max-width:100%}
 
 }
 
+/* ======================================================
+   AJUSTE FINAL FICHA DEL PARTIDO
+   No modifica las 3 tarjetas
+====================================================== */
+
+/* La imagen queda como identidad visual, no como preview */
+.mobile-preview:after,
+.desktop-preview:after{
+  display:none;
+}
+
+
+/* ---------- MÓVIL ---------- */
+
+/* Compactamos la ficha del partido */
+.mobile-match-top{
+  padding:9px 14px;
+}
+
+.mobile-teams{
+  padding:12px 10px 10px;
+}
+
+.mobile-meta{
+  padding:8px 12px;
+}
+
+/* Datos principales bien centrados */
+.mobile-team,
+.mobile-vs{
+  text-align:center;
+}
+
+
+/* ---------- PC ---------- */
+
+@media (min-width:768px){
+
+  /* Evita que el logo invada Ficha del Partido */
+  .desktop-logo{
+    transform:scale(2.35);
+    transform-origin:left center;
+  }
+
+  /* Ficha un poco más baja */
+  .desktop-match-grid{
+    height:21vh;
+    min-height:160px;
+  }
+
+  .desktop-match-top{
+    height:32px;
+  }
+
+  .desktop-teams{
+    height:calc(100% - 62px);
+  }
+
+  .desktop-meta{
+    height:30px;
+  }
+
+}
+  
 </style>
 </head>
 
