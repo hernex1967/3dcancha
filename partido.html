@@ -970,7 +970,236 @@ img{display:block;max-width:100%}
     height:30px;
   }
 
+}/* ======================================================
+   COMPOSICIÓN PC DEFINITIVA - FICHA DEL PARTIDO
+   Basada en la referencia visual aprobada
+   NO MODIFICA MÓVIL NI LAS 3 TARJETAS
+====================================================== */
+
+@media (min-width:768px){
+
+  /* Mantener la imagen de cancha como identidad visual */
+  .desktop-match-grid{
+    position:relative;
+    display:block;
+    width:100%;
+    height:27vh;
+    min-height:190px;
+    margin-bottom:1.5vh;
+    overflow:visible;
+  }
+
+  /* Foto cancha/pelota ocupando la zona superior derecha */
+  .desktop-preview{
+    position:absolute;
+    top:0;
+    right:0;
+    width:68%;
+    height:100%;
+    border:0;
+    border-radius:0;
+    z-index:0;
+    overflow:hidden;
+  }
+
+  .desktop-preview img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:center;
+  }
+
+  /* Oscurecer suavemente hacia la izquierda */
+  .desktop-preview:before{
+    content:"";
+    position:absolute;
+    inset:0;
+    z-index:1;
+    background:
+      linear-gradient(
+        90deg,
+        #030404 0%,
+        rgba(3,4,4,.88) 15%,
+        rgba(3,4,4,.40) 45%,
+        rgba(3,4,4,.05) 100%
+      );
+  }
+
+  /* Ocultamos el título anterior y el selector superior */
+  .desktop-heading{
+    height:0;
+    margin:0;
+  }
+
+  .desktop-title,
+  .desktop-selector-block{
+    display:none;
+  }
+
+  /* Ficha central */
+  .desktop-match{
+    position:relative;
+    z-index:3;
+
+    width:58%;
+    height:100%;
+
+    margin:0 auto;
+
+    border:1px solid #30383a;
+    border-radius:14px;
+
+    background:rgba(7,11,12,.88);
+    backdrop-filter:blur(2px);
+
+    padding-top:52px;
+  }
+
+  /* Nuevo título dentro de la ficha */
+  .desktop-match:before{
+    content:"FICHA DEL PARTIDO SELECCIONADO";
+
+    position:absolute;
+    top:14px;
+    left:50%;
+    transform:translateX(-50%);
+
+    width:94%;
+
+    text-align:center;
+
+    font-family:"Arial Black",Arial,sans-serif;
+    font-style:italic;
+    font-weight:900;
+
+    font-size:clamp(18px,1.75vw,26px);
+    line-height:1;
+
+    color:#fff;
+    text-transform:uppercase;
+  }
+
+  /* Segunda parte del título en verde */
+  .desktop-match:after{
+    content:"";
+  }
+
+  /* Estado y fecha centrados */
+  .desktop-match-top{
+    position:absolute;
+
+    top:52px;
+    left:50%;
+    transform:translateX(-50%);
+
+    width:auto;
+    height:26px;
+
+    padding:0;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:24px;
+
+    border:0;
+    white-space:nowrap;
+  }
+
+  .desktop-status{
+    font-size:10px;
+  }
+
+  .desktop-date{
+    font-size:10px;
+  }
+
+  /* Equipos perfectamente centrados.
+     El VS coincide con el centro de la página
+     y con el centro de la tarjeta central. */
+  .desktop-teams{
+    position:absolute;
+
+    top:84px;
+    left:50%;
+    transform:translateX(-50%);
+
+    width:88%;
+    height:58px;
+
+    padding:0;
+
+    display:grid;
+    grid-template-columns:1fr 70px 1fr;
+    align-items:center;
+
+    text-align:center;
+  }
+
+  .desktop-team{
+    text-align:center;
+    font-size:clamp(16px,1.45vw,22px);
+  }
+
+  .desktop-vs{
+    text-align:center;
+    font-size:clamp(18px,1.65vw,25px);
+    color:var(--green);
+  }
+
+  /* Categoría y cancha */
+  .desktop-meta{
+    position:absolute;
+
+    left:8%;
+    right:8%;
+    bottom:12px;
+
+    height:32px;
+
+    border-top:1px solid #30383a;
+
+    display:flex;
+    justify-content:center;
+    align-items:end;
+
+    gap:30px;
+
+    font-size:10px;
+  }
+
+  /* VOLVER A INICIO:
+     izquierda de la ficha y a la altura de los equipos */
+  .desktop-back{
+    position:absolute;
+
+    left:5.4%;
+    top:calc(10vh + 103px);
+
+    z-index:10;
+
+    margin:0;
+
+    color:var(--green);
+
+    font-size:15px;
+    font-weight:900;
+    letter-spacing:.03em;
+
+    text-transform:uppercase;
+  }
+
+  /* Título de las opciones conserva alineación de Inicio */
+  .desktop-options-title{
+    position:relative;
+    z-index:4;
+
+    margin-top:1.3vh;
+  }
+
 }
+
+  
   
 </style>
 </head>
@@ -1309,7 +1538,7 @@ MI PLATEA
   class="desktop-back"
   href="index.html"
 >
-‹ VOLVER A RESULTADOS
+‹ VOLVER A INICIO
 </a>
 
 
