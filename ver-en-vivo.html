@@ -1004,6 +1004,68 @@ white-space:nowrap;
   }
 
 }
+  /* ===== VER EN VIVO - COMPRA PC ===== */
+
+.desktop-checkout{
+  display:grid;
+  grid-template-columns:1.55fr 1fr;
+  gap:18px;
+  width:100%;
+}
+
+.products-panel,
+.summary-panel{
+  background:#0b1010;
+  border:1px solid var(--green);
+  border-radius:14px;
+  padding:18px;
+}
+
+.products-panel h3,
+.summary-panel h3{
+  margin:0 0 16px;
+  color:#fff;
+  font-size:16px;
+  font-weight:900;
+}
+
+.product-row{
+  display:grid;
+  grid-template-columns:1fr auto 28px;
+  align-items:center;
+  gap:16px;
+  padding:16px;
+  margin-bottom:12px;
+  background:#101515;
+  border:1px solid #343d3d;
+  border-radius:12px;
+}
+
+.product-row.selected{
+  border-color:var(--green);
+  background:#111a10;
+}
+
+.product-info{
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+}
+
+.product-info strong{
+  color:#fff;
+  font-size:14px;
+  font-weight:900;
+}
+
+.product-row.selected .product-info strong{
+  color:var(--green);
+}
+
+.product-info span{
+  color:#aeb4b4;
+  font-size:12px;
+  line-height:1.35
 </style>
 </head>
 
@@ -1407,215 +1469,84 @@ Hora:
 
 <section class="desktop-options">
 
+  <h2 class="desktop-options-title">
+    COMPLETÁ TU COMPRA
+  </h2>
 
-<h2 class="desktop-options-title">
-COMPLETA TU COMPRA
-</h2>
+  <div class="desktop-checkout">
 
+    <!-- COLUMNA IZQUIERDA -->
+    <div class="products-panel">
 
-<div class="desktop-services">
+      <h3>SELECCIONÁ PRODUCTOS</h3>
 
+      <div class="product-row selected">
+        <div class="product-info">
+          <strong>VER PARTIDO EN VIVO</strong>
+          <span>Mirá la transmisión en directo desde cualquier lugar.</span>
+        </div>
 
+        <div class="product-price">
+          $ 10.000
+        </div>
 
-<!-- VER EN VIVO -->
+        <input type="checkbox" checked disabled>
+      </div>
 
-<article class="desktop-card">
+      <div class="product-row">
+        <div class="product-info">
+          <strong>REGALÁ ESTE PARTIDO</strong>
+          <span>Para verlo completo en diferido.</span>
+        </div>
 
+        <div class="product-price">
+          $ 6.000
+        </div>
 
-<div class="desktop-card-top">
+        <input type="checkbox" id="giftMatch">
+      </div>
 
+      <div class="product-row">
+        <div class="product-info">
+          <strong>REGALÁ SU RESUMEN + ESTADÍSTICAS</strong>
+          <span>Resumen y estadísticas personalizadas de un jugador.</span>
+        </div>
 
-<img
-  class="desktop-card-icon"
-  src="icono_ver_en_vivo.png"
-  alt=""
->
+        <div class="product-price">
+          $ 8.000
+        </div>
 
+        <input type="checkbox" id="giftStats">
+      </div>
 
-<h3>
-<span class="green">VER</span><br>
-EN VIVO
-</h3>
+    </div>
 
+    <!-- COLUMNA DERECHA -->
+    <div class="summary-panel">
 
-<p>
-Disfrutá los partidos en vivo desde cualquier dispositivo.
-</p>
+      <h3>TU COMPRA</h3>
 
+      <div class="summary-item">
+        <span>Ver partido en vivo</span>
+        <strong>$ 10.000</strong>
+      </div>
 
-</div>
+      <div class="summary-total">
+        <span>TOTAL</span>
+        <strong>$ 10.000</strong>
+      </div>
 
+      <button class="checkout-button">
+        CONTINUAR AL PAGO →
+      </button>
 
-<div class="desktop-card-photo">
+      <div class="secure-payment">
+        Pago 100% seguro con Mercado Pago
+      </div>
 
-<img
-  src="02_ver_en_vivo.png"
-  alt="Ver en vivo"
->
+    </div>
 
-</div>
-
-
-<div class="desktop-card-bottom">
-
-<span class="desktop-info-i">
-i
-</span>
-
-<button
-  class="desktop-info"
-  onclick="toast('Información Ver en vivo')"
->
-INFO
-</button>
-
-<button
-  class="desktop-buy"
-  onclick="comprar('vivo')"
->
-VER EN VIVO
-</button>
-
-</div>
-
-
-</article>
-
-
-
-<!-- BAJAR PARTIDO -->
-
-<article class="desktop-card">
-
-
-<div class="desktop-card-top">
-
-
-<img
-  class="desktop-card-icon"
-  src="icono_bajar.png"
-  alt=""
->
-
-
-<h3>
-<span class="green">BAJAR</span>
-PARTIDO<br>
-Y ESTADÍSTICAS
-</h3>
-
-
-<p>
-Comprá y guardá el partido completo junto con sus estadísticas.
-</p>
-
-
-</div>
-
-
-<div class="desktop-card-photo">
-
-<img
-  src="03_bajar_partido.png"
-  alt="Bajar partido y estadísticas"
->
-
-</div>
-
-
-<div class="desktop-card-bottom">
-
-<span class="desktop-info-i">
-i
-</span>
-
-<button
-  class="desktop-info"
-  onclick="toast('Información Partido y estadísticas')"
->
-INFO
-</button>
-
-<button
-  class="desktop-buy"
-  onclick="comprar('partido')"
->
-SELECCIONAR
-</button>
-
-</div>
-
-
-</article>
-
-
-
-<!-- RESUMEN PERSONALIZADO -->
-
-<article class="desktop-card">
-
-
-<div class="desktop-card-top">
-
-
-<img
-  class="desktop-card-icon"
-  src="icono_estadisticas.png"
-  alt=""
->
-
-
-<h3>
-RESUMEN Y ESTADÍSTICA<br>
-<span class="green">PERSONALIZADO</span>
-</h3>
-
-
-<p>
-Los mejores momentos, resumen y estadística de un jugador.
-</p>
-
-
-</div>
-
-
-<div class="desktop-card-photo">
-
-<img
-  src="04_estadisticas.png"
-  alt="Resumen y estadística personalizada"
->
-
-</div>
-
-
-<div class="desktop-card-bottom">
-
-<span class="desktop-info-i">
-i
-</span>
-
-<button
-  class="desktop-info"
-  onclick="toast('Información Resumen personalizado')"
->
-INFO
-</button>
-
-<button
-  class="desktop-buy"
-  onclick="comprar('resumen')"
->
-SELECCIONAR
-</button>
-
-</div>
-
-
-</article>
-
-
-</div>
+  </div>
 
 </section>
 
