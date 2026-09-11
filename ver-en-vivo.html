@@ -932,7 +932,138 @@ white-space:nowrap;
   .desktop-site{
     display:block;
   }
+/* ===== COMPRA PC ===== */
 
+.desktop-checkout{
+  display:grid;
+  grid-template-columns:1.55fr 1fr;
+  gap:18px;
+  width:100%;
+}
+
+.products-panel,
+.summary-panel{
+  background:#0b1010;
+  border:1px solid var(--green);
+  border-radius:14px;
+  padding:18px;
+}
+
+.products-panel h3,
+.summary-panel h3{
+  margin:0 0 16px;
+  color:#fff;
+  font-size:16px;
+  font-weight:900;
+}
+
+.product-row{
+  display:grid;
+  grid-template-columns:1fr auto 28px;
+  align-items:center;
+  gap:16px;
+  padding:16px;
+  margin-bottom:12px;
+  background:#101515;
+  border:1px solid #343d3d;
+  border-radius:12px;
+}
+
+.product-row.selected{
+  border-color:var(--green);
+  background:#111a10;
+}
+
+.product-info{
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+}
+
+.product-info strong{
+  color:#fff;
+  font-size:14px;
+  font-weight:900;
+}
+
+.product-row.selected .product-info strong{
+  color:var(--green);
+}
+
+.product-info span{
+  color:#aeb4b4;
+  font-size:12px;
+  line-height:1.35;
+}
+
+.product-price{
+  color:#fff;
+  font-size:14px;
+  font-weight:900;
+  white-space:nowrap;
+}
+
+.product-row.selected .product-price{
+  color:var(--green);
+}
+
+.product-row input{
+  width:20px;
+  height:20px;
+  accent-color:var(--green);
+}
+
+.summary-panel{
+  display:flex;
+  flex-direction:column;
+}
+
+.summary-item{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+  padding:16px 0;
+  color:#fff;
+  border-top:1px solid #303737;
+  border-bottom:1px solid #303737;
+  font-size:13px;
+}
+
+.summary-total{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-top:auto;
+  padding:22px 0 14px;
+  color:#fff;
+  font-size:17px;
+  font-weight:900;
+}
+
+.summary-total strong{
+  color:var(--green);
+  font-size:24px;
+}
+
+.checkout-button{
+  width:100%;
+  border:0;
+  border-radius:12px;
+  padding:15px 12px;
+  background:var(--green);
+  color:#071004;
+  font-size:14px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.secure-payment{
+  margin-top:12px;
+  text-align:center;
+  color:#aeb4b4;
+  font-size:11px;
+}
 }
 
 
@@ -1134,6 +1265,7 @@ white-space:nowrap;
   color:#aeb4b4;
   font-size:11px;
 }
+  }
 </style>
 </head>
 
