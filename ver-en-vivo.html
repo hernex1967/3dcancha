@@ -1,0 +1,1729 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#030404">
+
+<title>3DCancha — Ficha del Partido</title>
+
+<style>
+
+  
+:root{
+  --bg:#030404;
+  --panel:#0b0e0f;
+  --panel2:#101415;
+  --green:#9fbe18;
+  --green-hi:#b5d51a;
+  --text:#f8f9f9;
+  --muted:#a8afb0;
+  --line:#2c3234;
+  --red:#ef5350;
+}
+
+*{box-sizing:border-box}
+
+html,body{
+  margin:0;
+  background:#000;
+  color:var(--text);
+  font-family:Arial,Helvetica,sans-serif;
+}
+
+body{min-height:100vh}
+
+button{
+  font:inherit;
+  cursor:pointer;
+}
+
+img{
+  display:block;
+  max-width:100%;
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+.mobile-site{
+  display:block;
+  min-height:100vh;
+  background:#030404;
+}
+
+.mobile-wrap{
+  width:min(100%,460px);
+  margin:auto;
+  min-height:100vh;
+}
+
+
+/* HEADER MOBILE */
+
+.mobile-header{
+  height:91px;
+  padding:12px 14px 5px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  border-bottom:1px solid rgba(255,255,255,.04);
+}
+
+.mobile-logo{
+  width:166px;
+  height:78px;
+  object-fit:contain;
+  object-position:left center;
+}
+
+.mobile-spacer{flex:1}
+
+.mobile-platea{
+  height:39px;
+  padding:0 13px;
+  border:1.4px solid var(--green);
+  color:#fff;
+  background:#070909;
+  border-radius:20px;
+  font-weight:800;
+  font-size:12px;
+  letter-spacing:.04em;
+}
+
+.mobile-menu{
+  width:35px;
+  height:38px;
+  border:0;
+  background:transparent;
+  color:#fff;
+  font-size:25px;
+}
+
+
+/* VOLVER MOBILE */
+
+.mobile-back{
+  padding:18px 22px 8px;
+}
+
+.mobile-back a{
+  color:var(--green);
+  text-decoration:none;
+  font-size:14px;
+  font-weight:900;
+}
+
+
+/* FICHA MOBILE */
+
+.mobile-match-area{
+  padding:12px 22px 20px;
+}
+
+.mobile-match-title{
+  margin:0 0 14px;
+  text-align:center;
+  font-family:"Arial Black",Arial,sans-serif;
+  font-style:italic;
+  font-size:18px;
+  line-height:1.05;
+  color:var(--green);
+  text-transform:uppercase;
+}
+
+.mobile-match{
+  border:1px solid #343c3e;
+  border-radius:14px;
+  background:#0b0e0f;
+  overflow:hidden;
+}
+
+.mobile-status{
+  padding:12px 14px 7px;
+  text-align:center;
+  color:var(--red);
+  font-size:12px;
+  font-weight:900;
+}
+
+.mobile-status:before{
+  content:"";
+  display:inline-block;
+  width:8px;
+  height:8px;
+  margin-right:7px;
+  border-radius:50%;
+  background:var(--red);
+}
+
+.mobile-teams{
+  padding:10px 10px 12px;
+  display:grid;
+  grid-template-columns:1fr 42px 1fr;
+  align-items:center;
+  text-align:center;
+}
+
+.mobile-team{
+  font-family:"Arial Black",Arial,sans-serif;
+  font-style:italic;
+  font-size:15px;
+  line-height:1.05;
+  text-transform:uppercase;
+}
+
+.mobile-vs{
+  color:var(--green);
+  font-family:"Arial Black",Arial,sans-serif;
+  font-size:14px;
+}
+
+.mobile-meta{
+  padding:10px 8px 12px;
+  border-top:1px solid #252c2e;
+  display:flex;
+  width: 100%;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:5px 12px;
+  text-align:center;
+  color:#929a9b;
+  font-size:10px;
+ } 
+  .mobile-meta span{
+    width: calc(44% - 6px);
+    text-align:left;
+}
+
+.mobile-meta b{
+  color:#fff;
+}
+
+
+/* IMAGEN MOBILE */
+
+.mobile-identity{
+  margin:0 22px 10px;
+  height:145px;
+  border-radius:14px;
+  overflow:hidden;
+  border:1px solid #293133;
+}
+
+.mobile-identity img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+}
+
+
+/* OPCIONES MOBILE */
+
+.mobile-options-title{
+  padding:0 22px 10px;
+  font-family:"Arial Black",Arial,sans-serif;
+  font-style:italic;
+  font-size:18px;
+  text-transform:uppercase;
+}
+
+.mobile-services{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+  padding:0 20px 24px;
+}
+
+.mobile-service{
+  min-height:190px;
+  padding:14px 7px 11px;
+  background:linear-gradient(150deg,#111617,#090c0d);
+  border:1px solid #2b3335;
+  border-radius:14px;
+  text-align:center;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+.mobile-service img{
+  width:38px;
+  height:38px;
+  object-fit:contain;
+  margin:0 auto 9px;
+}
+
+.mobile-service h3{
+  margin:6px 0 7px;
+  font-size:11px;
+  line-height:1.18;
+  font-weight:900;
+  text-transform:uppercase;
+}
+
+.mobile-service:nth-child(2) h3{
+  font-size:10px;
+}
+
+.mobile-service:nth-child(3) h3{
+  font-size:9.4px;
+}
+
+.mobile-service p{
+  margin:0 0 10px;
+  color:#aeb5b6;
+  font-size:9px;
+  line-height:1.3;
+}
+.mobile-service:nth-child(1) p,
+.mobile-service:nth-child(2) p{
+    margin-top:10px;
+}
+
+.mobile-action{
+  margin-top:auto;
+  width:100%;
+}
+
+.mobile-buy{
+  width:100%;
+  min-height:33px;
+  border:0;
+  border-radius:17px;
+  background:var(--green);
+  color:#071004;
+  font-size:9px;
+  font-weight:900;
+}
+
+.mobile-info{
+  margin-top:6px;
+  border:0;
+  background:transparent;
+  color:#fff;
+  font-size:9px;
+  font-weight:900;
+}
+
+
+/* FOOTER MOBILE */
+
+.mobile-footer{
+  border-top:1px solid #262d2e;
+  padding:17px 14px 22px;
+  text-align:center;
+  color:#707879;
+  font-size:9px;
+  line-height:1.55;
+}
+
+.mobile-footer-top{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:8px;
+  margin-bottom:7px;
+}
+
+.mobile-footer-logo{
+  width:52px;
+  height:27px;
+  object-fit:contain;
+}
+
+.mobile-contact{
+  color:var(--green);
+  font-size:10px;
+  font-weight:900;
+  text-decoration:none;
+}
+
+
+/* =========================================================
+   DESKTOP
+   ========================================================= */
+
+.desktop-site{
+  display:none;
+  background:#000;
+  min-height:100vh;
+}
+
+.desktop-shell{
+  width:min(100%,1440px);
+  height:100vh;
+  margin:0 auto;
+  background:#030404;
+  overflow:hidden;
+}
+
+
+/* =========================================================
+   HEADER PC
+   COPIADO DEL CRITERIO VISUAL DEL INICIO
+   ========================================================= */
+
+.desktop-header{
+  height:10vh;
+  min-height:64px;
+  padding:4px 4.1%;
+  display:flex;
+  align-items:center;
+  border-bottom:1px solid rgba(255,255,255,.045);
+  background:#030404;
+  position:relative;
+  overflow:visible;
+}
+
+.desktop-logo{
+  width:300px;
+  height:68px;
+  max-height:none;
+  object-fit:contain;
+  object-position:left center;
+
+  transform:scale(2.55);
+  transform-origin:left center;
+
+  position:relative;
+  top:7px;
+  z-index:20;
+  pointer-events:none;
+}
+
+.desktop-header-spacer{
+  flex:1;
+}
+
+.desktop-platea{
+  height:34px;
+  padding:0 18px;
+  border:1.5px solid var(--green);
+  background:#080a0a;
+  color:#fff;
+  border-radius:24px;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.05em;
+  display:flex;
+  align-items:center;
+  gap:9px;
+}
+
+.desktop-person{
+  width:15px;
+  height:15px;
+  border:2px solid var(--green);
+  border-radius:50%;
+  position:relative;
+}
+
+.desktop-person:after{
+  content:"";
+  position:absolute;
+  width:18px;
+  height:8px;
+  border:2px solid var(--green);
+  border-top:0;
+  border-radius:0 0 12px 12px;
+  left:50%;
+  transform:translateX(-50%);
+  top:12px;
+}
+
+
+/* =========================================================
+   ZONA SUPERIOR PC
+   ========================================================= */
+
+.desktop-top{
+  position:relative;
+  height:40vh;
+  min-height:270px;
+  background:#030404;
+  overflow:hidden;
+}
+
+
+/* FOTO DERECHA - MISMO CONCEPTO DE INICIO */
+
+.desktop-hero-image{
+  position:absolute;
+  right:0;
+  top:0;
+  width:48%;
+  height:100%;
+  overflow:hidden;
+  background:#050707;
+}
+
+.desktop-hero-image img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+}
+
+.desktop-hero-image:before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:2;
+  background:
+    linear-gradient(
+      90deg,
+      #030404 0%,
+      rgba(3,4,4,.78) 13%,
+      rgba(3,4,4,.15) 43%,
+      rgba(0,0,0,.02) 100%
+    );
+}
+
+
+/* VOLVER */
+
+.desktop-back{
+  position:absolute;
+  left:5.4%;
+  top:49%;
+  transform:translateY(-50%);
+  z-index:10;
+
+  color:var(--green);
+  text-decoration:none;
+  font-size:15px;
+  font-weight:900;
+  letter-spacing:.025em;
+  white-space:nowrap;
+}
+
+
+/* FICHA CENTRAL */
+
+.desktop-match{
+  position:absolute;
+
+  left:50%;
+  top:52%;
+  transform:translate(-50%,-50%);
+
+  width:58%;
+  height:70%;
+  min-height:205px;
+
+  z-index:5;
+
+  border:1px solid #343c3e;
+  border-radius:14px;
+
+  background:rgba(7,11,12,.91);
+  overflow:hidden;
+
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+
+  padding:17px 34px 13px;
+}
+
+
+/* TITULO */
+
+.desktop-match-title{
+  margin:0 0 8px;
+
+  text-align:center;
+
+  font-family:"Arial Black",Arial,sans-serif;
+  font-style:italic;
+  font-weight:900;
+
+  font-size:clamp(18px,1.85vw,27px);
+  line-height:1;
+
+  color:var(--green);
+
+  text-transform:uppercase;
+}
+
+
+/* DISPONIBLE */
+
+.desktop-status{
+  margin:0 0 7px;
+
+  text-align:center;
+
+  color:var(--red);
+
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.03em;
+}
+
+.desktop-status:before{
+  content:"";
+
+  display:inline-block;
+
+  width:7px;
+  height:7px;
+
+  margin-right:7px;
+
+  border-radius:50%;
+  background:var(--red);
+}
+
+
+/* EQUIPOS */
+
+.desktop-teams{
+  width:100%;
+
+  display:grid;
+  grid-template-columns:1fr 72px 1fr;
+
+  align-items:center;
+
+  padding:9px 0 12px;
+
+  text-align:center;
+}
+
+.desktop-team{
+  font-family:"Arial Black",Arial,sans-serif;
+  font-style:italic;
+
+  font-size:clamp(16px,1.45vw,22px);
+  line-height:1;
+
+  text-transform:uppercase;
+}
+
+.desktop-vs{
+  color:var(--green);
+
+  font-family:"Arial Black",Arial,sans-serif;
+
+  font-size:clamp(19px,1.75vw,26px);
+  line-height:1;
+
+  text-align:center;
+}
+
+
+/* DATOS */
+
+.desktop-meta{
+  border-top:1px solid #30383a;
+
+  padding-top:11px;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  flex-wrap:wrap;
+  gap:6px 20px;
+
+  color:#9ca3a4;
+
+  font-size:14px;
+}
+
+.desktop-meta b{
+  color:#fff;
+}
+
+
+/* =========================================================
+   OPCIONES PC
+   ========================================================= */
+
+.desktop-options{
+  height:46vh;
+  padding:.5vh 5.4% 1vh;
+  background:#050606;
+}
+
+.desktop-options-title{
+  height:4.5vh;
+
+  margin:0;
+
+  display:flex;
+  align-items:center;
+
+  font-family:"Arial Black",Arial,sans-serif;
+  font-style:italic;
+
+  font-size:clamp(16px,1.55vw,21px);
+
+  text-transform:uppercase;
+}
+
+
+/* TARJETAS */
+
+.desktop-services{
+  height:39vh;
+
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+
+  gap:22px;
+}
+
+.desktop-card{
+  height:100%;
+
+  border:1px solid #2b3233;
+  border-radius:9px;
+
+  background:#0b0e0f;
+
+  overflow:hidden;
+
+  display:flex;
+  flex-direction:column;
+}
+
+.desktop-card-top{
+  height:42%;
+
+  padding:1.1vh 16px .5vh;
+
+  display:grid;
+  grid-template-columns:43px 1fr;
+
+  column-gap:11px;
+  align-content:start;
+}
+
+.desktop-card-icon{
+  width:39px;
+  height:39px;
+
+  object-fit:contain;
+
+  grid-row:1 / span 2;
+}
+
+.desktop-card h3{
+  margin:1px 0 5px;
+
+  font-family:"Arial Black",Arial,sans-serif;
+  font-style:italic;
+
+  font-size:clamp(14px,1.3vw,19px);
+  line-height:1.02;
+
+  text-transform:uppercase;
+}
+
+.desktop-card h3 .green{
+  color:var(--green);
+}
+
+.desktop-card p{
+  grid-column:2;
+
+  margin:0;
+
+  color:#b5bbbc;
+
+  font-size:10px;
+  line-height:1.3;
+}
+
+.desktop-card-photo{
+  min-height:0;
+  flex:1;
+
+  overflow:hidden;
+
+  border-top:1px solid #202728;
+
+  background:#090b0c;
+}
+
+.desktop-card-photo img{
+  width:100%;
+  height:100%;
+
+  object-fit:cover;
+  object-position:center;
+}
+
+.desktop-card-bottom{
+  height:28px;
+
+  padding:0 12px;
+
+  display:flex;
+  align-items:center;
+
+  gap:7px;
+
+  border-top:1px solid #202728;
+}
+
+.desktop-info-i{
+  width:15px;
+  height:15px;
+
+  border:1px solid #596263;
+  border-radius:50%;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  color:#b4babb;
+
+  font-size:9px;
+  font-weight:900;
+}
+
+.desktop-info{
+  border:0;
+
+  background:transparent;
+  color:#fff;
+
+  font-size:8px;
+  font-weight:900;
+}
+
+.desktop-buy{
+  margin-left:auto;
+
+  min-width:105px;
+  height:23px;
+
+  padding:0 13px;
+
+  border:0;
+  border-radius:13px;
+
+  background:var(--green);
+  color:#071004;
+
+  font-size:8px;
+  font-weight:900;
+}
+
+
+/* =========================================================
+   FOOTER PC - MISMO PESO VISUAL DE INICIO
+   ========================================================= */
+
+.desktop-footer{
+  height:4vh;
+  min-height:30px;
+
+  padding:2px 4.1%;
+
+  border-top:1px solid #262d2e;
+
+  background:#030404;
+
+  display:grid;
+  grid-template-columns:1fr auto;
+
+  gap:20px;
+  align-items:center;
+}
+
+.desktop-footer-left{
+  display:flex;
+  align-items:center;
+  gap:2px;
+}
+
+.desktop-footer-logo{
+  width:75px;
+  height:30px;
+
+  object-fit:contain;
+  object-position:left center;
+}
+
+.desktop-contact{
+  color:var(--green);
+
+  text-decoration:none;
+
+  font-size:8px;
+  font-weight:900;
+}
+
+.desktop-footer-right{
+  text-align:left;
+white-space:nowrap;
+  color:#7d8687;
+
+  font-size:7px;
+  line-height:1.25;
+}
+
+.desktop-footer-right a{
+  color:#a2aaab;
+
+  text-decoration:none;
+
+  margin-left:13px;
+}
+
+
+/* =========================================================
+   TOAST
+   ========================================================= */
+
+.toast{
+  position:fixed;
+
+  z-index:100;
+
+  left:50%;
+  bottom:24px;
+
+  transform:translate(-50%,12px);
+
+  background:#111718;
+  border:1px solid #344043;
+
+  padding:10px 14px;
+
+  border-radius:12px;
+
+  font-size:12px;
+
+  opacity:0;
+  transition:.2s;
+
+  pointer-events:none;
+}
+
+.toast.show{
+  opacity:1;
+  transform:translate(-50%,0);
+}
+
+
+/* =========================================================
+   CAMBIO PC / MOBILE
+   ========================================================= */
+
+@media (min-width:768px){
+
+  .mobile-site{
+    display:none;
+  }
+
+  .desktop-site{
+    display:block;
+  }
+
+}
+
+
+/* FOLD / TELÉFONO ESTRECHO */
+
+@media (max-width:370px){
+
+  .mobile-logo{
+    width:150px;
+  }
+
+  .mobile-platea{
+    padding:0 10px;
+    font-size:10px;
+  }
+
+  .mobile-service h3{
+    font-size:9px;
+  }
+
+  .mobile-service:nth-child(2) h3{
+    font-size:8.9px;
+  }
+
+  .mobile-service:nth-child(3) h3{
+    font-size:8.3px;
+  }
+
+}
+/* ======================================================
+   AJUSTES FINOS PC
+====================================================== */
+
+@media (min-width:768px){
+
+  /* Logo: mismo criterio de Inicio, más chico y con aire arriba */
+  .desktop-logo{
+    width:300px;
+    height:68px;
+    transform:scale(2.20);
+    transform-origin:left center;
+    top:25px;
+  }
+
+  /* Ficha: más angosta y un poco más abajo */
+  .desktop-match{
+    width:52%;
+    top:57%;
+  }
+
+  /* Más aire entre DISPONIBLE y los equipos */
+  .desktop-status{
+    margin-bottom:16px;
+  }
+
+  .desktop-teams{
+    padding-top:6px;
+  }
+
+  /* Contacto más visible */
+  .desktop-contact{
+    font-size:11px;
+  }
+
+  /* Mantener "RESUMEN Y ESTADÍSTICA" en una sola línea */
+  .desktop-card:nth-child(3) h3{
+    font-size:clamp(13px,1.15vw,17px);
+    line-height:1.02;
+  }
+
+}
+</style>
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     MOBILE
+     ========================================================= -->
+
+<div class="mobile-site">
+
+<div class="mobile-wrap">
+
+
+<header class="mobile-header">
+
+<img
+  class="mobile-logo"
+  src="3dcancha logo transparente aut.png"
+  alt="3DCancha"
+>
+
+<div class="mobile-spacer"></div>
+
+<button
+  class="mobile-platea"
+  onclick="toast('MI PLATEA')"
+>
+MI PLATEA
+</button>
+
+<button
+  class="mobile-menu"
+  onclick="toast('Menú')"
+>
+☰
+</button>
+
+</header>
+
+
+<div class="mobile-back">
+
+<a href="index.html">
+‹ VOLVER A INICIO
+</a>
+
+</div>
+
+
+<section class="mobile-match-area">
+
+<h1 class="mobile-match-title">
+<span style="color:#f8f9f9;">FICHA DEL PARTIDO</span> <span style="color:#9fbe18;">SELECCIONADO</span>
+</h1>
+
+
+<div class="mobile-match">
+
+<div class="mobile-status">
+DISPONIBLE
+</div>
+
+
+<div class="mobile-teams">
+
+<div class="mobile-team">
+EQUIPO LOCAL
+</div>
+
+<div class="mobile-vs">
+VS
+</div>
+
+<div class="mobile-team">
+EQUIPO VISITANTE
+</div>
+
+</div>
+
+
+<div class="mobile-meta">
+
+<span>
+Categoría:
+<b>2013</b>
+</span>
+
+<span>
+Cancha:
+<b>Cancha 1</b>
+</span>
+
+<span>
+Fecha:
+<b>Sábado 12/09</b>
+</span>
+
+<span>
+Hora:
+<b>12:00 hs</b>
+</span>
+
+</div>
+
+</div>
+
+</section>
+
+
+<div class="mobile-identity">
+
+<img
+  src="01_cancha_hero.png"
+  alt="Cancha de fútbol"
+>
+
+</div>
+
+
+<div class="mobile-options-title">
+ELEGÍ CÓMO QUERÉS VIVIRLO
+</div>
+
+
+<section class="mobile-services">
+
+
+<article class="mobile-service">
+
+<img src="icono_ver_en_vivo.png" alt="">
+
+<h3>
+VER<br>EN VIVO
+</h3>
+
+<p>
+Mirá el partido desde cualquier lugar.
+</p>
+
+<div class="mobile-action">
+
+<button
+  class="mobile-buy"
+  onclick="comprar('vivo')"
+>
+VER EN VIVO
+</button>
+
+<button
+  class="mobile-info"
+  onclick="toast('Información Ver en vivo')"
+>
+INFO ›
+</button>
+
+</div>
+
+</article>
+
+
+
+<article class="mobile-service">
+
+<img src="icono_bajar.png" alt="">
+
+<h3>
+BAJAR PARTIDO<br>
+Y ESTADÍSTICAS
+</h3>
+
+<p>
+Partido completo junto con sus estadísticas.
+</p>
+
+<div class="mobile-action">
+
+<button
+  class="mobile-buy"
+  onclick="comprar('partido')"
+>
+SELECCIONAR
+</button>
+
+<button
+  class="mobile-info"
+  onclick="toast('Información Partido y estadísticas')"
+>
+INFO ›
+</button>
+
+</div>
+
+</article>
+
+
+
+<article class="mobile-service">
+
+<img src="icono_estadisticas.png" alt="">
+
+<h3>
+RESUMEN Y<br>
+ESTADÍSTICA<br>
+PERSONALIZADO
+</h3>
+
+<p>
+Los mejores momentos de un jugador.
+</p>
+
+<div class="mobile-action">
+
+<button
+  class="mobile-buy"
+  onclick="comprar('resumen')"
+>
+SELECCIONAR
+</button>
+
+<button
+  class="mobile-info"
+  onclick="toast('Información Resumen personalizado')"
+>
+INFO ›
+</button>
+
+</div>
+
+</article>
+
+
+</section>
+
+
+<footer class="mobile-footer">
+
+<div class="mobile-footer-top">
+
+<img
+  class="mobile-footer-logo"
+  src="3dcancha logo transparente aut.png"
+  alt="3DCancha"
+>
+
+<a class="mobile-contact" href="#">
+Contacto
+</a>
+
+</div>
+
+Términos y condiciones · Política de privacidad · © 2026 3DCancha
+
+</footer>
+
+
+</div>
+</div>
+
+
+
+<!-- =========================================================
+     DESKTOP
+     ========================================================= -->
+
+<div class="desktop-site">
+
+<div class="desktop-shell">
+
+
+<header class="desktop-header">
+
+<img
+  class="desktop-logo"
+  src="3dcancha logo transparente aut.png"
+  alt="3DCancha"
+>
+
+<div class="desktop-header-spacer"></div>
+
+<button
+  class="desktop-platea"
+  onclick="toast('MI PLATEA')"
+>
+
+<span class="desktop-person"></span>
+
+MI PLATEA
+
+</button>
+
+</header>
+
+
+
+<!-- ZONA SUPERIOR -->
+
+<section class="desktop-top">
+
+
+<!-- IMAGEN DERECHA -->
+
+<div class="desktop-hero-image">
+
+<img
+  src="01_cancha_hero.png"
+  alt="Cancha de fútbol"
+>
+
+</div>
+
+
+
+<!-- VOLVER -->
+
+<a
+  class="desktop-back"
+  href="index.html"
+>
+‹ VOLVER A INICIO
+</a>
+
+
+
+<!-- FICHA -->
+
+<div class="desktop-match">
+
+
+<h1 class="desktop-match-title">
+<span style="color:#f8f9f9;">FICHA DEL PARTIDO </span><span style="color:#9fbe18;">SELECCIONADO</span>
+</h1>
+
+
+<div class="desktop-status">
+DISPONIBLE
+</div>
+
+
+<div class="desktop-teams">
+
+
+<div class="desktop-team">
+EQUIPO LOCAL
+</div>
+
+
+<div class="desktop-vs">
+VS
+</div>
+
+
+<div class="desktop-team">
+EQUIPO VISITANTE
+</div>
+
+
+</div>
+
+
+<div class="desktop-meta">
+
+
+<span>
+Categoría:
+<b>2013</b>
+</span>
+
+
+<span>
+Cancha:
+<b>Cancha 1</b>
+</span>
+
+
+<span>
+Fecha:
+<b>Sábado 12/09</b>
+</span>
+
+
+<span>
+Hora:
+<b>12:00 hs</b>
+</span>
+
+
+</div>
+
+
+</div>
+
+
+</section>
+
+
+
+<!-- OPCIONES -->
+
+<section class="desktop-options">
+
+
+<h2 class="desktop-options-title">
+ELEGÍ CÓMO QUERÉS VIVIRLO
+</h2>
+
+
+<div class="desktop-services">
+
+
+
+<!-- VER EN VIVO -->
+
+<article class="desktop-card">
+
+
+<div class="desktop-card-top">
+
+
+<img
+  class="desktop-card-icon"
+  src="icono_ver_en_vivo.png"
+  alt=""
+>
+
+
+<h3>
+<span class="green">VER</span><br>
+EN VIVO
+</h3>
+
+
+<p>
+Disfrutá los partidos en vivo desde cualquier dispositivo.
+</p>
+
+
+</div>
+
+
+<div class="desktop-card-photo">
+
+<img
+  src="02_ver_en_vivo.png"
+  alt="Ver en vivo"
+>
+
+</div>
+
+
+<div class="desktop-card-bottom">
+
+<span class="desktop-info-i">
+i
+</span>
+
+<button
+  class="desktop-info"
+  onclick="toast('Información Ver en vivo')"
+>
+INFO
+</button>
+
+<button
+  class="desktop-buy"
+  onclick="comprar('vivo')"
+>
+VER EN VIVO
+</button>
+
+</div>
+
+
+</article>
+
+
+
+<!-- BAJAR PARTIDO -->
+
+<article class="desktop-card">
+
+
+<div class="desktop-card-top">
+
+
+<img
+  class="desktop-card-icon"
+  src="icono_bajar.png"
+  alt=""
+>
+
+
+<h3>
+<span class="green">BAJAR</span>
+PARTIDO<br>
+Y ESTADÍSTICAS
+</h3>
+
+
+<p>
+Comprá y guardá el partido completo junto con sus estadísticas.
+</p>
+
+
+</div>
+
+
+<div class="desktop-card-photo">
+
+<img
+  src="03_bajar_partido.png"
+  alt="Bajar partido y estadísticas"
+>
+
+</div>
+
+
+<div class="desktop-card-bottom">
+
+<span class="desktop-info-i">
+i
+</span>
+
+<button
+  class="desktop-info"
+  onclick="toast('Información Partido y estadísticas')"
+>
+INFO
+</button>
+
+<button
+  class="desktop-buy"
+  onclick="comprar('partido')"
+>
+SELECCIONAR
+</button>
+
+</div>
+
+
+</article>
+
+
+
+<!-- RESUMEN PERSONALIZADO -->
+
+<article class="desktop-card">
+
+
+<div class="desktop-card-top">
+
+
+<img
+  class="desktop-card-icon"
+  src="icono_estadisticas.png"
+  alt=""
+>
+
+
+<h3>
+RESUMEN Y ESTADÍSTICA<br>
+<span class="green">PERSONALIZADO</span>
+</h3>
+
+
+<p>
+Los mejores momentos, resumen y estadística de un jugador.
+</p>
+
+
+</div>
+
+
+<div class="desktop-card-photo">
+
+<img
+  src="04_estadisticas.png"
+  alt="Resumen y estadística personalizada"
+>
+
+</div>
+
+
+<div class="desktop-card-bottom">
+
+<span class="desktop-info-i">
+i
+</span>
+
+<button
+  class="desktop-info"
+  onclick="toast('Información Resumen personalizado')"
+>
+INFO
+</button>
+
+<button
+  class="desktop-buy"
+  onclick="comprar('resumen')"
+>
+SELECCIONAR
+</button>
+
+</div>
+
+
+</article>
+
+
+</div>
+
+</section>
+
+
+
+<!-- FOOTER -->
+
+<footer class="desktop-footer">
+
+
+<div class="desktop-footer-left">
+
+
+<img
+  class="desktop-footer-logo"
+  src="3dcancha logo transparente aut.png"
+  alt="3DCancha"
+>
+
+
+<a
+  class="desktop-contact"
+  href="#"
+>
+Contacto
+</a>
+
+
+</div>
+
+
+<div class="desktop-footer-right">
+
+
+<div style="display:flex; align-items:center; white-space:nowrap;">
+
+<a href="#">
+Términos y condiciones
+</a>
+
+<a href="#">
+Política de privacidad
+</a>
+
+
+
+
+© 2026 3DCancha. Todos los derechos reservados.
+
+
+
+</div>
+
+
+</footer>
+
+
+</div>
+</div>
+
+
+
+<div
+  id="toast"
+  class="toast"
+></div>
+
+
+
+<script>
+
+
+function comprar(producto){
+
+  const url =
+    "seleccion-productos.html" +
+    "?partido=p1" +
+    "&producto=" +
+    encodeURIComponent(producto);
+
+  window.location.href = url;
+
+}
+
+
+
+function toast(texto){
+
+  const t =
+    document.getElementById("toast");
+
+  t.textContent = texto;
+
+  t.classList.add("show");
+
+  clearTimeout(window.toastTimer);
+
+  window.toastTimer =
+    setTimeout(
+      () => t.classList.remove("show"),
+      1400
+    );
+
+}
+
+
+</script>
+
+
+</body>
+</html>
