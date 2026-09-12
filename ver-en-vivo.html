@@ -1290,23 +1290,22 @@ white-space:nowrap;
   color:#aeb4b4;
   font-size:11px;
 }.product-row.selected input[type="checkbox"] {
+    -webkit-appearance: none;
     appearance: none;
     width: 22px;
     height: 22px;
-    background: var(--green);
     border: 2px solid var(--green);
-    border-radius: 3px;
+    border-radius: 4px;
+    background-color: var(--green) !important;
+    opacity: 1 !important;
     position: relative;
 }
 
-.product-row.selected input[type="checkbox"]::after {
-    content: "✓";
-    color: #101515;
-    font-size: 17px;
-    font-weight: 900;
-    position: absolute;
-    left: 3px;
-    top: -2px;
+.product-row.selected input[type="checkbox"]:checked {
+    background-color: var(--green) !important;
+    background-image:
+      linear-gradient(45deg, transparent 45%, #101515 45%, #101515 55%, transparent 55%),
+      linear-gradient(-45deg, transparent 45%, #101515 45%, #101515 55%, transparent 55%);
 }
   
 </style>
