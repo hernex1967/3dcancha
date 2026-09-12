@@ -1290,7 +1290,23 @@ white-space:nowrap;
   color:#aeb4b4;
   font-size:11px;
 }.product-row.selected input[type="checkbox"] {
-    accent-color: var(--green);
+    appearance: none;
+    width: 22px;
+    height: 22px;
+    background: var(--green);
+    border: 2px solid var(--green);
+    border-radius: 3px;
+    position: relative;
+}
+
+.product-row.selected input[type="checkbox"]::after {
+    content: "✓";
+    color: #101515;
+    font-size: 17px;
+    font-weight: 900;
+    position: absolute;
+    left: 3px;
+    top: -2px;
 }
   
 </style>
