@@ -2231,14 +2231,240 @@ document.addEventListener("DOMContentLoaded", function () {
       if (i === 0) {
         check.checked = true;
       }
-
+if (i === 1 && check.checked) {
+  document.getElementById("giftMatchModal").classList.add("open");
+}
       actualizarCompraMobile();
     });
   });
 
   actualizarCompraMobile();
+const giftModal = document.getElementById("giftMatchModal");
+const giftClose = document.querySelector(".gift-modal-close");
+const giftCancel = document.getElementById("giftCancel");
+const giftConfirm = document.getElementById("giftConfirm");
+const giftOptions = document.querySelectorAll(".gift-send-option");
+const giftContactLabel = document.getElementById("giftContactLabel");
+const giftContact = document.getElementById("giftContact");
 
+function cerrarGiftModal(cancelar) {
+  giftModal.classList.remove("open");
+
+  if (cancelar) {
+    mobileChecks[1].checked = false;
+    actualizarCompraMobile();
+  }
+}
+
+giftClose.addEventListener("click", function () {
+  cerrarGiftModal(true);
+});
+
+giftCancel.addEventListener("click", function () {
+  cerrarGiftModal(true);
+});
+
+giftConfirm.addEventListener("click", function () {
+  cerrarGiftModal(false);
+  actualizarCompraMobile();
+});
+
+giftOptions.forEach(function (option) {
+  option.addEventListener("click", function () {
+    giftOptions.forEach(function (item) {
+      item.classList.remove("active");
+    });
+
+    option.classList.add("active");
+
+    if (option.dataset.method === "email") {
+      giftContactLabel.textContent = "Email del destinatario";
+      giftContact.placeholder = "ejemplo@email.com";
+    } else {
+      giftContactLabel.textContent = "Número de WhatsApp del destinatario";
+      giftContact.placeholder = "+54 11 1234 5678";
+    }
+  });
+});
 });
 </script>
+
+  <style>
+.gift-modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  background:rgba(0,0,0,.82);
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+}
+
+.gift-modal.open{
+  display:flex;
+}
+
+.gift-modal-box{
+  position:relative;
+  width:100%;
+  max-width:430px;
+  max-height:90vh;
+  overflow-y:auto;
+  box-sizing:border-box;
+  background:#171b1c;
+  border:2px solid #9fbe18;
+  border-radius:16px;
+  padding:24px 20px 20px;
+  color:#fff;
+  box-shadow:0 10px 40px rgba(0,0,0,.65);
+}
+
+.gift-modal-close{
+  position:absolute;
+  top:10px;
+  right:14px;
+  border:0;
+  background:transparent;
+  color:#fff;
+  font-size:30px;
+  cursor:pointer;
+}
+
+.gift-modal-box h2{
+  margin:0 35px 8px 0;
+  font-size:20px;
+  font-weight:900;
+}
+
+.gift-modal-box h2 span{
+  color:#9fbe18;
+}
+
+.gift-modal-text{
+  margin:0 0 18px;
+  color:#c7cccd;
+  font-size:13px;
+  line-height:1.4;
+}
+
+.gift-modal-box label{
+  display:block;
+  margin:12px 0 6px;
+  font-size:12px;
+  font-weight:700;
+  color:#fff;
+}
+
+.gift-modal-box input,
+.gift-modal-box textarea{
+  width:100%;
+  box-sizing:border-box;
+  border:1px solid #4b545d;
+  border-radius:8px;
+  background:#0b0e0f;
+  color:#fff;
+  padding:11px;
+  font-size:14px;
+}
+
+.gift-modal-box textarea{
+  min-height:75px;
+  resize:none;
+}
+
+.gift-send-options{
+  display:flex;
+  gap:10px;
+}
+
+.gift-send-option{
+  flex:1;
+  padding:10px;
+  border:1px solid #4b545d;
+  border-radius:8px;
+  background:#0b0e0f;
+  color:#fff;
+  font-weight:700;
+}
+
+.gift-send-option.active{
+  border-color:#9fbe18;
+  color:#9fbe18;
+}
+
+.gift-modal-actions{
+  display:flex;
+  gap:10px;
+  margin-top:20px;
+}
+
+#giftCancel,
+#giftConfirm{
+  flex:1;
+  padding:12px 8px;
+  border-radius:8px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+#giftCancel{
+  background:transparent;
+  border:1px solid #697173;
+  color:#fff;
+}
+
+#giftConfirm{
+  background:#9fbe18;
+  border:1px solid #9fbe18;
+  color:#080a08;
+}
+</style>
+<!-- MODAL REGALÁ ESTE PARTIDO -->
+<div id="giftMatchModal" class="gift-modal">
+  <div class="gift-modal-box">
+
+    <button type="button" class="gift-modal-close">&times;</button>
+
+    <h2>🎁 <span>REGALÁ</span> ESTE PARTIDO</h2>
+
+    <p class="gift-modal-text">
+      Completá los datos para enviar el link de acceso
+      a la persona que querés sorprender.
+    </p>
+
+    <label>Tu nombre (quien hace el regalo)</label>
+    <input type="text" id="giftSender" placeholder="Ej: Hernán">
+
+    <label>Nombre del destinatario</label>
+    <input type="text" id="giftRecipient" placeholder="Ej: Lucas">
+
+    <label>¿Cómo querés enviarlo?</label>
+
+    <div class="gift-send-options">
+      <button type="button" class="gift-send-option active" data-method="whatsapp">
+        WhatsApp
+      </button>
+
+      <button type="button" class="gift-send-option" data-method="email">
+        Email
+      </button>
+    </div>
+
+    <label id="giftContactLabel">Número de WhatsApp del destinatario</label>
+    <input type="text" id="giftContact" placeholder="+54 11 1234 5678">
+
+    <label>Mensaje personalizado (opcional)</label>
+    <textarea id="giftMessage" maxlength="200"
+      placeholder="Ej: ¡Disfrutá el partido! ⚽"></textarea>
+
+    <div class="gift-modal-actions">
+      <button type="button" id="giftCancel">CANCELAR</button>
+      <button type="button" id="giftConfirm">CONFIRMAR</button>
+    </div>
+
+  </div>
+</div>
+
 </body>
 </html>
