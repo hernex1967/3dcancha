@@ -1901,12 +1901,14 @@ function toast(texto){
 const giftMatch = document.getElementById("giftMatch");
 const giftStats = document.getElementById("giftStats");
 const extrasCompra = document.getElementById("extrasCompra");
+  const totalCompra = document.querySelector(".summary-total strong");
 
 function actualizarCompra() {
-
+let total = 10000;
   extrasCompra.innerHTML = "";
 
   if (giftMatch && giftMatch.checked) {
+    total += 6000;
     extrasCompra.innerHTML += `
       <div class="summary-item">
         <span>Regalá este partido</span>
@@ -1916,6 +1918,7 @@ function actualizarCompra() {
   }
 
   if (giftStats && giftStats.checked) {
+    total += 8000;
     extrasCompra.innerHTML += `
       <div class="summary-item">
         <span>Regalá resumen + estadísticas</span>
@@ -1923,7 +1926,7 @@ function actualizarCompra() {
       </div>
     `;
   }
-}
+totalCompra.textContent = "$ " + total.toLocaleString("es-AR");}
 
 if (giftMatch) giftMatch.addEventListener("change", actualizarCompra);
 if (giftStats) giftStats.addEventListener("change", actualizarCompra);
