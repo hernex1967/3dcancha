@@ -1897,7 +1897,34 @@ function toast(texto){
 
 
 </script>
+<script>
+const giftMatch = document.getElementById("giftMatch");
+const giftStats = document.getElementById("giftStats");
 
+const summaryPanel = document.querySelector(".summary-panel");
+
+function actualizarCompra() {
+    const itemsViejos = summaryPanel.querySelectorAll(".extra-summary-item");
+    itemsViejos.forEach(item => item.remove());
+
+    if (giftMatch && giftMatch.checked) {
+        const item = document.createElement("div");
+        item.className = "summary-item extra-summary-item";
+        item.innerHTML = "<span>Regalá este partido</span><strong>$ 6.000</strong>";
+        summaryPanel.appendChild(item);
+    }
+
+    if (giftStats && giftStats.checked) {
+        const item = document.createElement("div");
+        item.className = "summary-item extra-summary-item";
+        item.innerHTML = "<span>Regalá resumen + estadísticas</span><strong>$ 8.000</strong>";
+        summaryPanel.appendChild(item);
+    }
+}
+
+if (giftMatch) giftMatch.addEventListener("change", actualizarCompra);
+if (giftStats) giftStats.addEventListener("change", actualizarCompra);
+</script>
 
 </body>
 </html>
