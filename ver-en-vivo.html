@@ -2164,6 +2164,74 @@ totalCompra.textContent = "$ " + total.toLocaleString("es-AR");}
 if (giftMatch) giftMatch.addEventListener("change", actualizarCompra);
 if (giftStats) giftStats.addEventListener("change", actualizarCompra);
 </script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
 
+  const mobileChecks = document.querySelectorAll(
+    ".mobile-product-row input[type='checkbox']"
+  );
+
+  const mobileResumen = document.querySelector(".mobile-summary-items");
+  const mobileTotal = document.querySelector(
+    ".mobile-total strong:last-child"
+  );
+
+  if (mobileChecks.length < 3 || !mobileResumen || !mobileTotal) return;
+
+  const precios = [10000, 6000, 8000];
+
+  const nombres = [
+    "VER PARTIDO EN VIVO",
+    "REGALÁ ESTE PARTIDO",
+    "REGALÁ RESUMEN + ESTADÍSTICAS"
+  ];
+
+  function actualizarCompraMobile() {
+
+    mobileChecks[0].checked = true;
+
+    let total = 0;
+    let html = "";
+
+    mobileChecks.forEach((check, i) => {
+      if (check.checked) {
+
+        total += precios[i];
+
+        html += `
+          <div style="
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            gap:8px;
+            padding:3px 0;
+          ">
+            <span>${nombres[i]}</span>
+            <strong>$ ${precios[i].toLocaleString("es-AR")}</strong>
+          </div>
+        `;
+      }
+    });
+
+    mobileResumen.innerHTML = html;
+    mobileTotal.textContent =
+      "$ " + total.toLocaleString("es-AR");
+  }
+
+  mobileChecks.forEach((check, i) => {
+    check.addEventListener("change", function () {
+
+      if (i === 0) {
+        check.checked = true;
+      }
+
+      actualizarCompraMobile();
+    });
+  });
+
+  actualizarCompraMobile();
+
+});
+</script>
 </body>
 </html>
