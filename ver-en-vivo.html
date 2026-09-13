@@ -1773,7 +1773,7 @@ Hora:
         <span>Ver partido en vivo</span>
         <strong>$ 10.000</strong>
       </div>
-
+<div id="extrasCompra"></div>
       <div class="summary-total">
         <span>TOTAL</span>
         <strong>$ 10.000</strong>
@@ -1900,26 +1900,29 @@ function toast(texto){
 <script>
 const giftMatch = document.getElementById("giftMatch");
 const giftStats = document.getElementById("giftStats");
-
-const summaryPanel = document.querySelector(".summary-panel");
+const extrasCompra = document.getElementById("extrasCompra");
 
 function actualizarCompra() {
-    const itemsViejos = summaryPanel.querySelectorAll(".extra-summary-item");
-    itemsViejos.forEach(item => item.remove());
 
-    if (giftMatch && giftMatch.checked) {
-        const item = document.createElement("div");
-        item.className = "summary-item extra-summary-item";
-        item.innerHTML = "<span>Regalá este partido</span><strong>$ 6.000</strong>";
-        summaryPanel.appendChild(item);
-    }
+  extrasCompra.innerHTML = "";
 
-    if (giftStats && giftStats.checked) {
-        const item = document.createElement("div");
-        item.className = "summary-item extra-summary-item";
-        item.innerHTML = "<span>Regalá resumen + estadísticas</span><strong>$ 8.000</strong>";
-        summaryPanel.appendChild(item);
-    }
+  if (giftMatch && giftMatch.checked) {
+    extrasCompra.innerHTML += `
+      <div class="summary-item">
+        <span>Regalá este partido</span>
+        <strong>$ 6.000</strong>
+      </div>
+    `;
+  }
+
+  if (giftStats && giftStats.checked) {
+    extrasCompra.innerHTML += `
+      <div class="summary-item">
+        <span>Regalá resumen + estadísticas</span>
+        <strong>$ 8.000</strong>
+      </div>
+    `;
+  }
 }
 
 if (giftMatch) giftMatch.addEventListener("change", actualizarCompra);
