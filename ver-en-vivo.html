@@ -1412,6 +1412,60 @@ white-space:nowrap;
   color:#c4c4c4;
   font-size:10px;
 }
+  /* ===== AJUSTE FINAL COMPRA MOBILE ===== */
+
+@media (max-width: 767px){
+
+  /* Sacar imagen de la pelota solamente en esta pantalla móvil */
+  .mobile-hero,
+  .mobile-match-image,
+  .mobile-image,
+  .mobile-photo{
+    display:none !important;
+  }
+
+  /* Reducir espacio que queda donde estaba la imagen */
+  .mobile-checkout{
+    margin-top:10px !important;
+  }
+
+  /* Panel SELECCIONÁ PRODUCTOS */
+  .mobile-products-panel{
+    background:#4b545d !important;
+    border:2px solid var(--green) !important;
+    border-radius:14px !important;
+    padding:14px !important;
+    margin-bottom:14px !important;
+  }
+
+  /* Panel TU COMPRA */
+  .mobile-summary-panel{
+    background:#4b545d !important;
+    border:4px solid var(--green) !important;
+    border-radius:14px !important;
+    padding:14px !important;
+    margin-bottom:14px !important;
+  }
+
+  /* Tarjetas internas */
+  .mobile-product-row{
+    background:#252a2e !important;
+    border-radius:12px !important;
+  }
+
+  /* Títulos */
+  .mobile-products-panel h3,
+  .mobile-summary-panel h3{
+    color:#fff !important;
+    font-weight:900 !important;
+  }
+
+  /* Botón de pago un poco más compacto */
+  .mobile-summary-panel button{
+    padding:11px 6px !important;
+    font-weight:900 !important;
+  }
+}
 </style>
 </head>
 
