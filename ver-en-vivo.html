@@ -2265,6 +2265,15 @@ giftCancel.addEventListener("click", function () {
 });
 
 giftConfirm.addEventListener("click", function () {
+  const sender = document.getElementById("giftSender").value.trim();
+  const recipient = document.getElementById("giftRecipient").value.trim();
+  const contact = document.getElementById("giftContact").value.trim();
+
+  if (!sender || !recipient || !contact) {
+    alert("Completá tu nombre, el nombre del destinatario y el dato de envío.");
+    return;
+  }
+
   cerrarGiftModal(false);
   actualizarCompraMobile();
 });
