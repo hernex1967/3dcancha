@@ -2557,6 +2557,17 @@ statsCancel.addEventListener("click", function () {
 });
 
 statsConfirm.addEventListener("click", function () {
+    const recipient = document.getElementById("statsRecipient").value.trim();
+    const player = document.getElementById("statsPlayerName").value.trim();
+    const team = document.getElementById("statsTeam").value.trim();
+    const number = document.getElementById("statsNumber").value.trim();
+    const contact = document.getElementById("statsContact").value.trim();
+
+    if (!recipient || !player || !team || !number || !contact) {
+        alert("Completá todos los datos obligatorios antes de confirmar.");
+        return;
+    }
+
     statsModal.classList.remove("open");
     actualizarCompraMobile();
 });
