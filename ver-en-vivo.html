@@ -2605,11 +2605,27 @@ statsConfirm.addEventListener("click", function () {
     const team = document.getElementById("statsTeam").value.trim();
     const number = document.getElementById("statsNumber").value.trim();
     const contact = document.getElementById("statsContact").value.trim();
+  const activeMethod = document.querySelector(".stats-send-option.active")?.dataset.method;
+const statsContactInput = document.getElementById("statsContact");
 
     if (!recipient || !player || !team || !number || !contact) {
    document.getElementById("statsError").style.display = "block";
         return;
     }
+  if (activeMethod === "email") {
+    const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact);
+
+    if (!emailValido) {
+        statsContactInput.style.borderColor = "#ff4d4d";
+        document.getElementById("statsError").textContent = "⚠ Ingresá un email válido.";
+        document.getElementById("statsError").style.display = "block";
+        return;
+    }
+}
+
+statsContactInput.style.borderColor = "";
+document.getElementById("statsError").textContent =
+    "⚠ Completá los datos obligatorios.";
 document.getElementById("statsError").style.display = "none";
     statsModal.classList.remove("open");
     actualizarCompraMobile();
