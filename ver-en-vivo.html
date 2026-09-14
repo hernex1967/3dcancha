@@ -2249,7 +2249,41 @@ let total = 10000;
       </div>
     `;
   }
-totalCompra.textContent = "$ " + total.toLocaleString("es-AR");}
+totalCompra.textContent = "$ " + total.toLocaleString("es-AR");
+
+const paymentItems = document.getElementById("paymentSuccessItems");
+const paymentTotal = document.getElementById("paymentSuccessTotal");
+
+if (paymentItems && paymentTotal) {
+  let detalle = `
+    <div class="payment-success-item">
+      <span>VER EN VIVO</span>
+      <strong>$ 10.000</strong>
+    </div>
+  `;
+
+  if (giftMatch && giftMatch.checked) {
+    detalle += `
+      <div class="payment-success-item">
+        <span>REGALÁ ESTE PARTIDO</span>
+        <strong>$ 6.000</strong>
+      </div>
+    `;
+  }
+
+  if (giftStats && giftStats.checked) {
+    detalle += `
+      <div class="payment-success-item">
+        <span>REGALÁ RESUMEN Y ESTADÍSTICAS</span>
+        <strong>$ 8.000</strong>
+      </div>
+    `;
+  }
+
+  paymentItems.innerHTML = detalle;
+  paymentTotal.textContent = "$ " + total.toLocaleString("es-AR");
+}
+}
 
 if (giftMatch) {
   giftMatch.addEventListener("change", function () {
