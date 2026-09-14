@@ -1641,9 +1641,29 @@ white-space:nowrap;
   margin-left: auto;
   text-align: right;
 }
-  #paymentSuccessTotal {
-    display: block;
-    text-align: right;
+ .payment-success-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  padding-top: 8px;
+  color: #9fbe18;
+  font-size: 19px;
+  font-weight: 900;
+}
+
+.payment-success-total span {
+  color: #9fbe18;
+  font-weight: 900;
+}
+
+#paymentSuccessTotal {
+  display: inline;
+  margin-left: auto;
+  color: #9fbe18;
+  font-size: 21px;
+  font-weight: 900;
+  text-align: right;
 }
 .payment-success-box h2{
   margin:0 0 8px;
