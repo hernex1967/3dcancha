@@ -2871,14 +2871,14 @@ window.addEventListener("load", function () {
   actualizarCompra();
 
   const checkoutButton = document.getElementById("checkoutButton");
-  const paymentSuccessModal = document.getElementById("paymentSuccessModal");
+const paymentSuccessModal = document.getElementById("paymentSuccessModal");
 
-  if (checkoutButton && paymentSuccessModal) {
-    checkoutButton.addEventListener("click", function () {
-      actualizarCompra();
-      paymentSuccessModal.classList.add("open");
-    });
-  }
+if (checkoutButton && paymentSuccessModal) {
+  checkoutButton.addEventListener("click", function () {
+    actualizarCompra();
+    paymentSuccessModal.classList.add("open");
+  });
+}
 });
 </script>
   <script>
