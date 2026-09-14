@@ -2549,6 +2549,7 @@ giftOptions.forEach(function (option) {
 const statsModal = document.getElementById("giftStatsModal");
 const statsCancel = document.getElementById("statsCancel");
 const statsConfirm = document.getElementById("statsConfirm");
+    const statsClose = statsModal.querySelector(".gift-modal-close");
 document.querySelectorAll(".stats-send-option").forEach(function (btn) {
   btn.addEventListener("click", function () {
     document.querySelectorAll(".stats-send-option").forEach(function (b) {
@@ -2577,7 +2578,11 @@ statsCancel.addEventListener("click", function () {
     mobileChecks[2].checked = false;
     actualizarCompraMobile();
 });
-
+statsClose.addEventListener("click", function () {
+    statsModal.classList.remove("open");
+    mobileChecks[2].checked = false;
+    actualizarCompraMobile();
+});
 statsConfirm.addEventListener("click", function () {
     const recipient = document.getElementById("statsRecipient").value.trim();
     const player = document.getElementById("statsPlayerName").value.trim();
