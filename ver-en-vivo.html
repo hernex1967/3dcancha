@@ -2176,6 +2176,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const mobileChecks = document.querySelectorAll(
     ".mobile-product-row input[type='checkbox']"
+    mobileChecks[2].dispatchEvent(new Event("change"));
   );
 
   const mobileResumen = document.querySelector(".mobile-summary-items");
@@ -2576,11 +2577,13 @@ document.querySelectorAll(".stats-send-option").forEach(function (btn) {
 statsCancel.addEventListener("click", function () {
     statsModal.classList.remove("open");
     mobileChecks[2].checked = false;
+  mobileChecks[2].dispatchEvent(new Event("change"));
     actualizarCompraMobile();
 });
 statsClose.addEventListener("click", function () {
     statsModal.classList.remove("open");
     mobileChecks[2].checked = false;
+  mobileChecks[2].dispatchEvent(new Event("change"));
     actualizarCompraMobile();
 });
 statsConfirm.addEventListener("click", function () {
