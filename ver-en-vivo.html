@@ -1602,6 +1602,89 @@ white-space:nowrap;
     line-height:1 !important;
 }
 }
+  /* ===== MODAL CONFIRMACIÓN DE COMPRA ===== */
+
+.payment-success-modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.72);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:9999;
+  padding:20px;
+}
+
+.payment-success-modal.open{
+  display:flex;
+}
+
+.payment-success-box{
+  width:min(520px,92vw);
+  max-height:88vh;
+  overflow-y:auto;
+  background:#171b1e;
+  border:1px solid #9fbe18;
+  border-radius:14px;
+  padding:24px;
+  color:#fff;
+  font-family:Arial,Helvetica,sans-serif;
+  box-shadow:0 18px 55px rgba(0,0,0,.65);
+}
+
+.payment-success-box h2{
+  margin:0 0 8px;
+  color:#9fbe18;
+  font-size:22px;
+  font-weight:800;
+}
+
+.payment-success-box p{
+  margin:6px 0;
+  line-height:1.4;
+}
+
+.payment-success-detail{
+  margin:18px 0;
+  padding:14px;
+  background:#22282d;
+  border-radius:9px;
+}
+
+.payment-success-code{
+  text-align:center;
+  margin:18px 0;
+  padding:15px;
+  border:1px solid #9fbe18;
+  border-radius:9px;
+}
+
+.payment-success-code-title{
+  color:#9fbe18;
+  font-size:13px;
+  font-weight:700;
+  margin-bottom:6px;
+}
+
+#reentryCode{
+  display:block;
+  font-size:34px;
+  letter-spacing:8px;
+  color:#fff;
+  margin:6px 0 10px;
+}
+
+#watchMatchButton{
+  width:100%;
+  border:0;
+  border-radius:8px;
+  padding:13px;
+  background:#9fbe18;
+  color:#111;
+  font-weight:800;
+  font-size:15px;
+  cursor:pointer;
+}
 </style>
 </head>
 
@@ -2581,6 +2664,58 @@ giftOptions.forEach(function (option) {
       <button type="button" id="statsCancel">CANCELAR</button>
       <button type="button" id="statsConfirm">CONFIRMAR</button>
     </div>
+
+  </div>
+</div>
+
+  <!-- MODAL PAGO APROBADO -->
+<div id="paymentSuccessModal" class="payment-success-modal">
+  <div class="payment-success-box">
+
+    <div class="payment-success-icon">✓</div>
+
+    <h2>
+      PAGO <span>APROBADO</span>
+    </h2>
+
+    <p class="payment-success-text">
+      Tu compra fue confirmada correctamente.
+    </p>
+
+    <div class="payment-success-divider"></div>
+
+    <h3>DETALLE DE TU COMPRA</h3>
+
+    <div id="paymentSuccessItems">
+      <!-- Acá aparecerán automáticamente los productos comprados -->
+    </div>
+
+    <div class="payment-success-total">
+      <span>TOTAL</span>
+      <strong id="paymentSuccessTotal">$ 0</strong>
+    </div>
+
+    <div id="paymentSuccessGifts">
+      <!-- Si compró regalos, acá mostraremos destinatario y medio de envío -->
+    </div>
+
+    <div class="payment-success-code">
+      <div class="payment-success-code-title">
+        CÓDIGO DE REINGRESO
+      </div>
+
+      <strong id="reentryCode">472</strong>
+
+      <p>
+        <b>Guardá este código.</b><br>
+        Te permitirá volver a ingresar a tu compra durante
+        <b>1 hora y 20 minutos</b> (80 minutos).
+      </p>
+    </div>
+
+    <button type="button" id="watchMatchButton">
+      ▶ VER PARTIDO
+    </button>
 
   </div>
 </div>
