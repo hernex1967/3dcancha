@@ -2234,6 +2234,9 @@ document.addEventListener("DOMContentLoaded", function () {
 if (i === 1 && check.checked) {
   document.getElementById("giftMatchModal").classList.add("open");
 }
+   if (i === 2 && check.checked) {
+  document.getElementById("giftStatsModal").classList.add("open");
+}
       actualizarCompraMobile();
     });
   });
@@ -2475,6 +2478,88 @@ giftOptions.forEach(function (option) {
 
   </div>
 </div>
+<!-- MODAL REGALÁ RESUMEN + ESTADÍSTICAS -->
+<div id="giftStatsModal" class="gift-modal">
+  <div class="gift-modal-box">
 
+    <button type="button" class="gift-stats-close gift-modal-close">&times;</button>
+
+    <h2>
+      <img src="icono_estadisticas.png" alt="" style="width:32px;height:32px;object-fit:contain;vertical-align:middle;margin-right:8px;">
+      <span>REGALÁ</span> RESUMEN + ESTADÍSTICAS
+    </h2>
+
+    <p class="gift-modal-text">
+      Completá los datos del jugador y del destinatario.
+    </p>
+
+    <label>Tu nombre (quien hace el regalo)</label>
+    <input type="text" id="statsSender" placeholder="Ej: Hernán">
+
+    <label>Nombre del destinatario</label>
+    <input type="text" id="statsRecipient" placeholder="Ej: Lucas">
+
+    <label>Nombre del jugador</label>
+    <input type="text" id="statsPlayerName" placeholder="Ej: Tomás">
+
+    <label>Equipo</label>
+    <input type="text" id="statsTeam" placeholder="Ej: River Plate">
+
+    <label>Nº de camiseta</label>
+    <input type="text" id="statsNumber" placeholder="Ej: 10">
+
+    <label>Apodo (opcional)</label>
+    <input type="text" id="statsNickname" placeholder="Ej: Toto">
+
+    <label>¿Cómo querés enviarlo?</label>
+
+    <div class="gift-send-options stats-send-options">
+      <button type="button" class="gift-send-option stats-send-option active" data-method="whatsapp">
+        WhatsApp
+      </button>
+
+      <button type="button" class="gift-send-option stats-send-option" data-method="email">
+        Email
+      </button>
+    </div>
+
+    <label id="statsContactLabel">Número de WhatsApp del destinatario</label>
+    <input type="text" id="statsContact" placeholder="+54 11 1234 5678">
+
+    <label>Mensaje personalizado (opcional)</label>
+    <textarea id="statsMessage" maxlength="200"
+      placeholder="Ej: ¡Disfrutá tu resumen! ⚽"></textarea>
+
+    <div style="margin-top:12px;color:#9fbe18;font-size:13px;font-weight:700;">
+      ⏱ Disponible dentro de las 72 hs posteriores al partido.
+    </div>
+
+    <div id="statsError" style="display:none;color:#9fbe18;font-weight:700;margin-top:12px;">
+      ⚠ Completá los datos obligatorios.
+    </div>
+
+    <div class="gift-modal-actions">
+      <button type="button" id="statsCancel">CANCELAR</button>
+      <button type="button" id="statsConfirm">CONFIRMAR</button>
+    </div>
+
+  </div>
+</div>
+  <script>
+const statsModal = document.getElementById("giftStatsModal");
+const statsCancel = document.getElementById("statsCancel");
+const statsConfirm = document.getElementById("statsConfirm");
+
+statsCancel.addEventListener("click", function () {
+    statsModal.classList.remove("open");
+    mobileChecks[2].checked = false;
+    actualizarCompraMobile();
+});
+
+statsConfirm.addEventListener("click", function () {
+    statsModal.classList.remove("open");
+    actualizarCompraMobile();
+});
+</script>
 </body>
 </html>
