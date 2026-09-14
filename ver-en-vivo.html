@@ -2549,7 +2549,29 @@ giftOptions.forEach(function (option) {
 const statsModal = document.getElementById("giftStatsModal");
 const statsCancel = document.getElementById("statsCancel");
 const statsConfirm = document.getElementById("statsConfirm");
+document.querySelectorAll(".stats-send-option").forEach(function (btn) {
+  btn.addEventListener("click", function () {
+    document.querySelectorAll(".stats-send-option").forEach(function (b) {
+      b.classList.remove("active");
+    });
 
+    btn.classList.add("active");
+
+    const method = btn.dataset.method;
+    const label = document.getElementById("statsContactLabel");
+    const input = document.getElementById("statsContact");
+
+    if (method === "email") {
+      label.textContent = "Email del destinatario";
+      input.placeholder = "Ej: nombre@email.com";
+      input.type = "email";
+    } else {
+      label.textContent = "Número de WhatsApp del destinatario";
+      input.placeholder = "+54 11 1234 5678";
+      input.type = "text";
+    }
+  });
+});
 statsCancel.addEventListener("click", function () {
     statsModal.classList.remove("open");
     mobileChecks[2].checked = false;
