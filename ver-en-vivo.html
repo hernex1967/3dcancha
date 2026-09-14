@@ -2564,10 +2564,10 @@ statsConfirm.addEventListener("click", function () {
     const contact = document.getElementById("statsContact").value.trim();
 
     if (!recipient || !player || !team || !number || !contact) {
-        alert("Completá todos los datos obligatorios antes de confirmar.");
+   document.getElementById("statsError").style.display = "block";
         return;
     }
-
+document.getElementById("statsError").style.display = "none";
     statsModal.classList.remove("open");
     actualizarCompraMobile();
 });
