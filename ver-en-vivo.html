@@ -2870,15 +2870,19 @@ giftOptions.forEach(function (option) {
 window.addEventListener("load", function () {
   actualizarCompra();
 
-  const checkoutButton = document.getElementById("checkoutButton");
-const paymentSuccessModal = document.getElementById("paymentSuccessModal");
+  const checkoutButtons = document.querySelectorAll(
+  ".checkout-button, .mobile-continue"
+);
 
-if (checkoutButton && paymentSuccessModal) {
-  checkoutButton.addEventListener("click", function () {
+const paymentSuccessModal =
+  document.getElementById("paymentSuccessModal");
+
+checkoutButtons.forEach(function (button) {
+  button.addEventListener("click", function () {
     actualizarCompra();
     paymentSuccessModal.classList.add("open");
   });
-}
+});
 });
 </script>
   <script>
