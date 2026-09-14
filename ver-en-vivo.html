@@ -2575,8 +2575,9 @@ document.querySelectorAll(".stats-send-option").forEach(function (btn) {
 });
 statsCancel.addEventListener("click", function () {
     statsModal.classList.remove("open");
-    mobileChecks[2].checked = false;
-    actualizarCompraMobile();
+   const statsCheck = document.querySelectorAll(".mobile-product-row input[type='checkbox']")[2];
+statsCheck.checked = false;
+statsCheck.dispatchEvent(new Event("change"));
 });
 statsClose.addEventListener("click", function () {
     statsModal.classList.remove("open");
