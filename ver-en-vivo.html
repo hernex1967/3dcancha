@@ -2177,7 +2177,15 @@ if (giftMatch) {
     }
   });
 }
-if (giftStats) giftStats.addEventListener("change", actualizarCompra);
+if (giftStats) {
+    giftStats.addEventListener("change", function () {
+        actualizarCompra();
+
+        if (giftStats.checked) {
+       document.getElementById("giftStatsModal").classList.add("open");
+        }
+    });
+}
 </script>
 <script>
 document.addEventListener("DOMContentLoaded", function () {
