@@ -2270,7 +2270,7 @@ giftConfirm.addEventListener("click", function () {
   const contact = document.getElementById("giftContact").value.trim();
 
   if (!sender || !recipient || !contact) {
-    alert("Completá tu nombre, el nombre del destinatario y el dato de envío.");
+  document.getElementById("giftError").style.display = "block";
     return;
   }
 
@@ -2466,7 +2466,9 @@ giftOptions.forEach(function (option) {
     <label>Mensaje personalizado (opcional)</label>
     <textarea id="giftMessage" maxlength="200"
       placeholder="Ej: ¡Disfrutá el partido! ⚽"></textarea>
-
+<div id="giftError" style="display:none; color:#9fbe18; font-weight:700; margin-top:12px;">
+  ⚠ Completá tu nombre, el nombre del destinatario y el dato de envío.
+</div>
     <div class="gift-modal-actions">
       <button type="button" id="giftCancel">CANCELAR</button>
       <button type="button" id="giftConfirm">CONFIRMAR</button>
