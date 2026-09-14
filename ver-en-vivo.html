@@ -2168,7 +2168,15 @@ let total = 10000;
   }
 totalCompra.textContent = "$ " + total.toLocaleString("es-AR");}
 
-if (giftMatch) giftMatch.addEventListener("change", actualizarCompra);
+if (giftMatch) {
+  giftMatch.addEventListener("change", function () {
+    actualizarCompra();
+
+    if (giftMatch.checked) {
+      document.getElementById("giftMatchModal").classList.add("open");
+    }
+  });
+}
 if (giftStats) giftStats.addEventListener("change", actualizarCompra);
 </script>
 <script>
