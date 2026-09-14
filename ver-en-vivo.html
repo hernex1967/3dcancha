@@ -2623,6 +2623,8 @@ statsClose.addEventListener("click", function () {
    const statsCheck = document.querySelectorAll(".mobile-product-row input[type='checkbox']")[2];
 statsCheck.checked = false;
 statsCheck.dispatchEvent(new Event("change"));
+  giftStats.checked = false;
+actualizarCompra();
 });
 statsConfirm.addEventListener("click", function () {
     const recipient = document.getElementById("statsRecipient").value.trim();
