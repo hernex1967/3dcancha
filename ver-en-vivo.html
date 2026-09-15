@@ -2540,7 +2540,9 @@ giftContactInput.style.borderColor = "";
 document.getElementById("giftError").textContent =
     "⚠ Completá tu nombre, el nombre del destinatario y el dato de contacto.";
   cerrarGiftModal(false);
+  giftMatch.checked = true;
   actualizarCompraMobile();
+  actualizarCompra();
 });
 
 giftOptions.forEach(function (option) {
