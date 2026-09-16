@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#030404">
+  <title>3DCancha — Reproductor</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Michroma&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#030404;
+      --panel:#0b0e0f;
+      --green:#9fbe18;
+      --text:#f8f9f9;
+      --muted:#9ca3a4;
+      --line:#30383a;
+      --red:#ef3f3f;
+    }
+
+    *{box-sizing:border-box}
+
+    html,body{
+      margin:0;
+      min-height:100%;
+      background:#000;
+      color:var(--text);
+      font-family:Arial,Helvetica,sans-serif;
+    }
+
+    body{min-height:100vh}
+    img{display:block;max-width:100%}
+    button{font:inherit;cursor:pointer}
+
+    .page{
+      width:min(100%,1440px);
+      min-height:100vh;
+      margin:0 auto;
+      background:var(--bg);
+      display:flex;
+      flex-direction:column;
+    }
+
+    /* CABECERA */
+    .header{
+      min-height:82px;
+      padding:8px 4.1%;
+      display:flex;
+      align-items:center;
+      gap:16px;
+      border-bottom:1px solid rgba(255,255,255,.05);
+      position:relative;
+      z-index:5;
+    }
+
+    .header-logo{
+      width:300px;
+      height:68px;
+      object-fit:contain;
+      object-position:left center;
+      transform:scale(2.2);
+      transform-origin:left center;
+      position:relative;
+      top:14px;
+      pointer-events:none;
+    }
+
+    .header-spacer{flex:1}
+
+    .platea{
+      height:34px;
+      padding:0 18px;
+      border:1.5px solid var(--green);
+      border-radius:24px;
+      background:#080a0a;
+      color:#fff;
+      font-size:11px;
+      font-weight:900;
+      letter-spacing:.05em;
+      display:flex;
+      align-items:center;
+      gap:9px;
+    }
+
+    .person{
+      width:15px;
+      height:15px;
+      border:2px solid var(--green);
+      border-radius:50%;
+      position:relative;
+    }
+
+    .person::after{
+      content:"";
+      position:absolute;
+      width:18px;
+      height:8px;
+      left:50%;
+      top:12px;
+      transform:translateX(-50%);
+      border:2px solid var(--green);
+      border-top:0;
+      border-radius:0 0 12px 12px;
+    }
+
+    /* CONTENIDO */
+    main{
+      flex:1;
+      min-height:0;
+      padding:14px 5.4% 18px;
+    }
+
+    .back{
+      position:absolute;
+      left:0;
+      top:50%;
+      transform:translateY(-50%);
+      color:var(--green);
+      text-decoration:none;
+      font-size:15px;
+      font-weight:900;
+      letter-spacing:.025em;
+      white-space:nowrap;
+    }
+
+    .player-stage{
+      position:relative;
+      width:100%;
+      margin-bottom:14px;
+    }
+
+    /* REPRODUCTOR */
+    .player{
+      width:min(70%,calc((100vh - 320px) * 16 / 9));
+      margin:0 auto;
+    }
+
+    .player-screen{
+      position:relative;
+      width:100%;
+      aspect-ratio:16/9;
+      overflow:hidden;
+      background:#050505;
+      border:2px solid var(--green);
+      box-shadow:0 12px 35px rgba(0,0,0,.45);
+    }
+
+    .player-screen video{
+      width:100%;
+      height:100%;
+      display:block;
+      object-fit:cover;
+      background:#050505;
+    }
+
+    .player-placeholder{
+      position:absolute;
+      inset:0;
+      display:grid;
+      place-items:center;
+      color:#72797a;
+      font-size:13px;
+      letter-spacing:.08em;
+      pointer-events:none;
+    }
+
+    .watermark{
+      position:absolute;
+      right:15px;
+      bottom:52px;
+      width:115px;
+      height:auto;
+      z-index:3;
+      pointer-events:none;
+      filter:drop-shadow(0 2px 5px rgba(0,0,0,.85));
+    }
+
+    .controls{
+      position:absolute;
+      left:0;
+      right:0;
+      bottom:0;
+      height:42px;
+      padding:0 14px;
+      display:flex;
+      align-items:center;
+      gap:15px;
+      background:rgba(0,0,0,.84);
+      z-index:4;
+    }
+
+    .live{
+      display:flex;
+      align-items:center;
+      gap:6px;
+      color:#fff;
+      font-size:11px;
+      font-weight:900;
+    }
+
+    .live-dot{
+      width:8px;
+      height:8px;
+      border-radius:50%;
+      background:var(--red);
+      box-shadow:0 0 8px rgba(239,63,63,.7);
+    }
+
+    .control-button{
+      width:25px;
+      height:30px;
+      padding:0;
+      border:0;
+      background:transparent;
+      color:#fff;
+      display:grid;
+      place-items:center;
+      font-size:17px;
+    }
+
+    .fullscreen{margin-left:auto}
+
+    /* FICHA */
+    .match-card{
+      width:70%;
+      margin:0 auto;
+      padding:13px 30px 11px;
+      border:1px solid #343c3e;
+      border-radius:14px;
+      background:rgba(7,11,12,.96);
+    }
+
+    .match-title{
+      margin:0 0 5px;
+      text-align:center;
+      font-family:Michroma,"Arial Black",Arial,sans-serif;
+      font-size:clamp(17px,1.6vw,23px);
+      line-height:1.2;
+      font-weight:900;
+      text-transform:uppercase;
+    }
+
+    .match-title .green{color:var(--green)}
+
+    .status{
+      margin:0 0 7px;
+      text-align:center;
+      color:var(--red);
+      font-size:10px;
+      font-weight:900;
+      letter-spacing:.03em;
+    }
+
+    .status::before{
+      content:"";
+      display:inline-block;
+      width:7px;
+      height:7px;
+      margin-right:7px;
+      border-radius:50%;
+      background:var(--red);
+    }
+
+    .teams{
+      display:grid;
+      grid-template-columns:1fr 72px 1fr;
+      align-items:center;
+      padding:3px 0 9px;
+      text-align:center;
+    }
+
+    .team,
+    .versus{
+      font-family:Michroma,"Arial Black",Arial,sans-serif;
+      font-weight:900;
+      text-transform:uppercase;
+    }
+
+    .team{font-size:clamp(14px,1.35vw,20px)}
+    .versus{color:var(--green);font-size:clamp(17px,1.6vw,23px)}
+
+    .meta{
+      padding-top:8px;
+      border-top:1px solid var(--line);
+      display:flex;
+      justify-content:center;
+      flex-wrap:wrap;
+      gap:7px 22px;
+      color:var(--muted);
+      font-size:13px;
+    }
+
+    .meta b{color:#fff}
+
+    /* OFERTA DE REGALOS: se muestra únicamente en mobile */
+    .mobile-gifts{display:none}
+
+    /* OFERTA DE REGALOS PC */
+    .desktop-gifts{
+      position:absolute;
+      right:0;
+      top:50%;
+      width:15%;
+      transform:translateY(-50%);
+      display:flex;
+      flex-direction:column;
+      align-items:stretch;
+      gap:9px;
+    }
+
+    .desktop-gifts-title{
+      margin:0 0 2px;
+      color:#fff;
+      font-family:Michroma,"Arial Black",Arial,sans-serif;
+      font-size:clamp(8px,.7vw,10px);
+      line-height:1.45;
+      text-align:center;
+      text-transform:uppercase;
+    }
+
+    .desktop-gifts-title span{color:var(--green)}
+
+    .desktop-gift-button{
+      width:100%;
+      min-height:38px;
+      padding:7px 8px;
+      border:1.5px solid var(--green);
+      border-radius:20px;
+      background:#090c0d;
+      color:var(--green);
+      font-size:clamp(7px,.62vw,9px);
+      line-height:1.25;
+      font-weight:900;
+      text-transform:uppercase;
+    }
+
+    .desktop-gift-button:hover{
+      background:var(--green);
+      color:#071004;
+    }
+
+    /* MODAL: REGALÁ ESTE PARTIDO */
+    .gift-modal{
+      position:fixed;
+      inset:0;
+      z-index:1000;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+      background:rgba(0,0,0,.84);
+    }
+
+    .gift-modal.open{display:flex}
+
+    .gift-modal-box{
+      position:relative;
+      width:min(430px,100%);
+      max-height:92vh;
+      overflow-y:auto;
+      padding:24px 20px 20px;
+      border:2px solid var(--green);
+      border-radius:16px;
+      background:#171b1c;
+      color:#fff;
+      box-shadow:0 15px 45px rgba(0,0,0,.7);
+    }
+
+    .gift-modal-close{
+      position:absolute;
+      top:9px;
+      right:13px;
+      border:0;
+      background:transparent;
+      color:#fff;
+      font-size:29px;
+      line-height:1;
+    }
+
+    .gift-modal-title{
+      margin:0 35px 8px 0;
+      font-family:Michroma,"Arial Black",Arial,sans-serif;
+      font-size:16px;
+      line-height:1.35;
+      font-weight:900;
+      text-transform:uppercase;
+    }
+
+    .gift-modal-title span{color:var(--green)}
+
+    .gift-modal-text{
+      margin:0 0 16px;
+      color:#c7cccd;
+      font-size:13px;
+      line-height:1.4;
+    }
+
+    .gift-modal label{
+      display:block;
+      margin:12px 0 6px;
+      color:#fff;
+      font-size:12px;
+      font-weight:700;
+    }
+
+    .gift-modal input,
+    .gift-modal textarea{
+      width:100%;
+      padding:11px;
+      border:1px solid #4b545d;
+      border-radius:8px;
+      outline:0;
+      background:#0b0e0f;
+      color:#fff;
+      font-size:14px;
+    }
+
+    .gift-modal input.invalid{border-color:#ff4d4d}
+    .gift-modal textarea{min-height:72px;resize:none}
+
+    .gift-send-options{
+      display:flex;
+      gap:10px;
+    }
+
+    .gift-send-option{
+      flex:1;
+      padding:10px;
+      border:1px solid #4b545d;
+      border-radius:8px;
+      background:#0b0e0f;
+      color:#fff;
+      font-weight:800;
+    }
+
+    .gift-send-option.active{
+      border-color:var(--green);
+      color:var(--green);
+    }
+
+    .gift-error,
+    .gift-payment-note{
+      display:none;
+      margin-top:12px;
+      color:var(--green);
+      font-size:12px;
+      line-height:1.35;
+      font-weight:700;
+    }
+
+    .gift-delivery-note{
+      margin-top:12px;
+      color:var(--green);
+      font-size:12px;
+      line-height:1.35;
+      font-weight:700;
+    }
+
+    .gift-modal-actions{
+      display:flex;
+      gap:10px;
+      margin-top:18px;
+    }
+
+    .gift-cancel,
+    .gift-buy{
+      min-height:43px;
+      border-radius:9px;
+      font-size:12px;
+      font-weight:900;
+    }
+
+    .gift-cancel{
+      width:34%;
+      border:1px solid #697173;
+      background:transparent;
+      color:#fff;
+    }
+
+    .gift-buy{
+      flex:1;
+      border:1px solid var(--green);
+      background:var(--green);
+      color:#080a08;
+    }
+
+    /* FOOTER */
+    .footer{
+      min-height:42px;
+      padding:5px 4.1%;
+      border-top:1px solid #262d2e;
+      display:grid;
+      grid-template-columns:1fr auto;
+      align-items:center;
+      gap:20px;
+      color:#7d8687;
+      font-size:8px;
+    }
+
+    .footer-left{display:flex;align-items:center;gap:3px}
+    .footer-logo{width:75px;height:30px;object-fit:contain;object-position:left center}
+    .contact{color:var(--green);font-size:11px;font-weight:900;text-decoration:none}
+    .footer-right{display:flex;align-items:center;gap:15px;white-space:nowrap}
+    .footer-right a{color:#a2aaab;text-decoration:none}
+
+    /* MOBILE */
+    @media (max-width:767px){
+      .page{width:min(100%,460px)}
+      .desktop-gifts{display:none}
+
+      .header{
+        min-height:91px;
+        padding:12px 14px 5px;
+        gap:10px;
+      }
+
+      .header-logo{
+        width:166px;
+        height:78px;
+        transform:none;
+        top:0;
+      }
+
+      .platea{
+        height:39px;
+        padding:0 13px;
+        font-size:11px;
+      }
+
+      .person{display:none}
+
+      main{padding:18px 14px 22px}
+      .back{margin:0 8px 16px;font-size:14px}
+
+      .player-stage{
+        display:flex;
+        flex-direction:column;
+        margin-bottom:14px;
+      }
+
+      .back{
+        position:static;
+        transform:none;
+        order:-1;
+        align-self:flex-start;
+      }
+
+      .player{
+        width:100%;
+        margin-top:10px;
+        margin-bottom:14px;
+      }
+
+      .player-screen{border-width:1px}
+      .controls{height:38px;padding:0 10px;gap:12px}
+      .live{font-size:10px}
+      .watermark{width:78px;right:9px;bottom:44px}
+
+      .match-card{
+        width:100%;
+        padding:15px 10px 12px;
+      }
+
+      .match-title{font-size:14px;margin-bottom:9px}
+      .status{margin-bottom:10px}
+      .teams{grid-template-columns:1fr 38px 1fr;padding-bottom:12px}
+      .team{font-size:11px;line-height:1.25}
+      .versus{font-size:13px}
+
+      .meta{
+        display:grid;
+        grid-template-columns:1fr 1fr;
+        gap:7px 12px;
+        padding:10px 7px 0;
+        font-size:10px;
+      }
+
+      .mobile-gifts{
+        width:100%;
+        margin:20px auto 18px;
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        gap:10px;
+      }
+
+      .mobile-gifts-title{
+        margin:0 0 2px;
+        color:#fff;
+        font-family:Michroma,"Arial Black",Arial,sans-serif;
+        font-size:12px;
+        line-height:1.35;
+        text-align:center;
+        text-transform:uppercase;
+      }
+
+      .mobile-gifts-title span{color:var(--green)}
+
+      .mobile-gift-button{
+        width:min(100%,360px);
+        min-height:42px;
+        padding:9px 13px;
+        border:1.5px solid var(--green);
+        border-radius:22px;
+        background:#090c0d;
+        color:var(--green);
+        font-size:11px;
+        font-weight:900;
+        text-transform:uppercase;
+      }
+
+      .mobile-gift-button:active{
+        background:var(--green);
+        color:#071004;
+      }
+
+      .footer{
+        padding:13px 14px 18px;
+        display:flex;
+        flex-direction:column;
+        gap:7px;
+        text-align:center;
+        font-size:8px;
+      }
+
+      .footer-left{justify-content:center}
+      .footer-right{justify-content:center;gap:7px;white-space:normal;flex-wrap:wrap}
+    }
+
+    @media (max-width:370px){
+      .header-logo{width:150px}
+      .platea{padding:0 10px;font-size:10px}
+      .match-title{font-size:12px}
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+    <header class="header">
+      <img class="header-logo" src="3dcancha logo transparente aut.png" alt="3DCancha">
+      <div class="header-spacer"></div>
+      <button class="platea" type="button">
+        <span class="person" aria-hidden="true"></span>
+        MI PLATEA
+      </button>
+    </header>
+
+    <main>
+      <div class="player-stage">
+        <a class="back" href="index.html">‹ VOLVER A INICIO</a>
+
+        <section class="player" aria-label="Transmisión del partido">
+          <div class="player-screen" id="playerScreen">
+            <!-- Más adelante, Cloudflare colocará aquí la dirección de la transmisión. -->
+            <video id="livePlayer" playsinline preload="metadata"></video>
+            <div class="player-placeholder" id="playerPlaceholder">TRANSMISIÓN EN VIVO</div>
+
+            <img class="watermark" src="3dcancha logo transparente aut.png" alt="">
+
+            <div class="controls">
+              <span class="live"><span class="live-dot"></span>EN VIVO</span>
+              <button class="control-button" id="playButton" type="button" aria-label="Reproducir">▶</button>
+              <button class="control-button" id="volumeButton" type="button" aria-label="Silenciar">🔊</button>
+              <button class="control-button fullscreen" id="fullscreenButton" type="button" aria-label="Pantalla completa">⛶</button>
+            </div>
+          </div>
+        </section>
+
+        <aside class="desktop-gifts" aria-label="Regalos adicionales">
+          <h2 class="desktop-gifts-title">
+            TODAVÍA PODÉS HACER <span>UN REGALO</span>
+          </h2>
+          <button class="desktop-gift-button" id="desktopGiftMatchButton" type="button">
+            REGALÁ ESTE PARTIDO
+          </button>
+          <button class="desktop-gift-button" id="desktopGiftStatsButton" type="button">
+            REGALÁ RESUMEN + ESTADÍSTICAS
+          </button>
+        </aside>
+      </div>
+
+      <section class="match-card" aria-label="Ficha del partido seleccionado">
+        <h1 class="match-title">
+          FICHA DEL PARTIDO <span class="green">SELECCIONADO</span>
+        </h1>
+
+        <div class="status">DISPONIBLE</div>
+
+        <div class="teams">
+          <div class="team">EQUIPO LOCAL</div>
+          <div class="versus">VS</div>
+          <div class="team">EQUIPO VISITANTE</div>
+        </div>
+
+        <div class="meta">
+          <span>Categoría: <b>2013</b></span>
+          <span>Cancha: <b>Cancha 1</b></span>
+          <span>Fecha: <b>Sábado 12/09</b></span>
+          <span>Hora: <b>12:00 hs</b></span>
+        </div>
+      </section>
+
+      <section class="mobile-gifts" aria-label="Regalos adicionales">
+        <h2 class="mobile-gifts-title">
+          TODAVÍA PODÉS HACER <span>UN REGALO</span>
+        </h2>
+        <button class="mobile-gift-button" id="giftMatchButton" type="button">
+          REGALÁ ESTE PARTIDO
+        </button>
+        <button class="mobile-gift-button" id="giftStatsButton" type="button">
+          REGALÁ RESUMEN + ESTADÍSTICAS
+        </button>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-left">
+        <img class="footer-logo" src="3dcancha logo transparente aut.png" alt="3DCancha">
+        <a class="contact" href="#">Contacto</a>
+      </div>
+
+      <div class="footer-right">
+        <a href="#">Términos y condiciones</a>
+        <a href="#">Política de privacidad</a>
+        <span>© 2026 3DCancha. Todos los derechos reservados.</span>
+      </div>
+    </footer>
+  </div>
+
+  <div class="gift-modal" id="giftMatchModal" aria-hidden="true">
+    <div class="gift-modal-box" role="dialog" aria-modal="true" aria-labelledby="giftMatchTitle">
+      <button class="gift-modal-close" id="giftMatchClose" type="button" aria-label="Cerrar">&times;</button>
+
+      <h2 class="gift-modal-title" id="giftMatchTitle"><span>REGALÁ</span> ESTE PARTIDO</h2>
+      <p class="gift-modal-text">Completá los datos para enviar el acceso a la persona que querés sorprender.</p>
+
+      <label for="giftSender">Tu nombre (quien hace el regalo)</label>
+      <input id="giftSender" type="text" placeholder="Ej: Hernán" autocomplete="name">
+
+      <label for="giftRecipient">Nombre del destinatario</label>
+      <input id="giftRecipient" type="text" placeholder="Ej: Lucas">
+
+      <label>¿Cómo querés enviarlo?</label>
+      <div class="gift-send-options">
+        <button class="gift-send-option active" type="button" data-method="whatsapp">WhatsApp</button>
+        <button class="gift-send-option" type="button" data-method="email">Email</button>
+      </div>
+
+      <label for="giftContact" id="giftContactLabel">Número de WhatsApp del destinatario</label>
+      <input id="giftContact" type="tel" placeholder="+54 11 1234 5678">
+
+      <label for="giftMessage">Mensaje personalizado (opcional)</label>
+      <textarea id="giftMessage" maxlength="200" placeholder="Ej: ¡Disfrutá el partido! ⚽"></textarea>
+
+      <div class="gift-error" id="giftMatchError">⚠ Completá los campos obligatorios.</div>
+      <div class="gift-payment-note" id="giftPaymentNote">Datos validados. La conexión con Mercado Pago se activará durante la integración de pagos.</div>
+
+      <div class="gift-modal-actions">
+        <button class="gift-cancel" id="giftMatchCancel" type="button">CANCELAR</button>
+        <button class="gift-buy" id="giftMatchBuy" type="button">COMPRAR POR $6.000</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="gift-modal" id="giftStatsModal" aria-hidden="true">
+    <div class="gift-modal-box" role="dialog" aria-modal="true" aria-labelledby="giftStatsTitle">
+      <button class="gift-modal-close" id="giftStatsClose" type="button" aria-label="Cerrar">&times;</button>
+
+      <h2 class="gift-modal-title" id="giftStatsTitle"><span>REGALÁ</span> RESUMEN + ESTADÍSTICAS</h2>
+      <p class="gift-modal-text">Completá los datos del jugador y de la persona que querés sorprender.</p>
+
+      <label for="statsSender">Tu nombre (quien hace el regalo)</label>
+      <input id="statsSender" type="text" placeholder="Ej: Hernán" autocomplete="name">
+
+      <label for="statsRecipient">Nombre del destinatario</label>
+      <input id="statsRecipient" type="text" placeholder="Ej: Lucas">
+
+      <label for="statsPlayerName">Nombre del jugador</label>
+      <input id="statsPlayerName" type="text" placeholder="Ej: Tomás">
+
+      <label for="statsTeam">Equipo</label>
+      <input id="statsTeam" type="text" placeholder="Ej: River Plate">
+
+      <label for="statsNumber">Nº de camiseta</label>
+      <input id="statsNumber" type="text" inputmode="numeric" placeholder="Ej: 10">
+
+      <label for="statsNickname">Apodo (opcional)</label>
+      <input id="statsNickname" type="text" placeholder="Ej: Toto">
+
+      <label>¿Cómo querés enviarlo?</label>
+      <div class="gift-send-options">
+        <button class="gift-send-option stats-send-option active" type="button" data-method="whatsapp">WhatsApp</button>
+        <button class="gift-send-option stats-send-option" type="button" data-method="email">Email</button>
+      </div>
+
+      <label for="statsContact" id="statsContactLabel">Número de WhatsApp del destinatario</label>
+      <input id="statsContact" type="tel" placeholder="+54 11 1234 5678">
+
+      <label for="statsMessage">Mensaje personalizado (opcional)</label>
+      <textarea id="statsMessage" maxlength="200" placeholder="Ej: ¡Disfrutá tu resumen! ⚽"></textarea>
+
+      <div class="gift-delivery-note">⏱ Disponible dentro de las 72 hs posteriores al partido.</div>
+      <div class="gift-error" id="giftStatsError">⚠ Completá los campos obligatorios.</div>
+      <div class="gift-payment-note" id="statsPaymentNote">Datos validados. La conexión con Mercado Pago se activará durante la integración de pagos.</div>
+
+      <div class="gift-modal-actions">
+        <button class="gift-cancel" id="giftStatsCancel" type="button">CANCELAR</button>
+        <button class="gift-buy" id="giftStatsBuy" type="button">COMPRAR POR $8.000</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const video = document.getElementById("livePlayer");
+    const playerScreen = document.getElementById("playerScreen");
+    const placeholder = document.getElementById("playerPlaceholder");
+    const playButton = document.getElementById("playButton");
+    const volumeButton = document.getElementById("volumeButton");
+    const fullscreenButton = document.getElementById("fullscreenButton");
+
+    function syncPlayButton(){
+      playButton.textContent = video.paused ? "▶" : "❚❚";
+      playButton.setAttribute("aria-label", video.paused ? "Reproducir" : "Pausar");
+    }
+
+    playButton.addEventListener("click", async function(){
+      try{
+        if(video.paused){
+          await video.play();
+        }else{
+          video.pause();
+        }
+      }catch(error){
+        /* El botón quedará listo aunque todavía no haya una transmisión conectada. */
+      }
+      syncPlayButton();
+    });
+
+    volumeButton.addEventListener("click", function(){
+      video.muted = !video.muted;
+      volumeButton.textContent = video.muted ? "🔇" : "🔊";
+      volumeButton.setAttribute("aria-label", video.muted ? "Activar sonido" : "Silenciar");
+    });
+
+    fullscreenButton.addEventListener("click", async function(){
+      try{
+        if(!document.fullscreenElement){
+          await playerScreen.requestFullscreen();
+        }else{
+          await document.exitFullscreen();
+        }
+      }catch(error){
+        /* Algunos navegadores móviles administran pantalla completa por separado. */
+      }
+    });
+
+    video.addEventListener("play", syncPlayButton);
+    video.addEventListener("pause", syncPlayButton);
+    video.addEventListener("loadeddata", function(){
+      placeholder.hidden = true;
+    });
+
+    const giftMatchButton = document.getElementById("giftMatchButton");
+    const desktopGiftMatchButton = document.getElementById("desktopGiftMatchButton");
+    const giftMatchModal = document.getElementById("giftMatchModal");
+    const giftMatchClose = document.getElementById("giftMatchClose");
+    const giftMatchCancel = document.getElementById("giftMatchCancel");
+    const giftMatchBuy = document.getElementById("giftMatchBuy");
+    const giftContact = document.getElementById("giftContact");
+    const giftContactLabel = document.getElementById("giftContactLabel");
+    const giftMatchError = document.getElementById("giftMatchError");
+    const giftPaymentNote = document.getElementById("giftPaymentNote");
+    const giftSendOptions = document.querySelectorAll("#giftMatchModal .gift-send-option");
+
+    function openGiftMatchModal(){
+      giftMatchModal.classList.add("open");
+      giftMatchModal.setAttribute("aria-hidden","false");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeGiftMatchModal(){
+      giftMatchModal.classList.remove("open");
+      giftMatchModal.setAttribute("aria-hidden","true");
+      document.body.style.overflow = "";
+      giftMatchError.style.display = "none";
+      giftPaymentNote.style.display = "none";
+      giftContact.classList.remove("invalid");
+    }
+
+    giftMatchButton.addEventListener("click",openGiftMatchModal);
+    desktopGiftMatchButton.addEventListener("click",openGiftMatchModal);
+    giftMatchClose.addEventListener("click",closeGiftMatchModal);
+    giftMatchCancel.addEventListener("click",closeGiftMatchModal);
+
+    giftMatchModal.addEventListener("click",function(event){
+      if(event.target === giftMatchModal) closeGiftMatchModal();
+    });
+
+    giftSendOptions.forEach(function(option){
+      option.addEventListener("click",function(){
+        giftSendOptions.forEach(function(item){item.classList.remove("active")});
+        option.classList.add("active");
+
+        if(option.dataset.method === "email"){
+          giftContactLabel.textContent = "Email del destinatario";
+          giftContact.type = "email";
+          giftContact.placeholder = "ejemplo@email.com";
+        }else{
+          giftContactLabel.textContent = "Número de WhatsApp del destinatario";
+          giftContact.type = "tel";
+          giftContact.placeholder = "+54 11 1234 5678";
+        }
+        giftContact.classList.remove("invalid");
+        giftMatchError.style.display = "none";
+      });
+    });
+
+    giftMatchBuy.addEventListener("click",function(){
+      const sender = document.getElementById("giftSender").value.trim();
+      const recipient = document.getElementById("giftRecipient").value.trim();
+      const contact = giftContact.value.trim();
+      const method = document.querySelector("#giftMatchModal .gift-send-option.active").dataset.method;
+      const validEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact);
+
+      giftContact.classList.remove("invalid");
+      giftPaymentNote.style.display = "none";
+
+      if(!sender || !recipient || !contact){
+        giftMatchError.textContent = "⚠ Completá tu nombre, el destinatario y el dato de envío.";
+        giftMatchError.style.display = "block";
+        if(!contact) giftContact.classList.add("invalid");
+        return;
+      }
+
+      if(method === "email" && !validEmail){
+        giftMatchError.textContent = "⚠ Ingresá un email válido.";
+        giftMatchError.style.display = "block";
+        giftContact.classList.add("invalid");
+        return;
+      }
+
+      giftMatchError.style.display = "none";
+      giftPaymentNote.style.display = "block";
+
+      /* INTEGRACIÓN PENDIENTE:
+         aquí se solicitará la preferencia de Mercado Pago y se abrirá Checkout Pro. */
+    });
+
+    const giftStatsButton = document.getElementById("giftStatsButton");
+    const desktopGiftStatsButton = document.getElementById("desktopGiftStatsButton");
+    const giftStatsModal = document.getElementById("giftStatsModal");
+    const giftStatsClose = document.getElementById("giftStatsClose");
+    const giftStatsCancel = document.getElementById("giftStatsCancel");
+    const giftStatsBuy = document.getElementById("giftStatsBuy");
+    const statsContact = document.getElementById("statsContact");
+    const statsContactLabel = document.getElementById("statsContactLabel");
+    const giftStatsError = document.getElementById("giftStatsError");
+    const statsPaymentNote = document.getElementById("statsPaymentNote");
+    const statsSendOptions = document.querySelectorAll("#giftStatsModal .stats-send-option");
+
+    function openGiftStatsModal(){
+      giftStatsModal.classList.add("open");
+      giftStatsModal.setAttribute("aria-hidden","false");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeGiftStatsModal(){
+      giftStatsModal.classList.remove("open");
+      giftStatsModal.setAttribute("aria-hidden","true");
+      document.body.style.overflow = "";
+      giftStatsError.style.display = "none";
+      statsPaymentNote.style.display = "none";
+      statsContact.classList.remove("invalid");
+    }
+
+    giftStatsButton.addEventListener("click",openGiftStatsModal);
+    desktopGiftStatsButton.addEventListener("click",openGiftStatsModal);
+    giftStatsClose.addEventListener("click",closeGiftStatsModal);
+    giftStatsCancel.addEventListener("click",closeGiftStatsModal);
+
+    giftStatsModal.addEventListener("click",function(event){
+      if(event.target === giftStatsModal) closeGiftStatsModal();
+    });
+
+    statsSendOptions.forEach(function(option){
+      option.addEventListener("click",function(){
+        statsSendOptions.forEach(function(item){item.classList.remove("active")});
+        option.classList.add("active");
+
+        if(option.dataset.method === "email"){
+          statsContactLabel.textContent = "Email del destinatario";
+          statsContact.type = "email";
+          statsContact.placeholder = "ejemplo@email.com";
+        }else{
+          statsContactLabel.textContent = "Número de WhatsApp del destinatario";
+          statsContact.type = "tel";
+          statsContact.placeholder = "+54 11 1234 5678";
+        }
+        statsContact.classList.remove("invalid");
+        giftStatsError.style.display = "none";
+      });
+    });
+
+    giftStatsBuy.addEventListener("click",function(){
+      const sender = document.getElementById("statsSender").value.trim();
+      const recipient = document.getElementById("statsRecipient").value.trim();
+      const playerName = document.getElementById("statsPlayerName").value.trim();
+      const team = document.getElementById("statsTeam").value.trim();
+      const number = document.getElementById("statsNumber").value.trim();
+      const contact = statsContact.value.trim();
+      const method = document.querySelector("#giftStatsModal .stats-send-option.active").dataset.method;
+      const validEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact);
+
+      statsContact.classList.remove("invalid");
+      statsPaymentNote.style.display = "none";
+
+      if(!sender || !recipient || !playerName || !team || !number || !contact){
+        giftStatsError.textContent = "⚠ Completá tus datos, el destinatario, el jugador, el equipo, el dorsal y el dato de envío.";
+        giftStatsError.style.display = "block";
+        if(!contact) statsContact.classList.add("invalid");
+        return;
+      }
+
+      if(method === "email" && !validEmail){
+        giftStatsError.textContent = "⚠ Ingresá un email válido.";
+        giftStatsError.style.display = "block";
+        statsContact.classList.add("invalid");
+        return;
+      }
+
+      giftStatsError.style.display = "none";
+      statsPaymentNote.style.display = "block";
+
+      /* INTEGRACIÓN PENDIENTE:
+         aquí se solicitará la preferencia de Mercado Pago y se abrirá Checkout Pro. */
+    });
+  </script>
+</body>
+</html>
