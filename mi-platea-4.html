@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#030404">
+  <title>3DCancha — Mi Platea</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Michroma&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#030404;
+      --panel:#0b0e0f;
+      --panel-soft:#101516;
+      --green:#9fbe18;
+      --green-hi:#b5d51a;
+      --text:#f8f9f9;
+      --muted:#9ca3a4;
+      --line:#30383a;
+      --red:#ef3f3f;
+      --yellow:#d5ae39;
+    }
+
+    *{box-sizing:border-box}
+    html,body{margin:0;min-height:100%;background:#000;color:var(--text);font-family:Arial,Helvetica,sans-serif}
+    body{min-height:100vh}
+    button,input{font:inherit}
+    button{cursor:pointer}
+    img{display:block;max-width:100%}
+    a{color:inherit}
+
+    .page{
+      width:min(100%,1440px);
+      min-height:100vh;
+      margin:0 auto;
+      background:
+        radial-gradient(circle at 80% 18%,rgba(159,190,24,.08),transparent 30%),
+        linear-gradient(180deg,#030404,#060808 56%,#030404);
+      display:flex;
+      flex-direction:column;
+    }
+
+    /* CABECERA: misma base de las pantallas aprobadas */
+    .header{
+      min-height:82px;
+      padding:8px 4.1%;
+      display:flex;
+      align-items:center;
+      gap:16px;
+      border-bottom:1px solid rgba(255,255,255,.05);
+      position:relative;
+      z-index:5;
+      background:#030404;
+    }
+
+    .header-logo{
+      width:300px;
+      height:68px;
+      object-fit:contain;
+      object-position:left center;
+      transform:scale(2.2);
+      transform-origin:left center;
+      position:relative;
+      top:14px;
+      pointer-events:none;
+    }
+
+    .header-spacer{flex:1}
+
+    .platea{
+      height:34px;
+      padding:0 18px;
+      border:1.5px solid var(--green);
+      border-radius:24px;
+      background:#080a0a;
+      color:#fff;
+      font-size:11px;
+      font-weight:900;
+      letter-spacing:.05em;
+      display:flex;
+      align-items:center;
+      gap:9px;
+    }
+
+    @media (min-width:768px){
+      .platea{width:205px;justify-content:center}
+    }
+
+    .person{
+      width:15px;
+      height:15px;
+      border:2px solid var(--green);
+      border-radius:50%;
+      position:relative;
+    }
+
+    .person::after{
+      content:"";
+      position:absolute;
+      width:18px;
+      height:8px;
+      left:50%;
+      top:12px;
+      transform:translateX(-50%);
+      border:2px solid var(--green);
+      border-top:0;
+      border-radius:0 0 12px 12px;
+    }
+
+    main{flex:1;padding:30px 4.1% 30px}
+
+    .back{
+      display:inline-block;
+      margin-top:8px;
+      margin-bottom:10px;
+      color:var(--green);
+      text-decoration:none;
+      font-size:15px;
+      font-weight:900;
+      letter-spacing:.025em;
+    }
+
+    .welcome{
+      display:grid;
+      grid-template-columns:1fr auto;
+      gap:20px;
+      align-items:center;
+      margin-bottom:12px;
+    }
+
+    .welcome-line{display:flex;align-items:baseline;gap:16px;min-width:0}
+
+    .welcome h1{
+      margin:0;
+      font-family:Michroma,"Arial Black",Arial,sans-serif;
+      font-size:clamp(19px,1.7vw,24px);
+      line-height:1.08;
+      font-weight:400;
+      text-transform:uppercase;
+    }
+
+    .welcome h1 span{color:var(--green)}
+
+    .welcome p{
+      margin:0;
+      color:#d8dddd;
+      font-family:Michroma,"Arial Black",Arial,sans-serif;
+      font-size:clamp(10px,.86vw,12px);
+      letter-spacing:.1em;
+      text-transform:uppercase;
+      white-space:nowrap;
+    }
+
+    .search-match{
+      width:205px;
+      height:34px;
+      padding:0 14px;
+      border:1px solid var(--green);
+      border-radius:24px;
+      background:var(--green);
+      color:#071004;
+      font-size:9px;
+      font-weight:950;
+      letter-spacing:.05em;
+      text-transform:uppercase;
+    }
+
+    .summary{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:12px;
+      margin-bottom:7px;
+    }
+
+    .summary-item{
+      min-height:56px;
+      padding:8px 12px;
+      border:1px solid #2b3335;
+      border-radius:10px;
+      background:rgba(11,14,15,.92);
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+
+    .summary-icon{
+      flex:0 0 34px;
+      width:34px;
+      height:34px;
+      border:1px solid var(--green);
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      color:var(--green);
+      font-size:14px;
+      font-weight:900;
+    }
+
+    .summary-copy{display:flex;align-items:center;gap:8px;min-width:0}
+    .summary-number{font-family:Michroma,Arial,sans-serif;font-size:18px;line-height:1;color:#fff}
+    .summary-label{margin:0;color:#c2c8c9;font-size:9px;font-weight:900;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
+
+    .tabs{
+      display:flex;
+      gap:34px;
+      border-bottom:1px solid var(--line);
+      margin-bottom:10px;
+    }
+
+    .tab{
+      min-height:37px;
+      padding:0 4px;
+      border:0;
+      border-bottom:3px solid transparent;
+      background:transparent;
+      color:#b7bdbd;
+      font-family:Michroma,"Arial Black",Arial,sans-serif;
+      font-size:11px;
+      font-weight:400;
+      letter-spacing:.06em;
+      text-transform:uppercase;
+    }
+
+    .tab.active{color:#fff;border-bottom-color:var(--green)}
+    .panel[hidden]{display:none}
+
+    .match-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+
+    .match-card{
+      min-width:0;
+      border:1px solid #343c3e;
+      border-radius:12px;
+      background:linear-gradient(150deg,#111617,#090c0d);
+      overflow:hidden;
+      display:flex;
+      flex-direction:column;
+    }
+
+    .card-scene{
+      min-height:72px;
+      padding:7px 16px;
+      border-bottom:1px solid #283032;
+      background:
+        linear-gradient(180deg,rgba(0,0,0,.15),rgba(0,0,0,.9)),
+        radial-gradient(circle at 50% 15%,#344145 0,#121718 42%,#080a0a 75%);
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      gap:20px;
+    }
+
+    .team-badge{
+      width:42px;
+      height:42px;
+      border:2px solid var(--green);
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      background:#090c0d;
+      color:#fff;
+      font-family:Michroma,Arial,sans-serif;
+      font-size:12px;
+    }
+
+    .versus{color:var(--green);font-family:Michroma,Arial,sans-serif;font-size:13px}
+    .card-body{padding:17px;display:flex;flex:1;flex-direction:column}
+
+    .card-topline{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:7px}
+    .card-title{margin:0;font-family:Michroma,Arial,sans-serif;font-size:13px;line-height:1.35;font-weight:400;text-transform:uppercase}
+    .card-title span{display:block}
+
+    .status{
+      flex:0 0 auto;
+      padding:5px 8px;
+      border:1px solid currentColor;
+      border-radius:14px;
+      color:var(--green);
+      font-size:8px;
+      font-weight:900;
+      text-transform:uppercase;
+    }
+
+    .status.ended{color:var(--red)}
+    .status.pending{color:var(--yellow)}
+    .product{color:#c5cbcc;font-size:10px;font-weight:900;letter-spacing:.09em;text-transform:uppercase}
+    .details{margin:9px 0 14px;color:var(--muted);font-size:11px;line-height:1.45}
+
+    .actions{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:auto}
+    .action{
+      min-height:38px;
+      padding:7px 8px;
+      border:1px solid #697173;
+      border-radius:6px;
+      background:transparent;
+      color:#fff;
+      font-size:8px;
+      line-height:1.2;
+      font-weight:900;
+      text-transform:uppercase;
+    }
+    .action.primary{border-color:var(--green);background:var(--green);color:#071004}
+
+    .upgrade{
+      margin-top:auto;
+      padding:12px;
+      border:1px solid #3d4648;
+      border-radius:8px;
+      background:#111718;
+    }
+    .upgrade strong{display:block;margin-bottom:5px;font-family:Michroma,Arial,sans-serif;font-size:10px;font-weight:400;text-transform:uppercase}
+    .upgrade p{margin:0 0 10px;color:#aeb5b6;font-size:10px;line-height:1.4}
+    .upgrade button{width:100%;min-height:38px;border:1px solid var(--green);border-radius:6px;background:var(--green);color:#071004;font-size:9px;font-weight:950;text-transform:uppercase}
+
+    .progress-box{margin-top:auto;padding:12px;border:1px solid #3d4648;border-radius:8px;background:#111718}
+    .progress-box strong{display:block;color:var(--yellow);font-family:Michroma,Arial,sans-serif;font-size:9px;font-weight:400;text-transform:uppercase}
+    .progress-box p{margin:7px 0 0;color:#b0b7b8;font-size:10px;line-height:1.4}
+    .delivery{margin-top:10px;color:#fff;font-size:12px;font-weight:900;text-align:right}.delivery span{color:var(--green)}
+
+    .empty-panel,
+    .profile-panel{
+      padding:24px;
+      border:1px solid #343c3e;
+      border-radius:12px;
+      background:rgba(11,14,15,.94);
+    }
+
+    .empty-panel h2,
+    .profile-panel h2{
+      margin:0 0 15px;
+      font-family:Michroma,Arial,sans-serif;
+      font-size:16px;
+      font-weight:400;
+      text-transform:uppercase;
+    }
+
+    .resume-row{display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center;padding:16px;border:1px solid #30383a;border-radius:9px;background:#101516}
+    .resume-row h3{margin:0 0 7px;font-family:Michroma,Arial,sans-serif;font-size:12px;font-weight:400;text-transform:uppercase}
+    .resume-row p{margin:0;color:var(--muted);font-size:12px;line-height:1.5}
+    .resume-state{color:var(--yellow);font-size:10px;font-weight:900;text-transform:uppercase}
+
+    .profile-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px 22px;max-width:760px}
+    .profile-field{padding:12px;border-bottom:1px solid #30383a}
+    .profile-field small{display:block;margin-bottom:5px;color:var(--green);font-size:9px;font-weight:900;text-transform:uppercase}
+    .profile-field span{font-size:13px}
+    .logout{margin-top:20px;min-height:38px;padding:0 18px;border:1px solid #697173;border-radius:19px;background:transparent;color:#fff;font-size:10px;font-weight:900}
+
+    /* MODAL DE MEJORA DE COMPRA */
+    .modal{
+      position:fixed;
+      inset:0;
+      z-index:1000;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+      background:rgba(0,0,0,.84);
+    }
+    .modal.open{display:flex}
+    .modal-box{position:relative;width:min(430px,100%);padding:26px 22px 22px;border:2px solid var(--green);border-radius:16px;background:#171b1c;box-shadow:0 15px 45px rgba(0,0,0,.7)}
+    .modal-close{position:absolute;right:13px;top:8px;border:0;background:transparent;color:#fff;font-size:29px}
+    .modal h2{margin:0 32px 10px 0;font-family:Michroma,Arial,sans-serif;font-size:15px;line-height:1.4;font-weight:400;text-transform:uppercase}
+    .modal h2 span{color:var(--green)}
+    .modal p{color:#c7cccd;font-size:12px;line-height:1.5}
+    .price-line{display:flex;justify-content:space-between;padding:10px 0;border-top:1px solid #3a4244;font-size:12px}.price-line.total{color:var(--green);font-weight:900}
+    .modal-actions{display:flex;gap:10px;margin-top:18px}
+    .modal-actions button{min-height:42px;border-radius:8px;font-size:11px;font-weight:900}
+    .cancel{width:34%;border:1px solid #697173;background:transparent;color:#fff}
+    .confirm{flex:1;border:1px solid var(--green);background:var(--green);color:#071004}
+
+    /* FOOTER: igual al resto del sitio */
+    .footer{
+      min-height:42px;
+      padding:5px 4.1%;
+      border-top:1px solid #262d2e;
+      display:grid;
+      grid-template-columns:1fr auto;
+      align-items:center;
+      gap:20px;
+      color:#7d8687;
+      font-size:8px;
+      background:#030404;
+    }
+    .footer-left{display:flex;align-items:center;gap:3px}
+    .footer-logo{width:75px;height:30px;object-fit:contain;object-position:left center}
+    .contact{color:var(--green);font-size:11px;font-weight:900;text-decoration:none}
+    .footer-right{display:flex;align-items:center;gap:15px;white-space:nowrap}
+    .footer-right a{color:#a2aaab;text-decoration:none}
+
+    .toast{position:fixed;z-index:1100;left:50%;bottom:24px;transform:translate(-50%,12px);padding:11px 15px;border:1px solid var(--green);border-radius:10px;background:#111718;color:#fff;font-size:11px;opacity:0;pointer-events:none;transition:.2s}.toast.show{opacity:1;transform:translate(-50%,0)}
+
+    /* En escritorio, solamente se desplaza el contenido de la pestaña activa. */
+    @media (min-width:768px){
+      html,body{height:100%;overflow:hidden}
+      .page{height:100vh;min-height:0;overflow:hidden}
+      .header,.footer{flex:0 0 auto}
+      main{
+        min-height:0;
+        display:flex;
+        flex:1 1 auto;
+        flex-direction:column;
+        overflow:hidden;
+      }
+      .tabs{flex:0 0 auto}
+      .panel{
+        min-height:0;
+        flex:1 1 auto;
+        overflow-x:hidden;
+        overflow-y:auto;
+        padding-right:8px;
+        scrollbar-width:thin;
+        scrollbar-color:var(--green) #151a1b;
+      }
+      .panel::-webkit-scrollbar{width:8px}
+      .panel::-webkit-scrollbar-track{background:#151a1b;border-radius:10px}
+      .panel::-webkit-scrollbar-thumb{background:var(--green);border-radius:10px}
+      .panel::-webkit-scrollbar-thumb:hover{background:var(--green-hi)}
+      .match-grid{padding-bottom:4px}
+    }
+
+    @media (max-width:960px){
+      .match-grid{grid-template-columns:1fr 1fr}
+      .match-card:last-child{grid-column:1 / -1}
+    }
+
+    @media (max-width:767px){
+      .page{width:min(100%,460px)}
+      .header{min-height:91px;padding:12px 14px 5px;gap:10px}
+      .header-logo{width:166px;height:78px;transform:none;top:0}
+      .platea{height:39px;padding:0 13px;font-size:10px}
+      .person{display:none}
+      main{padding:18px 14px 24px}
+      .back{margin:0 0 18px;font-size:14px}
+      .welcome{grid-template-columns:1fr;gap:17px;align-items:start}
+      .welcome-line{display:block}
+      .welcome h1{font-size:21px}
+      .welcome p{margin-top:8px;font-size:10px;letter-spacing:.13em}
+      .search-match{width:100%;min-width:0;height:43px;font-size:11px}
+      .summary{grid-template-columns:1fr;gap:8px}
+      .summary-item{min-height:50px;padding:7px 11px}
+      .summary-icon{width:30px;height:30px;flex-basis:30px;font-size:12px}
+      .summary-number{font-size:17px}
+      .summary-label{font-size:8px}
+      .tabs{gap:0;justify-content:space-between}
+      .tab{font-size:8px;padding:0 3px}
+      .match-grid{grid-template-columns:1fr;gap:13px}
+      .match-card:last-child{grid-column:auto}
+      .card-scene{min-height:96px;padding:18px}
+      .team-badge{width:56px;height:56px;font-size:15px}
+      .card-title{font-size:11px}
+      .status{font-size:7px}
+      .actions{grid-template-columns:1fr}
+      .action{font-size:9px}
+      .resume-row{grid-template-columns:1fr;gap:12px}
+      .profile-grid{grid-template-columns:1fr}
+      .footer{padding:13px 14px 18px;display:flex;flex-direction:column;gap:7px;text-align:center;font-size:8px}
+      .footer-left{justify-content:center}
+      .footer-right{justify-content:center;gap:7px;white-space:normal;flex-wrap:wrap}
+    }
+
+    @media (max-width:370px){
+      .header-logo{width:150px}
+      .platea{padding:0 10px;font-size:9px}
+      .tabs{overflow-x:auto;justify-content:flex-start;gap:18px}
+      .tab{white-space:nowrap}
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+    <header class="header">
+      <img class="header-logo" src="3dcancha logo transparente aut.png" alt="3DCancha">
+      <div class="header-spacer"></div>
+      <button class="platea" id="plateaHome" type="button" aria-current="page">
+        <span class="person" aria-hidden="true"></span>
+        MI PLATEA · HERNÁN
+      </button>
+    </header>
+
+    <main>
+      <a class="back" href="index.html">‹ VOLVER A INICIO</a>
+
+      <section class="welcome">
+        <div class="welcome-line">
+          <h1>HOLA, <span>HERNÁN</span></h1>
+          <p>Esta es tu Platea</p>
+        </div>
+        <button class="search-match" id="searchMatch" type="button">⌕ &nbsp; BUSCAR NUEVO PARTIDO</button>
+      </section>
+
+      <section class="summary" aria-label="Resumen de Mi Platea">
+        <article class="summary-item">
+          <div class="summary-icon">▶</div>
+          <div class="summary-copy"><div class="summary-number">2</div><div class="summary-label">Partidos disponibles</div></div>
+        </article>
+        <article class="summary-item">
+          <div class="summary-icon">▤</div>
+          <div class="summary-copy"><div class="summary-number">1</div><div class="summary-label">Resumen en preparación</div></div>
+        </article>
+        <article class="summary-item">
+          <div class="summary-icon">＋</div>
+          <div class="summary-copy"><div class="summary-number">1</div><div class="summary-label">Compra para completar</div></div>
+        </article>
+      </section>
+
+      <nav class="tabs" aria-label="Secciones de Mi Platea">
+        <button class="tab active" type="button" data-tab="matches">MIS PARTIDOS</button>
+        <button class="tab" type="button" data-tab="resumes">MIS RESÚMENES</button>
+        <button class="tab" type="button" data-tab="profile">MI PERFIL</button>
+      </nav>
+
+      <section class="panel" id="matchesPanel">
+        <div class="match-grid">
+          <article class="match-card">
+            <div class="card-scene"><span class="team-badge">RIV</span><span class="versus">VS</span><span class="team-badge">CEN</span></div>
+            <div class="card-body">
+              <div class="card-topline"><h2 class="card-title"><span>River Plate vs.</span><span>Central</span></h2><span class="status">Disponible</span></div>
+              <div class="product">Partido + estadísticas</div>
+              <p class="details">Categoría 2013 · Sábado 20/09 · 12:00 hs</p>
+              <div class="actions">
+                <button class="action primary" id="watchMatch" type="button">Ver partido</button>
+                <button class="action" type="button" data-message="La descarga se habilitará cuando esté conectado el archivo real del partido.">Descargar</button>
+                <button class="action" type="button" data-message="La pantalla de estadísticas se conectará en la próxima etapa.">Ver estadísticas</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="match-card" id="liveCard">
+            <div class="card-scene"><span class="team-badge">RAC</span><span class="versus">VS</span><span class="team-badge">VEL</span></div>
+            <div class="card-body">
+              <div class="card-topline"><h2 class="card-title"><span>Racing vs.</span><span>Vélez</span></h2><span class="status ended">Acceso finalizado</span></div>
+              <div class="product">Visto en vivo</div>
+              <p class="details">Categoría 2012 · Domingo 21/09 · 10:30 hs</p>
+              <div class="upgrade" id="upgradeBox">
+                <strong>Completá tu compra</strong>
+                <p>Lo viste en vivo. Podés obtener el partido completo y sus estadísticas pagando la diferencia.</p>
+                <button id="upgradeButton" type="button">Bajar partido + estadísticas · Agregar $5</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="match-card">
+            <div class="card-scene"><span class="team-badge">IND</span><span class="versus">VS</span><span class="team-badge">LAN</span></div>
+            <div class="card-body">
+              <div class="card-topline"><h2 class="card-title"><span>Independiente vs.</span><span>Lanús</span></h2><span class="status pending">En preparación</span></div>
+              <div class="product">Resumen personalizado · Dorsal 10</div>
+              <p class="details">Categoría 2013 · Jugador: Tomás</p>
+              <div class="progress-box">
+                <strong>Tu resumen está en producción</strong>
+                <p>Estamos preparando las mejores jugadas y estadísticas del jugador.</p>
+                <div class="delivery">ENTREGA HASTA <span>72 HS</span></div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel" id="resumesPanel" hidden>
+        <div class="empty-panel">
+          <h2>Mis resúmenes</h2>
+          <article class="resume-row">
+            <div><h3>Independiente vs. Lanús · Dorsal 10</h3><p>Resumen personalizado y estadísticas del jugador Tomás. Pedido recibido correctamente.</p></div>
+            <span class="resume-state">En preparación · Hasta 72 hs</span>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel" id="profilePanel" hidden>
+        <div class="profile-panel">
+          <h2>Mi perfil</h2>
+          <div class="profile-grid">
+            <div class="profile-field"><small>Nombre y apellido</small><span>Hernán Estrách</span></div>
+            <div class="profile-field"><small>Email</small><span>hernan@ejemplo.com</span></div>
+            <div class="profile-field"><small>WhatsApp</small><span>+54 11 0000 0000</span></div>
+            <div class="profile-field"><small>Equipo habitual</small><span>Sin definir</span></div>
+          </div>
+          <button class="logout" id="logoutButton" type="button">CERRAR SESIÓN</button>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-left">
+        <img class="footer-logo" src="3dcancha logo transparente aut.png" alt="3DCancha">
+        <a class="contact" href="#" data-message="La página de Contacto se conectará en la próxima etapa.">Contacto</a>
+      </div>
+      <div class="footer-right">
+        <a href="#" data-message="La página de Términos y condiciones se conectará en la próxima etapa.">Términos y condiciones</a>
+        <a href="#" data-message="La Política de privacidad se conectará en la próxima etapa.">Política de privacidad</a>
+        <span>© 2026 3DCancha. Todos los derechos reservados.</span>
+      </div>
+    </footer>
+  </div>
+
+  <div class="modal" id="upgradeModal" aria-hidden="true">
+    <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="upgradeTitle">
+      <button class="modal-close" id="modalClose" type="button" aria-label="Cerrar">&times;</button>
+      <h2 id="upgradeTitle"><span>COMPLETÁ</span> TU COMPRA</h2>
+      <p>Ya pagaste el acceso para ver Racing vs. Vélez en vivo. Aboná solamente la diferencia para bajar el partido completo y sus estadísticas.</p>
+      <div class="price-line"><span>Partido + estadísticas</span><b>$15</b></div>
+      <div class="price-line"><span>Importe ya pagado</span><b>− $10</b></div>
+      <div class="price-line total"><span>TOTAL ADICIONAL</span><b>$5</b></div>
+      <div class="modal-actions">
+        <button class="cancel" id="modalCancel" type="button">CANCELAR</button>
+        <button class="confirm" id="modalConfirm" type="button">CONTINUAR AL PAGO</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    const tabs = document.querySelectorAll('.tab');
+    const panels = {
+      matches: document.getElementById('matchesPanel'),
+      resumes: document.getElementById('resumesPanel'),
+      profile: document.getElementById('profilePanel')
+    };
+    const toast = document.getElementById('toast');
+    let toastTimer;
+
+    function showToast(message){
+      clearTimeout(toastTimer);
+      toast.textContent = message;
+      toast.classList.add('show');
+      toastTimer = setTimeout(() => toast.classList.remove('show'), 2300);
+    }
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(item => item.classList.toggle('active', item === tab));
+        Object.entries(panels).forEach(([name,panel]) => panel.hidden = name !== tab.dataset.tab);
+      });
+    });
+
+    document.getElementById('searchMatch').addEventListener('click', () => {
+      window.location.href = 'index.html#buscar-partido';
+    });
+
+    document.getElementById('plateaHome').addEventListener('click', () => {
+      window.scrollTo({top:0,behavior:'smooth'});
+      tabs[0].click();
+    });
+
+    document.getElementById('watchMatch').addEventListener('click', () => {
+      window.location.href = 'reproductor.html';
+    });
+
+    document.getElementById('logoutButton').addEventListener('click', () => {
+      sessionStorage.clear();
+      localStorage.removeItem('3dcanchaSession');
+      window.location.href = 'index.html';
+    });
+
+    document.querySelectorAll('[data-message]').forEach(button => {
+      button.addEventListener('click', event => {
+        event.preventDefault();
+        showToast(button.dataset.message);
+      });
+    });
+
+    const modal = document.getElementById('upgradeModal');
+    function openModal(){modal.classList.add('open');modal.setAttribute('aria-hidden','false')}
+    function closeModal(){modal.classList.remove('open');modal.setAttribute('aria-hidden','true')}
+
+    document.getElementById('upgradeButton').addEventListener('click',openModal);
+    document.getElementById('modalClose').addEventListener('click',closeModal);
+    document.getElementById('modalCancel').addEventListener('click',closeModal);
+    modal.addEventListener('click',event => {if(event.target === modal) closeModal()});
+    document.addEventListener('keydown',event => {if(event.key === 'Escape') closeModal()});
+    document.getElementById('modalConfirm').addEventListener('click',() => {
+      closeModal();
+      showToast('La conexión con Mercado Pago se activará durante la integración.');
+    });
+  </script>
+</body>
+</html>
