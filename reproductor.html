@@ -726,6 +726,126 @@
       .platea{padding:0 10px;font-size:10px}
       .match-title{font-size:12px}
     }
+
+    /* MODAL MI PLATEA */
+    .platea-modal{
+      display:none;
+      position:fixed;
+      inset:0;
+      z-index:12000;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+      background:rgba(0,0,0,.84);
+    }
+
+    .platea-modal.open{display:flex}
+
+    .platea-modal-box{
+      position:relative;
+      width:min(460px,94vw);
+      max-height:90vh;
+      overflow-y:auto;
+      padding:24px 20px 20px;
+      border:2px solid var(--green);
+      border-radius:16px;
+      background:#171b1c;
+      box-shadow:0 14px 44px rgba(0,0,0,.7);
+    }
+
+    .platea-modal-close{
+      position:absolute;
+      top:8px;
+      right:13px;
+      border:0;
+      background:transparent;
+      color:#fff;
+      font-size:30px;
+    }
+
+    .platea-modal-box h2{
+      margin:0 32px 12px 0;
+      color:#fff;
+      font-family:"Michroma",Arial,sans-serif;
+      font-size:17px;
+      font-weight:400;
+    }
+
+    .platea-modal-box h2 span{color:var(--green)}
+
+    .platea-tabs{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:8px;
+      margin-bottom:15px;
+    }
+
+    .platea-tab{
+      min-height:38px;
+      border:1px solid #566063;
+      border-radius:8px;
+      background:#0b0e0f;
+      color:#fff;
+      font-size:11px;
+      font-weight:900;
+    }
+
+    .platea-tab.active{
+      border-color:var(--green);
+      background:var(--green);
+      color:#071004;
+    }
+
+    .platea-form{display:none}
+    .platea-form.active{display:block}
+
+    .platea-form label{
+      display:block;
+      margin:10px 0 5px;
+      color:#fff;
+      font-size:11px;
+      font-weight:800;
+    }
+
+    .platea-form input{
+      width:100%;
+      height:40px;
+      border:1px solid #4b545d;
+      border-radius:8px;
+      background:#0b0e0f;
+      color:#fff;
+      padding:0 11px;
+      font-size:14px;
+      outline:none;
+    }
+
+    .platea-form input:focus{border-color:var(--green)}
+
+    .platea-submit{
+      width:100%;
+      min-height:42px;
+      margin-top:17px;
+      border:0;
+      border-radius:8px;
+      background:var(--green);
+      color:#071004;
+      font-size:12px;
+      font-weight:900;
+    }
+
+    .platea-error{
+      display:none;
+      margin:10px 0 0;
+      color:#ff6b6b;
+      font-size:11px;
+      font-weight:800;
+    }
+
+    .platea-error.show{display:block}
+
+    @media (max-width:767px){
+      .platea-modal-box h2{font-size:14px}
+    }
   </style>
 </head>
 
@@ -734,7 +854,7 @@
     <header class="header">
       <img class="header-logo" src="3dcancha logo transparente aut.png" alt="3DCancha">
       <div class="header-spacer"></div>
-      <button class="platea" type="button" onclick="window.location.href='mi-platea.html'">
+      <button class="platea" type="button" data-open-platea>
         <span class="person" aria-hidden="true"></span>
         MI PLATEA
       </button>
@@ -822,6 +942,47 @@
     </footer>
   </div>
 
+  <div id="plateaModal" class="platea-modal" aria-hidden="true">
+    <div class="platea-modal-box" role="dialog" aria-modal="true" aria-labelledby="plateaModalTitle">
+      <button type="button" class="platea-modal-close" aria-label="Cerrar">&times;</button>
+
+      <h2 id="plateaModalTitle">INGRESAR A <span>MI PLATEA</span></h2>
+
+      <div class="platea-tabs" role="tablist">
+        <button type="button" class="platea-tab active" data-platea-tab="login">INGRESAR</button>
+        <button type="button" class="platea-tab" data-platea-tab="create">CREAR MI CUENTA</button>
+      </div>
+
+      <form id="plateaLoginForm" class="platea-form active" novalidate>
+        <label for="plateaLoginEmail">Email</label>
+        <input id="plateaLoginEmail" type="email" autocomplete="email" required>
+
+        <label for="plateaLoginPassword">Contraseña</label>
+        <input id="plateaLoginPassword" type="password" autocomplete="current-password" required>
+
+        <p class="platea-error" data-platea-error>Completá un email válido y tu contraseña.</p>
+        <button type="submit" class="platea-submit">INGRESAR A MI PLATEA</button>
+      </form>
+
+      <form id="plateaCreateForm" class="platea-form" novalidate>
+        <label for="plateaCreateName">Nombre y apellido</label>
+        <input id="plateaCreateName" type="text" autocomplete="name" required>
+
+        <label for="plateaCreateEmail">Email</label>
+        <input id="plateaCreateEmail" type="email" autocomplete="email" required>
+
+        <label for="plateaCreatePassword">Contraseña</label>
+        <input id="plateaCreatePassword" type="password" autocomplete="new-password" minlength="6" required>
+
+        <label for="plateaCreateTeam">Equipo (opcional)</label>
+        <input id="plateaCreateTeam" type="text">
+
+        <p class="platea-error" data-platea-error>Completá nombre, email válido y una contraseña de al menos 6 caracteres.</p>
+        <button type="submit" class="platea-submit">CREAR MI CUENTA</button>
+      </form>
+    </div>
+  </div>
+
   <div class="gift-modal" id="giftMatchModal" aria-hidden="true">
     <div class="gift-modal-box" role="dialog" aria-modal="true" aria-labelledby="giftMatchTitle">
       <button class="gift-modal-close" id="giftMatchClose" type="button" aria-label="Cerrar">&times;</button>
@@ -906,6 +1067,77 @@
   </div>
 
   <script>
+    const plateaModal = document.getElementById("plateaModal");
+    const plateaClose = plateaModal.querySelector(".platea-modal-close");
+    const plateaTabs = plateaModal.querySelectorAll("[data-platea-tab]");
+    const plateaForms = plateaModal.querySelectorAll(".platea-form");
+
+    function openPlateaModal(){
+      plateaModal.classList.add("open");
+      plateaModal.setAttribute("aria-hidden","false");
+      document.body.style.overflow = "hidden";
+      setTimeout(function(){document.getElementById("plateaLoginEmail").focus()},0);
+    }
+
+    function closePlateaModal(){
+      plateaModal.classList.remove("open");
+      plateaModal.setAttribute("aria-hidden","true");
+      document.body.style.overflow = "";
+      plateaModal.querySelectorAll(".platea-error").forEach(function(error){
+        error.classList.remove("show");
+      });
+    }
+
+    document.querySelectorAll("[data-open-platea]").forEach(function(button){
+      button.addEventListener("click",openPlateaModal);
+    });
+    plateaClose.addEventListener("click",closePlateaModal);
+    plateaModal.addEventListener("click",function(event){
+      if(event.target === plateaModal) closePlateaModal();
+    });
+    document.addEventListener("keydown",function(event){
+      if(event.key === "Escape" && plateaModal.classList.contains("open")) closePlateaModal();
+    });
+
+    plateaTabs.forEach(function(tab){
+      tab.addEventListener("click",function(){
+        const target = tab.dataset.plateaTab;
+        plateaTabs.forEach(function(item){item.classList.toggle("active",item === tab)});
+        plateaForms.forEach(function(form){
+          form.classList.toggle("active",
+            (target === "login" && form.id === "plateaLoginForm") ||
+            (target === "create" && form.id === "plateaCreateForm")
+          );
+        });
+        plateaModal.querySelector(".platea-form.active input").focus();
+      });
+    });
+
+    document.getElementById("plateaLoginForm").addEventListener("submit",function(event){
+      event.preventDefault();
+      const email = document.getElementById("plateaLoginEmail");
+      const password = document.getElementById("plateaLoginPassword");
+      const error = event.currentTarget.querySelector("[data-platea-error]");
+      if(!email.validity.valid || !password.value.trim()){
+        error.classList.add("show");
+        return;
+      }
+      closePlateaModal();
+    });
+
+    document.getElementById("plateaCreateForm").addEventListener("submit",function(event){
+      event.preventDefault();
+      const name = document.getElementById("plateaCreateName");
+      const email = document.getElementById("plateaCreateEmail");
+      const password = document.getElementById("plateaCreatePassword");
+      const error = event.currentTarget.querySelector("[data-platea-error]");
+      if(!name.value.trim() || !email.validity.valid || password.value.length < 6){
+        error.classList.add("show");
+        return;
+      }
+      closePlateaModal();
+    });
+
     const video = document.getElementById("livePlayer");
     const playerScreen = document.getElementById("playerScreen");
     const placeholder = document.getElementById("playerPlaceholder");
