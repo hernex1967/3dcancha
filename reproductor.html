@@ -1866,8 +1866,9 @@
   enviar("/eventos",{id:idEvento("pagina"),tipo:"pagina_vista",usuarioEmail:perfilActual().email||"",pagina:location.pathname,detalle:{origen:document.referrer||""}});
   const partido=leer("3dcanchaSelectedMatch")||{};
   const parametros=new URLSearchParams(location.search);
-  let vistaId=sessionStorage.getItem("3dcanchaVistaVivoId");
-  if(!vistaId){vistaId="vista-web-"+Date.now()+"-"+Math.random().toString(36).slice(2,10);sessionStorage.setItem("3dcanchaVistaVivoId",vistaId)}
+  // Cada entrada al reproductor es una reproducción nueva. No reutilizar el ID
+  // entre partidos ni entre visitas, para que el Administrador las contabilice.
+  const vistaId="vista-web-"+Date.now()+"-"+Math.random().toString(36).slice(2,10);
   enviar("/vistas-vivo",{id:vistaId,usuarioEmail:perfilActual().email||"",partidoId:partido.id||partido.apiId||partido.videoId||parametros.get("partido")||"",codigoReingreso:sessionStorage.getItem("3dcanchaReentryCode")||"",origen:parametros.get("origen")||"reproductor"});
   document.addEventListener("submit",function(evento){
     const form=evento.target;
