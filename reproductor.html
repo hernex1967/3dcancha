@@ -1251,7 +1251,7 @@
     const PROFILE_KEY = "3dcanchaProfile";
     const API_3DCANCHA = "https://3dcancha-api.hernan-estrach.workers.dev";
     const PLAYBACK_PARAMS = new URLSearchParams(window.location.search);
-    const IS_PROMOTIONAL_PLAYBACK = PLAYBACK_PARAMS.get("origen") === "promocional";
+    const IS_PROMOTIONAL_PLAYBACK = PLAYBACK_PARAMS.get("origen") === "promocional" || PLAYBACK_PARAMS.get("promocional") === "1";
 
     function readStoredJSON(key,storage = localStorage){
       try{return JSON.parse(storage.getItem(key) || "null")}catch(error){return null}
